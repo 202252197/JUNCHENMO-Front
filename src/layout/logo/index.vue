@@ -1,0 +1,36 @@
+<template>
+  <div class="logo" v-if="setting.logoHidden">
+    <img :src="setting.logo" draggable="false" />
+    <p v-show="!LayoutSettingStore.fold" class="selector-disabled">
+      {{ setting.title }}
+    </p>
+  </div>
+</template>
+
+<script setup lang="ts">
+//获取设置相关的小仓库
+import useLayoutSettingStore from '@/store/modules/layout/layoutSetting'
+let LayoutSettingStore = useLayoutSettingStore()
+//引入设置标题与logog配置文件
+import setting from '@/setting'
+</script>
+
+<style scoped>
+.logo {
+  padding: 10px;
+  width: 100%;
+  height: $base-menu-logo-height;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  img {
+    width: 30px;
+    height: 30px;
+  }
+  p {
+    padding-left: 5px;
+    font-size: 15px;
+    font-weight: 800;
+  }
+}
+</style>
