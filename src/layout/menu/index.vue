@@ -31,6 +31,18 @@
       <el-menu-item
         v-if="item.children[0].meta.hidden"
         :index="item.children[0].path"
+        @click="
+          TabsStore.addTab(
+            {
+              path: item.children[0].path,
+              closable: true,
+              title: item.children[0].meta.title,
+              checked: true,
+              icon: item.children[0].meta.icon,
+            },
+            $router,
+          )
+        "
       >
         <el-icon>
           <component :is="item.children[0].meta.icon"></component>

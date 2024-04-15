@@ -1,10 +1,42 @@
 <template>
   <el-row>
     <el-col :span="23">
-      <div class="tabs-jcm">
-        <div class="tag-wrapper" v-for="tag in TabsStore.tabs" :key="tag">
-          <template v-if="tag.closable === true">
-            <el-dropdown>
+      <el-scrollbar ref="scrollbarRef" @wheel.prevent="handleScroll">
+        <div class="tabs-jcm">
+          <div
+            class="scrollbar-demo-item"
+            v-for="tag in TabsStore.tabs"
+            :key="tag"
+          >
+            <template v-if="tag.closable === true">
+              <el-dropdown>
+                <el-check-tag
+                  :closable="tag.closable"
+                  :disable-transitions="false"
+                  :checked="tag.checked"
+                  class="el-check-tag-jcm"
+                  @click="TabsStore.routerTab(tag, $router)"
+                >
+                  <el-icon>
+                    <component :is="tag.icon"></component>
+                  </el-icon>
+                  {{ tag.title }}
+                </el-check-tag>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item
+                      @click="TabsStore.removeTab(tag, $router)"
+                    >
+                      <el-icon>
+                        <CircleCloseFilled />
+                      </el-icon>
+                      关闭标签
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
+            </template>
+            <template v-else>
               <el-check-tag
                 :closable="tag.closable"
                 :disable-transitions="false"
@@ -17,34 +49,10 @@
                 </el-icon>
                 {{ tag.title }}
               </el-check-tag>
-              <template #dropdown>
-                <el-dropdown-menu>
-                  <el-dropdown-item @click="TabsStore.removeTab(tag, $router)">
-                    <el-icon>
-                      <CircleCloseFilled />
-                    </el-icon>
-                    关闭标签
-                  </el-dropdown-item>
-                </el-dropdown-menu>
-              </template>
-            </el-dropdown>
-          </template>
-          <template v-else>
-            <el-check-tag
-              :closable="tag.closable"
-              :disable-transitions="false"
-              :checked="tag.checked"
-              class="el-check-tag-jcm"
-              @click="TabsStore.routerTab(tag, $router)"
-            >
-              <el-icon>
-                <component :is="tag.icon"></component>
-              </el-icon>
-              {{ tag.title }}
-            </el-check-tag>
-          </template>
+            </template>
+          </div>
         </div>
-      </div>
+      </el-scrollbar>
     </el-col>
     <el-col :span="1">
       <el-dropdown class="el-dropdown-jcm">
@@ -89,7 +97,7 @@ const defalutTag: any = ref([
   {
     title: '首页',
     closable: false,
-    path: '/',
+    path: '/home',
     checked: true,
     icon: 'HomeFilled',
   },
@@ -97,11 +105,38 @@ const defalutTag: any = ref([
 defalutTag.value.forEach((element: any) => {
   TabsStore.addTab(element, $router)
 })
+
+//每次滚动左右移动10px
+const scrollbarRef = ref<any>()
+let currentPosition = 0
+
+const handleScroll = (e: WheelEvent) => {
+  const delta = Math.sign(e.deltaY) // get the direction of the scroll (1 for down, -1 for up)
+  const newPosition = currentPosition + 10 * delta // calculate the new position based on the direction and step size
+  if (
+    newPosition >= 0 &&
+    newPosition <=
+      scrollbarRef.value.wrapRef.scrollWidth -
+        scrollbarRef.value.wrapRef.clientWidth
+  ) {
+    // only update the scroll position if it's within bounds
+    currentPosition = newPosition
+    scrollbarRef.value.setScrollLeft(currentPosition)
+  }
+}
+const scrollToEnd = () => {
+  console.log('调用')
+  console.log(scrollbarRef.value)
+  if (!scrollbarRef.value) return // exit early if there's no scrollbar yet
+  scrollbarRef.value.setScrollLeft(
+    scrollbarRef.value.wrapRef.scrollWidth -
+      scrollbarRef.value.wrapRef.clientWidth,
+  )
+}
 </script>
 
 <style scoped>
 .tabs-jcm {
-  overflow: hidden; /* 隐藏默认的滚动条 */
   -ms-overflow-style: none; /* 隐藏 IE 和 Edge 的滚动条 */
   scrollbar-width: none; /* 隐藏 Firefox 的滚动条 */
   height: 100%;
@@ -124,5 +159,19 @@ defalutTag.value.forEach((element: any) => {
     'LayoutSettingStore.theme ? "$base-tabbar-sunny-tabs-background" : "$base-tabbar-moon-tabs-background"'
   );
   border: 0px;
+}
+
+.scrollbar-demo-item {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  text-align: center;
+}
+
+/** 隐藏横向滚动条 */
+.el-scrollbar__bar .is-horizontal {
+  bottom: 0px;
 }
 </style>

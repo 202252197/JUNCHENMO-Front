@@ -15,7 +15,7 @@
 //获取设置仓库
 import LayoutSettingStore from '@/store/modules/layout/layoutSetting'
 //获取权限仓库
-import PermissionStore from '@/store/modules/permission'
+import PermissionStore from '@/store/modules/menu'
 
 let useLayoutSettingStore = LayoutSettingStore()
 let usePermissionStore = PermissionStore()

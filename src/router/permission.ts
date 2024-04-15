@@ -11,14 +11,12 @@ import setting from '@/setting.ts'
 import pinia from '@/store'
 //获取用户相关的小仓库内部token数据，去判断用户是否登录成功
 import useUserStore from '@/store/modules/user'
-import usePermissionStore from '@/store/modules/permission'
+import usePermissionStore from '@/store/modules/menu'
 const userStore = useUserStore(pinia)
 const permissionStore = usePermissionStore(pinia)
-
-import { GET_TOKEN } from '@/utils/token'
-
 //导入TOKEN工具类
-
+import { GET_TOKEN } from '@/utils/token'
+//放行的白名单路由
 const whiteList = ['/login', '/register']
 // 全局守卫；项目当中任意路由切换都会触发的钩子
 // 全局前置守卫
@@ -34,9 +32,10 @@ router.beforeEach((to, from, next) => {
       next()
       nprogress.done()
     } else {
-      try {
-        if (userStore.roles.length === 0) {
-          userStore.userInfo().then(() => {
+      if (userStore.roles.length === 0) {
+        userStore
+          .userInfo()
+          .then(() => {
             permissionStore.generateRoutes().then((accessRoutes: any) => {
               accessRoutes.forEach((route: any) => {
                 router.addRoute(route)
@@ -44,14 +43,13 @@ router.beforeEach((to, from, next) => {
               next({ ...to, replace: true })
             })
           })
-        } else {
-          next()
-        }
-      } catch (err) {
-        userStore.userLogout().then(() => {
-          ElMessage.error(err)
-          next('/')
-        })
+          .catch((error) => {
+            userStore.userLogout().then(() => {
+              next('/')
+            })
+          })
+      } else {
+        next()
       }
     }
   } else {

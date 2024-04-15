@@ -38,13 +38,14 @@ const useUserStore = defineStore('User', {
     async userLogin(data: loginFormData) {
       //登录请求
       const result: loginResponseData = await reqLogin(data)
+      console.log(result)
       if (result.code == 200) {
         const resToken: string = result.data?.access_token as string
         SET_TOKEN(resToken)
         this.token = resToken
         return 'ok'
       } else {
-        return Promise.reject(new Error(result.msg))
+        return Promise.reject(result.msg)
       }
     },
     //退出登录
@@ -55,7 +56,7 @@ const useUserStore = defineStore('User', {
         RENOVE_TOKEN()
         return 'ok'
       } else {
-        return Promise.reject(new Error(result.msg))
+        return Promise.reject(result.msg)
       }
     },
     //获取用户信息方法
@@ -66,9 +67,9 @@ const useUserStore = defineStore('User', {
         this.user.username = result.user.username
         this.roles = result.roles
         this.permissions = result.permissions
-        return 'ok'
+        return Promise.resolve('ok')
       } else {
-        return Promise.reject(new Error(result.msg))
+        return Promise.reject(result.msg)
       }
     },
     //获取用户
@@ -77,7 +78,7 @@ const useUserStore = defineStore('User', {
       if (result.code == 200) {
         return result
       } else {
-        return Promise.reject(new Error(result.msg))
+        return Promise.reject(result.msg)
       }
     },
     //添加用户
@@ -87,7 +88,7 @@ const useUserStore = defineStore('User', {
         console.log(result)
         return result
       } else {
-        return Promise.reject(new Error(result.msg))
+        return Promise.reject(result.msg)
       }
     },
   },

@@ -85,7 +85,7 @@ import Tabs from './tabs/index.vue'
 //引入当前路由
 import { useRoute } from 'vue-router'
 //获取用户相关的小仓库
-import PermissionStore from '@/store/modules/permission'
+import PermissionStore from '@/store/modules/menu'
 //获取设置相关的小仓库
 import useLayoutSettingStore from '@/store/modules/layout/layoutSetting'
 //获取layout配置相关的仓库

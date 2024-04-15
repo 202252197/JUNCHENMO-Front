@@ -67,11 +67,13 @@ import type { loginFormData } from '@/api/user/type'
 import type { FormInstance, FormRules } from 'element-plus'
 import { User, Lock, Eleme } from '@element-plus/icons-vue'
 import { getTime } from '@/utils/time'
-import useUserStore from '@/store/modules/user'
+import UserStore from '@/store/modules/user'
+import MenuStore from '@/store/modules/menu'
 import { useRouter } from 'vue-router'
 const $router = useRouter()
 // 实例化容器
-const userStore = useUserStore()
+const useUserStore = UserStore()
+const userMenuStore = MenuStore()
 //登录按钮加载状态
 const loadingBtn = ref(false)
 //获取表单DOM
@@ -126,14 +128,16 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (valid) {
       try {
         //请求登录接口
-        await userStore.userLogin(from)
+        await useUserStore.userLogin(from)
         //请求用户信息接口
-        await userStore.userInfo()
+        await useUserStore.userInfo()
+        //请求路由信息接口
+        await userMenuStore.generateRoutes()
         //跳转到主页
         $router.push('/')
         //弹出登录成功提示
         ElNotification.success({
-          title: (getTime() + '好！' + userStore.user.username) as string,
+          title: (getTime() + '好！' + useUserStore.user.username) as string,
           message: '登录成功',
           offset: 100,
         })
@@ -145,7 +149,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       }
     } else {
       //弹出数据校验失败的message
-      ElMessage.error({ message: '数据规则验证失败' })
+      ElMessage.error({ message: '请将信息填写完整' })
       loadingBtn.value = false
     }
   })

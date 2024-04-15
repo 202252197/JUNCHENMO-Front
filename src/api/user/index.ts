@@ -10,6 +10,8 @@ import type {
 
 //项目用户相关的请求地址
 enum API {
+  //获取图像验证码
+  CODE_URL = '/code',
   //登录
   LOGIN_URL = '/auth/login',
   //登出
@@ -22,8 +24,15 @@ enum API {
   USES_ADD_URL = '/system/user/',
 }
 //登录接口
+export const reqCode = () =>
+  request<any>({
+    method: 'get',
+    url: API.CODE_URL,
+  })
+
+//登录接口
 export const reqLogin = (data: loginFormData) =>
-  request<loginFormData>({
+  request<any>({
     method: 'post',
     url: API.LOGIN_URL,
     data,

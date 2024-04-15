@@ -2,14 +2,14 @@
 import { defineStore } from 'pinia'
 import { error404 } from '@/router/routes'
 //导入请求
-import { getRouters } from '@/api/permission'
+import { getRouters } from '@/api/menu'
 //导入layout组件
 import Layout from '@/layout/index.vue'
 //引入路由（常亮路由）
 import { constantRoutes } from '@/router/routes'
 const modules = import.meta.glob('../../views/**/**/*.vue')
 //创建用户小仓库
-const usePermissionStore = defineStore('Permission', {
+const usePermissionStore = defineStore('Menu', {
   state: () => {
     return {
       routes: [], //路由树
