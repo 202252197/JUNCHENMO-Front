@@ -2,29 +2,41 @@
   <template v-for="item in menuList" :key="item.path">
     <!-- 没有子路由 -->
     <template v-if="!item.children">
-      <el-menu-item
-        v-if="item.meta.hidden"
-        :index="item.path"
-        @click="
-          TabsStore.addTab(
-            {
-              path: item.path,
-              closable: true,
-              title: item.meta.title,
-              checked: true,
-              icon: item.meta.icon,
-            },
-            $router,
-          )
-        "
-      >
-        <el-icon>
-          <component :is="item.meta.icon"></component>
-        </el-icon>
-        <template #title>
-          <span>{{ item.meta.title }}</span>
-        </template>
-      </el-menu-item>
+      <template v-if="item.meta.frame">
+        <el-menu-item v-if="item.meta.hidden" @click="toFream(item.path)">
+          <template #title>
+            <el-icon>
+              <component :is="item.meta.icon"></component>
+            </el-icon>
+            {{ item.meta.title }}
+          </template>
+        </el-menu-item>
+      </template>
+      <template v-else>
+        <el-menu-item
+          v-if="item.meta.hidden"
+          :index="item.path"
+          @click="
+            TabsStore.addTab(
+              {
+                path: item.path,
+                closable: true,
+                title: item.meta.title,
+                checked: true,
+                icon: item.meta.icon,
+              },
+              $router,
+            )
+          "
+        >
+          <el-icon>
+            <component :is="item.meta.icon"></component>
+          </el-icon>
+          <template #title>
+            <span>{{ item.meta.title }}</span>
+          </template>
+        </el-menu-item>
+      </template>
     </template>
     <!-- 有子路由但是只有一个子路由 -->
     <template v-if="item.children && item.children.length == 1">
@@ -76,6 +88,10 @@ import useTabsStore from '@/store/modules/layout/tabs'
 let TabsStore = useTabsStore()
 //获取父组件传递过来的全部路由数组
 defineProps(['menuList'])
+//外联点击跳转
+const toFream = (path) => {
+  window.open(path + '')
+}
 </script>
 <script lang="ts">
 export default {

@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import useUserStore from '@/store/modules/user'
-import type { ApiResponse } from '../utils/types/request.d.ts'
 import type { AxiosRequestConfig } from 'axios'
 
 //创建axios实例

@@ -33,7 +33,7 @@
     style="margin-right: 20px"
   ></el-button>
   <!-- 下拉菜单 -->
-  <el-dropdown trigger="click" style="margin-right: 10px">
+  <el-dropdown trigger="hover" style="margin-right: 20px">
     <span class="el-dropdown-link">
       <template v-if="setting.userHeadImageType == 'text'">
         <el-avatar :size="avatarSize">

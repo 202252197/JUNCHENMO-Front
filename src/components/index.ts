@@ -1,7 +1,6 @@
 import SvgIcon from './SvgIcon/index.vue'
-import JCMCarousel from './Login/Carousel/index.vue'
 import type { App, Component } from 'vue'
-const components: { [name: string]: Component } = { SvgIcon, JCMCarousel }
+const components: { [name: string]: Component } = { SvgIcon }
 //引入element-plus提供全部图标组件
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 export default {

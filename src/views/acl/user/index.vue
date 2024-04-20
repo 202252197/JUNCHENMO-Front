@@ -7,7 +7,7 @@
         class="demo-form-inline"
         label-position="right"
         label-width="auto"
-        ref="ruleFormRef"
+        ref="searchFormRef"
       >
         <el-row style="display: flex">
           <el-form-item label="用户名" prop="username">
@@ -31,7 +31,7 @@
             </el-form-item>
           </template>
           <div style="margin-left: auto">
-            <el-button type="info" @click="resetForm(ruleFormRef)">
+            <el-button type="info" @click="resetSearchForm(searchFormRef)">
               重置
             </el-button>
             <el-button type="primary" @click="searchList(searchform)">
@@ -45,22 +45,23 @@
     </el-card>
     <el-card style="margin-top: 20px">
       <template #header>
-        <div style="display: flex; justify-content: space-between">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
           <div class="card-header">
             <span>用户列表</span>
           </div>
           <div class="card-end">
-            <el-button type="primary" @click="addButenClick()">新增</el-button>
+            <el-button type="primary" @click="addButtenClick()">新增</el-button>
           </div>
         </div>
       </template>
 
-      <el-table
-        :data="dataList.list"
-        table-layout="auto"
-        stripe
-        style="width: 100%"
-      >
+      <el-table :data="dataList.list" table-layout="auto">
         <el-table-column type="index" label="序列" width="70" align="center" />
         <el-table-column prop="username" label="用户名" align="center" />
         <el-table-column prop="nickname" label="昵称" align="center" />
@@ -68,26 +69,22 @@
         <el-table-column prop="email" label="邮箱" align="center" />
         <el-table-column prop="status" label="状态" align="center">
           <template #default="scope">
-            <el-tag effect="dark" round v-if="scope.row.status == '0'">
-              正常
-            </el-tag>
             <el-tag
-              type="danger"
-              effect="dark"
-              round
-              v-if="scope.row.status == '1'"
+              :type="scope.row.status === 0 ? 'success' : 'error'"
+              disable-transitions
             >
-              停用
+              {{ scope.row.status === 0 ? '正常' : '停用' }}
             </el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="loginDate" label="最后登录时间" align="center" />
-        <el-table-column align="center" label="操作">
+        <el-table-column align="center" label="操作" fixed="right">
           <template #default="scope">
             <el-button
               size="small"
               type="primary"
               @click="disableItem(scope.row)"
+              :disabled="isAdminById(scope.row.userId)"
               text
             >
               停用
@@ -95,7 +92,7 @@
             <el-button
               size="small"
               type="primary"
-              @click="handleDelete(scope.$index, scope.row)"
+              @click="updateInfoButtonClick(scope.row)"
               text
             >
               修改
@@ -111,7 +108,8 @@
             <el-button
               size="small"
               type="primary"
-              @click="handleDelete(scope.$index, scope.row)"
+              @click="resetButtonClick(scope.row)"
+              :disabled="isAdminById(scope.row.userId)"
               text
             >
               重置密码
@@ -119,7 +117,8 @@
             <el-button
               size="small"
               type="primary"
-              @click="handleDelete(scope.$index, scope.row)"
+              @click="allocationRoleButtonClick(scope.row)"
+              :disabled="isAdminById(scope.row.userId)"
               text
             >
               分配角色
@@ -127,7 +126,8 @@
             <el-button
               size="small"
               type="danger"
-              @click="handleDelete(scope.$index, scope.row)"
+              @click="deleteItem(scope.row)"
+              :disabled="isAdminById(scope.row.userId)"
               text
             >
               删除
@@ -153,33 +153,167 @@
     </el-card>
 
     <!--新增用户弹出框-->
-    <el-dialog
-      v-model="fromOpenStatus"
-      width="500"
-      :show-close="false"
-      style="border-radius: 12px"
-    >
-      <el-form :model="form" label-width="60">
-        <el-form-item label="用户名">
-          <el-input v-model="addform.username" autocomplete="off" />
+    <el-dialog v-model="addfromOpenStatus" width="500" :show-close="false">
+      <template #header="{ titleId, titleClass }">
+        <div class="my-header">
+          <h4 :id="titleId" :class="titleClass">新增用户</h4>
+        </div>
+      </template>
+      <el-form
+        :model="commonform"
+        label-width="80"
+        :rules="rules"
+        ref="addFormRef"
+      >
+        <el-form-item label="用户名" prop="username">
+          <el-input v-model="commonform.username" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="昵称">
-          <el-input v-model="addform.nickname" autocomplete="off" />
+        <el-form-item label="昵称" prop="nickname">
+          <el-input v-model="commonform.nickname" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="密码">
-          <el-input v-model="addform.password" autocomplete="off" />
+        <el-form-item label="密码" prop="password">
+          <el-input v-model="commonform.password" autocomplete="off" />
         </el-form-item>
         <el-form-item label="手机号">
-          <el-input v-model="addform.mobile" autocomplete="off" />
+          <el-input v-model="commonform.mobile" autocomplete="off" />
         </el-form-item>
         <el-form-item label="邮箱">
-          <el-input v-model="addform.email" autocomplete="off" />
+          <el-input v-model="commonform.email" autocomplete="off" />
         </el-form-item>
       </el-form>
       <template #footer>
         <div style="display: flex; justify-content: center">
-          <el-button @click="fromOpenStatus = false">取消</el-button>
-          <el-button type="primary" @click="addItem()">确认</el-button>
+          <el-button @click="addfromOpenStatus = false">取消</el-button>
+          <el-button type="primary" @click="addItem(addFormRef)">
+            确认
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
+    <!--修改用户密码弹出框-->
+    <el-dialog
+      v-model="updatePasswordfromOpenStatus"
+      width="500"
+      :show-close="false"
+    >
+      <template #header="{ titleId, titleClass }">
+        <div class="my-header">
+          <h4 :id="titleId" :class="titleClass">重置密码</h4>
+        </div>
+      </template>
+      <el-form :model="commonform" label-width="60" ref="updatePasswordFormRef">
+        <el-form-item label="用户名">
+          <el-input v-model="commonform.username" autocomplete="off" disabled />
+        </el-form-item>
+        <el-form-item label="昵称">
+          <el-input v-model="commonform.nickname" autocomplete="off" disabled />
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input
+            v-model="commonform.password"
+            autocomplete="off"
+            type="password"
+            show-password
+          />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <div style="display: flex; justify-content: center">
+          <el-button @click="updatePasswordfromOpenStatus = false">
+            取消
+          </el-button>
+          <el-button
+            type="primary"
+            @click="updatePasswordItem(updatePasswordFormRef)"
+          >
+            确认
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
+    <!--修改用户信息弹出框-->
+    <el-dialog
+      v-model="updateInfofromOpenStatus"
+      width="500"
+      :show-close="false"
+    >
+      <template #header="{ titleId, titleClass }">
+        <div class="my-header">
+          <h4 :id="titleId" :class="titleClass">修改用户信息</h4>
+        </div>
+      </template>
+      <el-form
+        :model="commonform"
+        label-width="60"
+        ref="updateInfoFormRef"
+        :rules="rules"
+      >
+        <el-form-item label="用户名">
+          <el-input v-model="commonform.username" autocomplete="off" disabled />
+        </el-form-item>
+        <el-form-item label="昵称" prop="nickname">
+          <el-input v-model="commonform.nickname" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="手机号">
+          <el-input v-model="commonform.mobile" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="邮箱">
+          <el-input v-model="commonform.email" autocomplete="off" />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <div style="display: flex; justify-content: center">
+          <el-button @click="updateInfofromOpenStatus = false">取消</el-button>
+          <el-button type="primary" @click="updateInfoItem(updateInfoFormRef)">
+            确认
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
+    <!--分配角色弹出框-->
+    <el-dialog
+      v-model="allocationRoleFromOpenStatus"
+      width="500"
+      :show-close="false"
+    >
+      <template #header="{ titleId, titleClass }">
+        <div class="my-header">
+          <h4 :id="titleId" :class="titleClass">分配角色</h4>
+        </div>
+      </template>
+      <el-form :model="commonform" label-width="60" ref="updateInfoFormRef">
+        <el-form-item label="用户名">
+          <el-input v-model="commonform.username" autocomplete="off" disabled />
+        </el-form-item>
+        <el-form-item label="昵称">
+          <el-input v-model="commonform.nickname" autocomplete="off" disabled />
+        </el-form-item>
+        <el-form-item label="角色">
+          <el-select
+            v-model="userRoleList"
+            multiple
+            collapse-tags
+            collapse-tags-tooltip
+            :max-collapse-tags="3"
+            placeholder="请选择角色"
+          >
+            <el-option
+              v-for="item in roleList"
+              :key="item.roleId"
+              :label="item.name"
+              :value="item.roleId"
+            />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <div style="display: flex; justify-content: center">
+          <el-button @click="allocationRoleFromOpenStatus = false">
+            取消
+          </el-button>
+          <el-button type="primary" @click="updateInfoItem(updateInfoFormRef)">
+            确认
+          </el-button>
         </div>
       </template>
     </el-dialog>
@@ -187,16 +321,30 @@
 </template>
 
 <script setup lang="ts">
-import type { FormInstance } from 'element-plus'
+import type { FormInstance, FormRules } from 'element-plus'
+import { isAdminById } from '@/utils/permission'
+import { resetobj } from '@/utils/common'
+//仓库
 import useUserStore from '@/store/modules/user'
-//from表单打开的状态
-const fromOpenStatus = ref(false)
+import useRoleStore from '@/store/modules/role'
+import { da } from 'element-plus/es/locales.mjs'
 const userStore = useUserStore()
+const roleStore = useRoleStore()
+//添加表单打开的状态
+const addfromOpenStatus = ref(false)
+//修改密码表单打开的状态
+const updatePasswordfromOpenStatus = ref(false)
+//修改用户信息表单打开的状态
+const updateInfofromOpenStatus = ref(false)
+//分配角色表单打开的状态
+const allocationRoleFromOpenStatus = ref(false)
 //更多按钮状态
 const more = ref(false)
 //表单Dom
-const ruleFormRef = ref<FormInstance>()
-
+const searchFormRef = ref<FormInstance>()
+const addFormRef = ref<FormInstance>()
+const updatePasswordFormRef = ref<FormInstance>()
+const updateInfoFormRef = ref<FormInstance>()
 //搜索表单填写的内容
 const searchform = reactive({
   username: '',
@@ -206,8 +354,9 @@ const searchform = reactive({
   email: '',
 })
 
-//新增表单填写的内容
-const addform = reactive({
+//表单填写的内容
+const commonform = reactive({
+  userId: '',
   username: '',
   nickname: '',
   password: '',
@@ -215,94 +364,196 @@ const addform = reactive({
   email: '',
 })
 
+//角色列表
+let roleList = reactive([])
+//用户的角色
+let userRoleList = ref()
+
+//表格数据
 const dataList = reactive({
-  list: [{}],
+  list: [],
   total: 0,
   page: 1,
   size: 10,
 })
 
+//表单规则
+const rules = ref<FormRules>({
+  username: [
+    {
+      required: true,
+      message: '用户名不能为空',
+      trigger: 'blur',
+    },
+  ],
+  nickname: [
+    {
+      required: true,
+      message: '昵称不能为空',
+      trigger: 'blur',
+    },
+  ],
+  password: [
+    {
+      required: true,
+      message: '密码不能为空',
+      trigger: 'blur',
+    },
+  ],
+})
 //根据搜索条件进行搜索
 const searchList = (searchData: any) => {
-  console.log(searchData)
-  userStore.userList(searchData, dataList.page, dataList.size).then((resp) => {
-    dataList.list = resp.rows
-    dataList.total = resp.total
-  })
+  userStore
+    .userList(searchData, dataList.page, dataList.size)
+    .then((resp) => {
+      dataList.list = resp.rows
+      dataList.total = resp.total
+    })
+    .catch((error) => {
+      ElMessage.error({ message: error })
+    })
 }
 
 //进入页面初始化的数据
-const getList = () => {
-  userStore.userList(searchform, dataList.page, dataList.size).then((resp) => {
-    dataList.list = resp.rows
-    dataList.total = resp.total
-  })
-}
-getList()
+searchList(searchform)
 
 //页码变更处理方法
 const handleCurrentChange = (currentPage: number) => {
   dataList.page = currentPage
-  userStore.userList(searchform, currentPage, dataList.size).then((resp) => {
-    dataList.list = resp.rows
-    dataList.total = resp.total
-  })
+  searchList(searchform)
 }
 //页数切换触发的事件
 const handleSizeChange = (pageSize: number) => {
   dataList.size = pageSize
-  userStore.userList(searchform, dataList.page, pageSize).then((resp) => {
-    dataList.list = resp.rows
-    dataList.total = resp.total
-  })
+  searchList(searchform)
 }
+
 //删除用户触发的事件
-const deleteItem = () => {}
-
-//修改用户触发的事件
-const updateItem = () => {}
-
+const deleteItem = (item: any) => {
+  userStore
+    .delUser(item.userId)
+    .then((resp) => {
+      searchList(searchform)
+      ElMessage.success({ message: '删除成功' })
+    })
+    .catch((error) => {
+      ElMessage.error({ message: error })
+    })
+}
 //停用用户触发的事件
 const disableItem = (item: any) => {
-  console.log('禁用')
-  console.log(item)
+  userStore
+    .upStatusUser(item)
+    .then((resp) => {
+      searchList(searchform)
+      ElMessage.success({ message: '停用成功' })
+    })
+    .catch((error) => {
+      ElMessage.error({ message: error })
+    })
+}
+
+//点击添加按钮触发的事件
+const addButtenClick = () => {
+  addfromOpenStatus.value = true
+}
+const addItem = (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  formEl.validate((valid) => {
+    if (valid) {
+      userStore
+        .addUser(commonform)
+        .then(() => {
+          addfromOpenStatus.value = false
+          resetobj(commonform)
+          searchList(searchform)
+          ElMessage.success({ message: '添加成功' })
+        })
+        .catch((error) => {
+          ElMessage.error({ message: error })
+        })
+    } else {
+      //弹出数据校验失败的message
+      ElMessage.error({ message: '请将信息填写完整' })
+    }
+  })
+}
+
+//点击重置密码触发的事件
+const resetButtonClick = (item: any) => {
+  updatePasswordfromOpenStatus.value = true
+  commonform.userId = item.userId
+  commonform.username = item.username
+  commonform.nickname = item.nickname
+}
+const updatePasswordItem = (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  formEl.validate((valid) => {
+    if (valid) {
+      userStore
+        .upPasswordUser(commonform)
+        .then(() => {
+          updatePasswordfromOpenStatus.value = false
+          resetobj(commonform)
+          ElMessage.success({ message: '密码重置成功' })
+        })
+        .catch((error) => {
+          ElMessage.error({ message: error })
+        })
+    } else {
+      //弹出数据校验失败的message
+      ElMessage.error({ message: '请将信息填写完整' })
+    }
+  })
+}
+
+//修改用户触发的事件
+const updateInfoButtonClick = (item: any) => {
+  updateInfofromOpenStatus.value = true
+  commonform.userId = item.userId
+  commonform.username = item.username
+  commonform.nickname = item.nickname
+  commonform.mobile = item.mobile
+  commonform.email = item.email
+}
+const updateInfoItem = (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  formEl.validate((valid) => {
+    if (valid) {
+      userStore
+        .upInfoUser(commonform)
+        .then(() => {
+          updateInfofromOpenStatus.value = false
+          resetobj(commonform)
+          searchList(searchform)
+          ElMessage.success({ message: '信息修改成功' })
+        })
+        .catch((error) => {
+          ElMessage.error({ message: error })
+        })
+    } else {
+      //弹出数据校验失败的message
+      ElMessage.error({ message: '请将信息填写完整' })
+    }
+  })
 }
 
 //点击详情触发的事件
-const infoItem = () => {}
-
-//点击重置密码触发的事件
-const resetItem = () => {}
+const infoButtonClick = () => {}
 
 //点击分配角色触发的事件
-const allocationRole = () => {}
-
-//点击添加按钮触发的事件
-const addButenClick = () => {
-  fromOpenStatus.value = true
+const allocationRoleButtonClick = (item: any) => {
+  commonform.userId = item.userId
+  commonform.username = item.username
+  commonform.nickname = item.nickname
+  roleStore.roleAllList().then((resp) => {
+    roleList = resp.data
+    allocationRoleFromOpenStatus.value = true
+  })
 }
 
-//点击添加按钮触发的事件
-const addItem = () => {
-  userStore
-    .addUser(addform)
-    .then(() => {
-      ElMessage({
-        message: '添加成功',
-        type: 'success',
-      })
-      fromOpenStatus.value = false
-    })
-    .catch((error) => {
-      ElMessage({
-        message: error,
-        type: 'error',
-      })
-    })
-}
-
-//重置表单
-const resetForm = (ruleFormRef: any) => {
+//重置搜索表单
+const resetSearchForm = (ruleFormRef: any) => {
   if (!ruleFormRef) return
   ruleFormRef.resetFields()
 }
@@ -312,12 +563,4 @@ export default {
   name: 'user',
 }
 </script>
-<style scoped>
-.demo-form-inline .el-input {
-  --el-input-width: 225px;
-}
-
-.demo-form-inline .el-select {
-  --el-select-width: 225px;
-}
-</style>
+<style scoped></style>

@@ -2,14 +2,51 @@
   <el-row>
     <el-col :span="23">
       <el-scrollbar ref="scrollbarRef" @wheel.prevent="handleScroll">
+        <!-- 面包屑动态的展示路由名字与标题 -->
+
         <div class="tabs-jcm">
-          <div
-            class="scrollbar-demo-item"
-            v-for="tag in TabsStore.tabs"
-            :key="tag"
-          >
-            <template v-if="tag.closable === true">
-              <el-dropdown>
+          <transition-group name="tab">
+            <div
+              class="scrollbar-demo-item"
+              v-for="tag in TabsStore.tabs"
+              :key="tag"
+            >
+              <template v-if="tag.closable === true">
+                <el-dropdown>
+                  <el-check-tag
+                    :closable="tag.closable"
+                    :disable-transitions="false"
+                    :checked="tag.checked"
+                    class="el-check-tag-jcm"
+                    @click="TabsStore.routerTab(tag, $router)"
+                  >
+                    <div style="display: flex; align-items: center">
+                      <div>
+                        <el-icon>
+                          <component :is="tag.icon"></component>
+                        </el-icon>
+                      </div>
+                      <div style="margin-left: 3px">
+                        <!-- 新增的分隔符 -->
+                        {{ tag.title }}
+                      </div>
+                    </div>
+                  </el-check-tag>
+                  <template #dropdown>
+                    <el-dropdown-menu>
+                      <el-dropdown-item
+                        @click="TabsStore.removeTab(tag, $router)"
+                      >
+                        <el-icon>
+                          <CircleCloseFilled />
+                        </el-icon>
+                        关闭标签
+                      </el-dropdown-item>
+                    </el-dropdown-menu>
+                  </template>
+                </el-dropdown>
+              </template>
+              <template v-else>
                 <el-check-tag
                   :closable="tag.closable"
                   :disable-transitions="false"
@@ -17,40 +54,21 @@
                   class="el-check-tag-jcm"
                   @click="TabsStore.routerTab(tag, $router)"
                 >
-                  <el-icon>
-                    <component :is="tag.icon"></component>
-                  </el-icon>
-                  {{ tag.title }}
-                </el-check-tag>
-                <template #dropdown>
-                  <el-dropdown-menu>
-                    <el-dropdown-item
-                      @click="TabsStore.removeTab(tag, $router)"
-                    >
+                  <div style="display: flex; align-items: center">
+                    <div>
                       <el-icon>
-                        <CircleCloseFilled />
+                        <component :is="tag.icon"></component>
                       </el-icon>
-                      关闭标签
-                    </el-dropdown-item>
-                  </el-dropdown-menu>
-                </template>
-              </el-dropdown>
-            </template>
-            <template v-else>
-              <el-check-tag
-                :closable="tag.closable"
-                :disable-transitions="false"
-                :checked="tag.checked"
-                class="el-check-tag-jcm"
-                @click="TabsStore.routerTab(tag, $router)"
-              >
-                <el-icon>
-                  <component :is="tag.icon"></component>
-                </el-icon>
-                {{ tag.title }}
-              </el-check-tag>
-            </template>
-          </div>
+                    </div>
+                    <div style="margin-left: 3px">
+                      <!-- 新增的分隔符 -->
+                      {{ tag.title }}
+                    </div>
+                  </div>
+                </el-check-tag>
+              </template>
+            </div>
+          </transition-group>
         </div>
       </el-scrollbar>
     </el-col>
@@ -102,6 +120,7 @@ const defalutTag: any = ref([
     icon: 'HomeFilled',
   },
 ])
+//**遍历添加默认的首页Tab */
 defalutTag.value.forEach((element: any) => {
   TabsStore.addTab(element, $router)
 })
@@ -123,15 +142,6 @@ const handleScroll = (e: WheelEvent) => {
     currentPosition = newPosition
     scrollbarRef.value.setScrollLeft(currentPosition)
   }
-}
-const scrollToEnd = () => {
-  console.log('调用')
-  console.log(scrollbarRef.value)
-  if (!scrollbarRef.value) return // exit early if there's no scrollbar yet
-  scrollbarRef.value.setScrollLeft(
-    scrollbarRef.value.wrapRef.scrollWidth -
-      scrollbarRef.value.wrapRef.clientWidth,
-  )
 }
 </script>
 

@@ -14,7 +14,7 @@ const usePermissionStore = defineStore('Menu', {
     return {
       routes: [], //路由树
       sidebarRouters: [], //左侧菜单树
-      cacheRouterNames: [],
+      cacheRouterNames: [], //缓存的路由名称需要和组件名一致
     }
   },
   actions: {

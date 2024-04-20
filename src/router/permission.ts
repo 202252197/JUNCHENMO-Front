@@ -6,16 +6,18 @@ import nprogress from 'nprogress'
 nprogress.configure({ showSpinner: false })
 //引入进度条样式
 import '@/styles/nprogress/nprogress.scss'
+
 import setting from '@/setting.ts'
-//获取用户相关的小仓库内部token数据，去判断用户是否登录成功
+
 import pinia from '@/store'
-//获取用户相关的小仓库内部token数据，去判断用户是否登录成功
 import useUserStore from '@/store/modules/user'
 import usePermissionStore from '@/store/modules/menu'
 const userStore = useUserStore(pinia)
 const permissionStore = usePermissionStore(pinia)
-//导入TOKEN工具类
+
 import { GET_TOKEN } from '@/utils/token'
+import { isNotHttp } from '@/utils/common'
+
 //放行的白名单路由
 const whiteList = ['/login', '/register']
 // 全局守卫；项目当中任意路由切换都会触发的钩子
@@ -38,7 +40,9 @@ router.beforeEach((to, from, next) => {
           .then(() => {
             permissionStore.generateRoutes().then((accessRoutes: any) => {
               accessRoutes.forEach((route: any) => {
-                router.addRoute(route)
+                if (isNotHttp(route.path)) {
+                  router.addRoute(route) // 动态添加可访问路由表
+                }
               })
               next({ ...to, replace: true })
             })

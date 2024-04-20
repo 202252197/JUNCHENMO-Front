@@ -1,9 +1,13 @@
 <template>
   <div class="logo" v-if="setting.logoHidden">
     <img :src="setting.logo" draggable="false" />
-    <p v-show="!LayoutSettingStore.fold" class="selector-disabled">
+    <div
+      v-show="!LayoutSettingStore.fold"
+      class="selector-disabled"
+      style="color: #4165d7; font-size: 20px"
+    >
       {{ setting.title }}
-    </p>
+    </div>
   </div>
 </template>
 
