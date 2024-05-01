@@ -28,7 +28,7 @@
                 color: black;
               "
             >
-              登录 WMS管理系统
+              登录RBAC管理系统
             </div>
             <el-form
               ref="ruleLoginRef"
