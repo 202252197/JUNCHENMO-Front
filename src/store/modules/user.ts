@@ -2,7 +2,7 @@
 import { defineStore } from 'pinia'
 //导入类型
 import type {
-  userInfo,
+  user,
   loginFormData,
   loginResponseData,
   logoutResponseData,
@@ -28,7 +28,7 @@ const useUserStore = defineStore('User', {
   state: () => {
     return {
       token: GET_TOKEN(), //用户唯一标识token
-      user: <userInfo>{},
+      user: <user>{},
       permissions: [],
       roles: [],
     }

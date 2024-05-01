@@ -4,7 +4,7 @@
 //引用字体文件
 @font-face {  
   font-family: 'MyCustomFont';  
-  src: url('../assets/font/也字工程躺赢黑.ttf');
+  src: url('../assets/font/DouyinSansBold.otf');
   font-weight: normal;  
   font-style: normal;
 }
@@ -84,7 +84,7 @@ html .el-card{
 }
 html.dark .el-card{
   --el-card-border-color:#04141e;
-  // --el-card-bg-color:#04141e;
+  --el-card-bg-color:#04141e;
   --el-card-border-radius:14px;
 }
 

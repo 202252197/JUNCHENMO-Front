@@ -78,7 +78,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="loginDate" label="最后登录时间" align="center" />
-        <el-table-column align="center" label="操作" fixed="right">
+        <el-table-column align="center" label="操作">
           <template #default="scope">
             <el-button
               size="small"
@@ -327,7 +327,6 @@ import { resetobj } from '@/utils/common'
 //仓库
 import useUserStore from '@/store/modules/user'
 import useRoleStore from '@/store/modules/role'
-import { da } from 'element-plus/es/locales.mjs'
 const userStore = useUserStore()
 const roleStore = useRoleStore()
 //添加表单打开的状态
