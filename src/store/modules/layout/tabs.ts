@@ -1,6 +1,9 @@
 //创建用户相关的小仓库
 import { defineStore } from 'pinia'
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 //创建用户相关的小仓库
 import type { Tag } from '../types/tabsType'
 //创建用户小仓库
@@ -13,6 +16,10 @@ const useTabsStore = defineStore('Tabs', {
   actions: {
     //添加Tag
     addTab(tag: Tag, $router: any) {
+<<<<<<< HEAD
+=======
+      console.log(tag)
+>>>>>>> master
       //全部变为未选择灰色
       this.tabNotSelected()
       if (this.exitsTab(tag)) {

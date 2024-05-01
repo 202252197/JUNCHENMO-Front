@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <el-button
     title="刷新"
     icon="Refresh"
@@ -11,18 +12,26 @@
     @click="fullScreen"
     circle
   ></el-button>
+=======
+  <el-button title="刷新" icon="Refresh" @click="updateRefsh"></el-button>
+  <el-button title="全屏" icon="FullScreen" @click="fullScreen"></el-button>
+>>>>>>> master
   <el-button
     v-show="LayoutSettingStore.theme"
     title="白天模式"
     icon="Sunny"
     @click="changeMoon"
+<<<<<<< HEAD
     circle
+=======
+>>>>>>> master
   ></el-button>
   <el-button
     v-show="!LayoutSettingStore.theme"
     title="夜晚模式"
     icon="Moon"
     @click="changeSunny"
+<<<<<<< HEAD
     circle
   ></el-button>
   <el-button
@@ -34,6 +43,12 @@
   ></el-button>
   <!-- 下拉菜单 -->
   <el-dropdown trigger="click" style="margin-right: 10px">
+=======
+  ></el-button>
+  <el-button title="设置" icon="Setting" @click="settingDrawer"></el-button>
+  <!-- 下拉菜单 -->
+  <el-dropdown trigger="hover" class="test">
+>>>>>>> master
     <span class="el-dropdown-link">
       <template v-if="setting.userHeadImageType == 'text'">
         <el-avatar :size="avatarSize">
@@ -43,6 +58,10 @@
       <template v-if="setting.userHeadImageType == 'img'">
         <el-avatar :size="avatarSize" :src="userStore.user.avatar" />
       </template>
+<<<<<<< HEAD
+=======
+      {{ userStore.user.username }}
+>>>>>>> master
     </span>
     <template #dropdown>
       <el-dropdown-menu>
@@ -66,7 +85,11 @@ let LayoutSettingStore = useLayoutSettingStore()
 const $router = useRouter()
 let userStore = useUserStore()
 //设置头像的大小
+<<<<<<< HEAD
 let avatarSize = ref(35)
+=======
+let avatarSize = ref(30)
+>>>>>>> master
 
 // 刷新按钮点击回调
 const updateRefsh = () => {
@@ -114,4 +137,24 @@ export default {
   name: 'Setting',
 }
 </script>
+<<<<<<< HEAD
 <style lang="scss"></style>
+=======
+<style lang="scss" scoped>
+.el-button + .el-button {
+  margin-left: 0px;
+}
+.el-button {
+  height: 100%;
+  --el-border: 0px;
+}
+.test {
+  height: 100%;
+  align-items: center;
+  padding: 10px;
+}
+.test:hover {
+  background-color: var(--el-color-primary-light-9);
+}
+</style>
+>>>>>>> master

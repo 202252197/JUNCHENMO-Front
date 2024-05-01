@@ -1,4 +1,16 @@
 @import './reset.scss';
+<<<<<<< HEAD
+=======
+@import './transition.scss';
+
+//引用字体文件
+@font-face {  
+  font-family: 'MyCustomFont';  
+  src: url('../assets/font/DouyinSansBold.otf');
+  font-weight: normal;  
+  font-style: normal;
+}
+>>>>>>> master
 //禁用选择文字
 .selector-disabled {
   -webkit-touch-callout: none; /* iOS Safari */
@@ -8,31 +20,122 @@
   user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
 
+<<<<<<< HEAD
 //滚动条外观设置
 html{
   --el-card-border-radius:14px;
+=======
+
+.el-dialog{
+  border-radius: 12px !important; 
+  border: 5px black solid !important
+}
+// 菜单区域
+.el-menu-item{
+  height: 43px !important;
+}
+.el-sub-menu__title{
+  height: 43px !important;
+}
+
+.el-menu-item.is-active{
+  color: aliceblue;
+  background:#4165d7;
+}
+
+
+// 按钮区域
+.el-button{
+  border-radius: 9px;
+}
+
+.el-button--primary{
+  --el-button-bg-color:#4165d7;
+  --el-button-hover-bg-color:#647fd5;
+}
+
+.el-button--primary.is-link, .el-button--primary.is-plain, .el-button--primary.is-text{
+  --el-button-text-color: #4165d7
+}
+// tag标签的主颜色
+.el-check-tag--primary{
+  background-color: #505d8a;
+  color:aliceblue
+}
+.el-check-tag--primary:hover{
+  background-color: #6b7289;
+}
+//tag标签的选择颜色
+.el-check-tag.is-checked.el-check-tag--primary{
+  background-color: #4165d7;
+  color: aliceblue;
+}
+.el-check-tag.is-checked.el-check-tag--primary:hover{
+  background-color: #647fd5;
+}
+
+
+//滚动条外观设置
+html{
+>>>>>>> master
   .el-scrollbar{
     --el-scrollbar-bg-color:$base-menu-sunny-background
   }
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 html.dark{
   .el-scrollbar{
     --el-scrollbar-bg-color:$base-menu-moon-background
   }
 }
 html .el-card{
+<<<<<<< HEAD
   --el-card-border-radius:14px;
 }
 html.dark .el-card{
   --el-card-border-color:#001529;
   --el-card-bg-color:#001529;
+=======
+  --el-card-border-radius:8px;
+}
+html.dark .el-card{
+  --el-card-border-color:#04141e;
+  --el-card-bg-color:#04141e;
+>>>>>>> master
   --el-card-border-radius:14px;
 }
 
 :root {
   
+<<<<<<< HEAD
+=======
+    //设置字体
+    font-family: "MyCustomFont";
+    .el-card__header{
+      border-bottom:0px;
+    }
+    //设置卡片中的input和select框的宽度
+    .el-card__body{
+      .el-input {
+        --el-input-width: 225px;
+      }
+      
+      .el-select {
+        --el-select-width: 225px;
+      }
+    }
+    .el-card__footer{
+      border-top:0px;
+    }
+>>>>>>> master
 }
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> master

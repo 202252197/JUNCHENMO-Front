@@ -23,7 +23,11 @@
           :default-active="$route.path"
           router
         >
+<<<<<<< HEAD
           <Menu :menuList="userStore.getMenu"></Menu>
+=======
+          <Menu :menuList="usePermissionStore.sidebarRouters"></Menu>
+>>>>>>> master
         </el-menu>
       </el-scrollbar>
     </div>
@@ -59,19 +63,31 @@
         sunny: LayoutSettingStore.theme,
       }"
     >
+<<<<<<< HEAD
       <el-watermark
         :content="setting.watermarkContent"
         :font="{ color: 'blue' }"
       >
         <Main></Main>
       </el-watermark>
+=======
+      <!-- <el-watermark
+        :content="setting.watermarkContent"
+        :font="{ color: 'blue' }"
+      > -->
+      <Main></Main>
+      <!-- </el-watermark> -->
+>>>>>>> master
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+<<<<<<< HEAD
 //引入全局设置
 import setting from '@/setting'
+=======
+>>>>>>> master
 //导入右侧抽屉
 import Drawer from './tabbar/setting/drawer/index.vue'
 //引入左侧菜单logo子组件
@@ -87,12 +103,20 @@ import Tabs from './tabs/index.vue'
 //引入当前路由
 import { useRoute } from 'vue-router'
 //获取用户相关的小仓库
+<<<<<<< HEAD
 import useUserStore from '@/store/modules/user'
+=======
+import PermissionStore from '@/store/modules/menu'
+>>>>>>> master
 //获取设置相关的小仓库
 import useLayoutSettingStore from '@/store/modules/layout/layoutSetting'
 //获取layout配置相关的仓库
 let LayoutSettingStore = useLayoutSettingStore()
+<<<<<<< HEAD
 const userStore = useUserStore()
+=======
+const usePermissionStore = PermissionStore()
+>>>>>>> master
 const $route = useRoute()
 </script>
 <script lang="ts">

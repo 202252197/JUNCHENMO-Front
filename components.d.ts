@@ -37,6 +37,10 @@ declare module 'vue' {
     ElRow: typeof import('element-plus/es')['ElRow']
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
     ElSelect: typeof import('element-plus/es')['ElSelect']
+<<<<<<< HEAD
+=======
+    ElSlider: typeof import('element-plus/es')['ElSlider']
+>>>>>>> master
     ElSubItem: typeof import('element-plus/es')['ElSubItem']
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
     ElSwitch: typeof import('element-plus/es')['ElSwitch']

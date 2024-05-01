@@ -6,6 +6,7 @@
   <!-- 左侧面包屑 -->
   <el-breadcrumb separator-icon="ArrowRight">
     <!-- 面包屑动态的展示路由名字与标题 -->
+<<<<<<< HEAD
     <el-breadcrumb-item
       v-for="(item, index) in $route.matched"
       :key="index"
@@ -18,6 +19,22 @@
       </el-icon> -->
       <span style="margin: 0px 5px">{{ item.meta.title }}</span>
     </el-breadcrumb-item>
+=======
+    <transition-group name="breadcrumb">
+      <el-breadcrumb-item
+        v-for="(item, index) in $route.matched"
+        :key="index"
+        v-show="item.meta.title"
+        :to="item.path"
+      >
+        <!-- 图标 TODO::不太好看隐藏-->
+        <!-- <el-icon>
+        <component :is="item.meta.icon"></component>
+      </el-icon> -->
+        <span style="margin: 0px 5px">{{ item.meta.title }}</span>
+      </el-breadcrumb-item>
+    </transition-group>
+>>>>>>> master
   </el-breadcrumb>
 </template>
 

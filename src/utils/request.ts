@@ -1,7 +1,10 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import useUserStore from '@/store/modules/user'
+<<<<<<< HEAD
 import type { ApiResponse } from '../utils/types/request.d.ts'
+=======
+>>>>>>> master
 import type { AxiosRequestConfig } from 'axios'
 
 //创建axios实例
@@ -52,5 +55,9 @@ service.interceptors.response.use(
 /* 封装实例的请求方法 */
 export default async function request<T>(config: AxiosRequestConfig) {
   // axios实例的 request 接受的第一个泛型参数，就是返回数据data的类型
+<<<<<<< HEAD
   return service.request<ApiResponse<T>>(config).then((res) => res) // 返回axios的里data数据
+=======
+  return service.request<T>(config).then((res) => res as T) // 返回axios的里data数据
+>>>>>>> master
 }

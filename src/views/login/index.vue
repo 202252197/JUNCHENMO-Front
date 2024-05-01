@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <el-row>
     <el-col :span="8" :xs="0" style="position: relative">
       <JCMCarousel
@@ -14,6 +15,38 @@
           <div style="display: flex; flex-direction: column">
             <div style="font-size: 20px; font-weight: 500; margin-bottom: 20px">
               登录 JUN CHEN MO
+=======
+  <iframe
+    src="https://my.spline.design/3dtextbluecopy-fc5e4a8ea28d8ba3fc3b96ebdb1a5283/"
+    frameborder="0"
+    width="100%"
+    height="100%"
+    Scrolling="no"
+    style="position: fixed; z-index: 1"
+  ></iframe>
+  <!--logo位置-->
+  <div class="logo-div-jcm selector-disabled">
+    <div>
+      <img src="@/assets/logo.png" width="30px" draggable="false" />
+    </div>
+    <div>JUN CHEN MO</div>
+  </div>
+  <el-row>
+    <el-col :span="8" :xs="24"></el-col>
+    <el-col :span="8" :xs="24">
+      <el-row id="from">
+        <el-col :span="8" :xs="20" style="z-index: 2">
+          <div class="form-card">
+            <div
+              style="
+                font-size: 20px;
+                font-weight: 500;
+                margin-bottom: 20px;
+                color: black;
+              "
+            >
+              登录 WMS管理系统
+>>>>>>> master
             </div>
             <el-form
               ref="ruleLoginRef"
@@ -62,6 +95,7 @@
 </template>
 
 <script setup lang="ts">
+<<<<<<< HEAD
 import type { carouselObj } from '@/components/Login/Carousel/type'
 import type { loginFormData } from '@/api/user/type'
 import type { FormInstance, FormRules } from 'element-plus'
@@ -72,6 +106,16 @@ import { useRouter } from 'vue-router'
 const $router = useRouter()
 // 实例化容器
 const userStore = useUserStore()
+=======
+import type { loginFormData } from '@/api/user/type'
+import type { FormInstance, FormRules } from 'element-plus'
+import { User, Lock, Eleme } from '@element-plus/icons-vue'
+import UserStore from '@/store/modules/user'
+import { useRouter } from 'vue-router'
+const $router = useRouter()
+// 实例化容器
+const useUserStore = UserStore()
+>>>>>>> master
 //登录按钮加载状态
 const loadingBtn = ref(false)
 //获取表单DOM
@@ -99,6 +143,7 @@ let from = reactive<loginFormData>({
   password: '',
 })
 
+<<<<<<< HEAD
 // 轮播图对象
 let carouselArr = ref<carouselObj[]>([
   {
@@ -117,6 +162,8 @@ let carouselArr = ref<carouselObj[]>([
     imgPath: 'http://101.43.254.243:1081/assets/login-banner.426fb77f.png',
   },
 ])
+=======
+>>>>>>> master
 //登录
 const submitForm = async (formEl: FormInstance | undefined) => {
   loadingBtn.value = true
@@ -126,6 +173,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (valid) {
       try {
         //请求登录接口
+<<<<<<< HEAD
         await userStore.userLogin(from)
         //请求用户信息接口
         await userStore.userInfo()
@@ -137,6 +185,12 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           message: '登录成功',
           offset: 100,
         })
+=======
+        await useUserStore.userLogin(from)
+        $router.push('/')
+        // //弹出登录成功提示
+        ElMessage.success({ message: '登陆成功' })
+>>>>>>> master
       } catch (error) {
         //弹出登录失败的message
         ElMessage.error({ message: '用户名或密码错误' })
@@ -145,13 +199,20 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       }
     } else {
       //弹出数据校验失败的message
+<<<<<<< HEAD
       ElMessage.error({ message: '数据规则验证失败' })
+=======
+      ElMessage.error({ message: '请将信息填写完整' })
+>>>>>>> master
       loadingBtn.value = false
     }
   })
 }
+<<<<<<< HEAD
 
 //
+=======
+>>>>>>> master
 </script>
 
 <style scoped lang="scss">
@@ -160,4 +221,36 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   align-items: center;
   height: 100vh;
 }
+<<<<<<< HEAD
+=======
+.logo-div-jcm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  z-index: 1;
+  top: 10px;
+  left: 10px;
+  color: aliceblue;
+  font-size: 18px;
+}
+
+.el-carousel__item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.form-card {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  height: auto;
+  padding: 20px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 8px;
+  filter: opacity(90%);
+}
+>>>>>>> master
 </style>
