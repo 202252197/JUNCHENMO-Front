@@ -2,7 +2,7 @@
 import { defineStore } from 'pinia'
 import { error404 } from '@/router/routes'
 //导入请求
-import { getRouters } from '@/api/menu'
+import { getRouters,reqRoleList } from '@/api/menu'
 //导入layout组件
 import Layout from '@/layout/index.vue'
 //引入路由（常亮路由）
@@ -35,6 +35,14 @@ const usePermissionStore = defineStore('Menu', {
           this.setRoutes(RoutesData)
           this.setSidebarRouters(RoutesData)
           resolve(RoutesData)
+        })
+      })
+    },
+    //获取菜单列表
+    menuList(data: any) {
+      return new Promise((resolve) => {
+        reqRoleList(data).then((res) => {
+          resolve(res.data)
         })
       })
     },

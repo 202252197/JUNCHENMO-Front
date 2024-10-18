@@ -142,7 +142,7 @@ export default {
       background-color: $base-tabbar-moon-background;
     }
     &.sunny {
-      background-color: $base-tabbar-sunny-background;
+      background: $base-tabbar-sunny-tabs-background;
     }
   }
   .layout_tabs {
@@ -161,7 +161,7 @@ export default {
       background-color: $base-tabbar-moon-tabs-background;
     }
     &.sunny {
-      background-color: $base-tabbar-sunny-tabs-background;
+      background: $base-tabbar-sunny-background;
     }
   }
   .layout_main {
@@ -169,10 +169,10 @@ export default {
     position: absolute;
     width: calc(100% - $base-menu-width);
     left: $base-menu-width;
-    top: calc($base-tabbar-height + $base-tabs-height);
+    top: calc($base-tabbar-height + $base-tabs-height) + 10px;
     padding: $base-main-context-padding;
     transition: all 0.5s;
-    height: calc(100vh - $base-tabs-height - $base-tabs-height - 20px);
+    height: calc(100vh - $base-tabs-height - $base-tabs-height - 30px);
     scrollbar-width: thin;
     .context {
       width: 100%;
@@ -187,7 +187,7 @@ export default {
       background-color: $base-main-moon-background;
     }
     &.sunny {
-      background-color: $base-main-sunny-background;
+      background: #dedfe1;
     }
   }
 }

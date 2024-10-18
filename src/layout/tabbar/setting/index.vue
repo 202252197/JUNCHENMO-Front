@@ -25,7 +25,7 @@
       <template v-if="setting.userHeadImageType == 'img'">
         <el-avatar :size="avatarSize" :src="userStore.user.avatar" />
       </template>
-      {{ userStore.user.username }}
+      <!-- {{ userStore.user.username }} -->
     </span>
     <template #dropdown>
       <el-dropdown-menu>

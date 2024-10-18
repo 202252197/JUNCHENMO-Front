@@ -1,114 +1,130 @@
+/* 引入重置样式和过渡动画样式 */
 @import './reset.scss';
 @import './transition.scss';
 
-//引用字体文件
-@font-face {  
-  font-family: 'MyCustomFont';  
+/* 引入自定义字体 */
+@font-face {
+  font-family: 'MyCustomFont';
   src: url('../assets/font/DouyinSansBold.otf');
-  font-weight: normal;  
+  font-weight: normal;
   font-style: normal;
 }
-//禁用选择文字
-.selector-disabled {
-  -webkit-touch-callout: none; /* iOS Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+
+/* 设置根元素的样式 */
+body {
+  /* 设置字体 */
+  font-family: "MyCustomFont";
 }
 
 
-.el-dialog{
-  border-radius: 12px !important; 
-  border: 5px black solid !important
-}
-// 菜单区域
-.el-menu-item{
-  height: 43px !important;
-}
-.el-sub-menu__title{
-  height: 43px !important;
-}
-
-.el-menu-item.is-active{
-  color: aliceblue;
-  background:#4165d7;
-}
-
-
-// 按钮区域
-.el-button{
-  border-radius: 9px;
-}
-
-.el-button--primary{
-  --el-button-bg-color:#4165d7;
-  --el-button-hover-bg-color:#647fd5;
-}
-
-.el-button--primary.is-link, .el-button--primary.is-plain, .el-button--primary.is-text{
-  --el-button-text-color: #4165d7
-}
-// tag标签的主颜色
-.el-check-tag--primary{
-  background-color: #505d8a;
-  color:aliceblue
-}
-.el-check-tag--primary:hover{
-  background-color: #6b7289;
-}
-//tag标签的选择颜色
-.el-check-tag.is-checked.el-check-tag--primary{
-  background-color: #4165d7;
-  color: aliceblue;
-}
-.el-check-tag.is-checked.el-check-tag--primary:hover{
-  background-color: #647fd5;
-}
-
-
-//滚动条外观设置
-html{
-  .el-scrollbar{
-    --el-scrollbar-bg-color:$base-menu-sunny-background
+html {
+  /* 设置默认主题的滚动条背景颜色 */
+  .el-scrollbar {
+    --el-scrollbar-bg-color: $base-menu-sunny-background;
   }
-}
-
-html.dark{
-  .el-scrollbar{
-    --el-scrollbar-bg-color:$base-menu-moon-background
+  /* 设置卡片的样式 */
+  .el-card {
+    --el-card-border-radius: 10px;
   }
-}
-html .el-card{
-  --el-card-border-radius:8px;
-}
-html.dark .el-card{
-  --el-card-border-color:#04141e;
-  --el-card-bg-color:#04141e;
-  --el-card-border-radius:14px;
+  /* 设置对话框的标题和内容区域的样式 */
+  .el-card__header {
+    border-bottom: 0;
+  }
+
+  /* 设置对话框的内容区域的宽度 */
+  /* 设置输入框和下拉框的宽度 */
+  .el-card__body {
+    .el-input {
+      --el-input-width: 240px;
+    }
+    .el-select {
+      --el-select-width: 240px;
+    }
+  }
+
+  /* 设置对话框的尾部的样式 */
+  .el-card__footer {
+    border-top: 0;
+  }
+
+  /* tag 标签的主颜色 */
+  .el-check-tag--primary {
+    background-color: #5b6898;
+    color: white;
+  }
+
+  /* tag 标签的选中颜色 */
+  .el-check-tag.is-checked.el-check-tag--primary {
+    background-color: #5072e6;
+    color: white;
+  }
+  /* 禁止选择文字 */
+  .noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+  }
+
+  /* 对话框样式 */
+  .el-dialog {
+    border-radius: 15px!important;
+  }
+
+  /* 菜单区域样式 */
+  .el-menu-item {
+    height: 45px!important;
+  }
+  .el-sub-menu__title {
+    height: 45px!important;
+  }
+
+  /* 选中菜单项样式 */
+  .el-menu-item.is-active {
+    color: white;
+    background: #5072e6;
+  }
+  .el-card {
+    opacity: 0.85; /* 设置透明度为 85% */
+  }
+
+  /* 按钮区域样式 */
+  .el-button {
+    border-radius: 10px;
+  }
+
+  /* 主要按钮样式 */
+  .el-button--primary {
+    --el-button-bg-color: #5072e6;
+    --el-button-hover-bg-color: #728ce3;
+  }
+
+  /* 设置主要按钮的文字颜色 */
+  .el-button--primary.is-link,
+  .el-button--primary.is-plain,
+  .el-button--primary.is-text {
+    --el-button-text-color: #5072e6;
+  }
+
 }
 
-:root {
+
+html.dark {
+  /* 设置深色主题的滚动条背景颜色 */
+  .el-scrollbar {
+    --el-scrollbar-bg-color: $base-menu-moon-background;
+  }
   
-    //设置字体
-    font-family: "MyCustomFont";
-    .el-card__header{
-      border-bottom:0px;
-    }
-    //设置卡片中的input和select框的宽度
-    .el-card__body{
-      .el-input {
-        --el-input-width: 225px;
-      }
-      
-      .el-select {
-        --el-select-width: 225px;
-      }
-    }
-    .el-card__footer{
-      border-top:0px;
-    }
+  /* 设置深色主题的卡片样式 */
+  .el-card{
+    --el-card-border-color: #121212;
+    --el-card-bg-color: #121212;
+    --el-card-border-radius: 16px;
+  }
 }
+
+
 
 
 

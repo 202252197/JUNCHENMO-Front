@@ -23,6 +23,8 @@ export interface user {
 export interface loginFormData {
   username: string
   password: string
+  code: string
+  uuid: string
 }
 
 //登录返回数据

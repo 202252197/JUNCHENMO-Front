@@ -4,12 +4,12 @@
       <el-form
         :inline="true"
         :model="searchform"
-        class="demo-form-inline"
+        class="searchForm"
         label-position="right"
         label-width="auto"
         ref="searchFormRef"
       >
-        <el-row style="display: flex">
+        <el-row>
           <el-form-item label="用户名" prop="username">
             <el-input v-model="searchform.username" />
           </el-form-item>
@@ -22,14 +22,13 @@
               <el-option label="禁用" value="1" />
             </el-select>
           </el-form-item>
-          <template v-if="more">
-            <el-form-item label="手机号" prop="phone">
+         
+            <el-form-item v-show="more" label="手机号" prop="mobile">
               <el-input v-model="searchform.mobile" />
             </el-form-item>
-            <el-form-item label="邮箱" prop="email">
+            <el-form-item  v-show="more" label="邮箱" prop="email">
               <el-input v-model="searchform.email" />
             </el-form-item>
-          </template>
           <div style="margin-left: auto">
             <el-button type="info" @click="resetSearchForm(searchFormRef)">
               重置
@@ -70,8 +69,10 @@
         <el-table-column prop="status" label="状态" align="center">
           <template #default="scope">
             <el-tag
-              :type="scope.row.status === 0 ? 'success' : 'error'"
-              disable-transitions
+              checked
+              size="small"
+              style="color: aliceblue"
+              :color="scope.row.status === 0 ? '#4165D7' : '#D05344'"
             >
               {{ scope.row.status === 0 ? '正常' : '停用' }}
             </el-tag>
@@ -87,7 +88,7 @@
               :disabled="isAdminById(scope.row.userId)"
               text
             >
-              停用
+            <span style="font-weight: 900;">停用</span>
             </el-button>
             <el-button
               size="small"
@@ -95,7 +96,7 @@
               @click="updateInfoButtonClick(scope.row)"
               text
             >
-              修改
+            修改
             </el-button>
             <el-button
               size="small"
@@ -103,7 +104,7 @@
               @click="handleDelete(scope.$index, scope.row)"
               text
             >
-              详情
+           详情
             </el-button>
             <el-button
               size="small"
@@ -112,7 +113,7 @@
               :disabled="isAdminById(scope.row.userId)"
               text
             >
-              重置密码
+            重置密码
             </el-button>
             <el-button
               size="small"
@@ -121,7 +122,7 @@
               :disabled="isAdminById(scope.row.userId)"
               text
             >
-              分配角色
+           分配角色
             </el-button>
             <el-button
               size="small"
@@ -130,7 +131,7 @@
               :disabled="isAdminById(scope.row.userId)"
               text
             >
-              删除
+           删除
             </el-button>
           </template>
         </el-table-column>
@@ -311,7 +312,7 @@
           <el-button @click="allocationRoleFromOpenStatus = false">
             取消
           </el-button>
-          <el-button type="primary" @click="updateInfoItem(updateInfoFormRef)">
+          <el-button type="primary" @click="selectAuthUserRoles()">
             确认
           </el-button>
         </div>
@@ -364,9 +365,9 @@ const commonform = reactive({
 })
 
 //角色列表
-let roleList = reactive([])
+let roleList = ref([])
 //用户的角色
-let userRoleList = ref()
+let userRoleList = ref([])
 
 //表格数据
 const dataList = reactive({
@@ -375,7 +376,6 @@ const dataList = reactive({
   page: 1,
   size: 10,
 })
-
 //表单规则
 const rules = ref<FormRules>({
   username: [
@@ -412,10 +412,8 @@ const searchList = (searchData: any) => {
       ElMessage.error({ message: error })
     })
 }
-
 //进入页面初始化的数据
 searchList(searchform)
-
 //页码变更处理方法
 const handleCurrentChange = (currentPage: number) => {
   dataList.page = currentPage
@@ -426,7 +424,6 @@ const handleSizeChange = (pageSize: number) => {
   dataList.size = pageSize
   searchList(searchform)
 }
-
 //删除用户触发的事件
 const deleteItem = (item: any) => {
   userStore
@@ -451,7 +448,6 @@ const disableItem = (item: any) => {
       ElMessage.error({ message: error })
     })
 }
-
 //点击添加按钮触发的事件
 const addButtenClick = () => {
   addfromOpenStatus.value = true
@@ -477,7 +473,6 @@ const addItem = (formEl: FormInstance | undefined) => {
     }
   })
 }
-
 //点击重置密码触发的事件
 const resetButtonClick = (item: any) => {
   updatePasswordfromOpenStatus.value = true
@@ -505,7 +500,6 @@ const updatePasswordItem = (formEl: FormInstance | undefined) => {
     }
   })
 }
-
 //修改用户触发的事件
 const updateInfoButtonClick = (item: any) => {
   updateInfofromOpenStatus.value = true
@@ -541,14 +535,39 @@ const updateInfoItem = (formEl: FormInstance | undefined) => {
 const infoButtonClick = () => {}
 
 //点击分配角色触发的事件
-const allocationRoleButtonClick = (item: any) => {
+const allocationRoleButtonClick = async (item) => {
+  // 1. 更新表单信息
   commonform.userId = item.userId
   commonform.username = item.username
   commonform.nickname = item.nickname
-  roleStore.roleAllList().then((resp) => {
-    roleList = resp.data
+
+  try {
+    // 2. 获取所有角色
+    const rolesAll = await roleStore.roleAllList()
+    // 3. 获取用户已有的角色
+    const userRoles = await roleStore.getUserRoleList(item.userId)
+    // 4. 更新角色列表
+    userRoleList.value = userRoles.data
+    roleList.value = rolesAll.data
+    // 5. 所有异步操作完成后，更新状态
     allocationRoleFromOpenStatus.value = true
-  })
+  } catch (error) {
+    console.error('Error during role allocation process:', error)
+    // 根据需要处理错误
+  }
+}
+
+const selectAuthUserRoles = () => {
+  roleStore
+    .selectUserRoles(commonform.userId, userRoleList.value)
+    .then(() => {
+      searchList(searchform)
+      ElMessage.success({ message: '分配成功' })
+    })
+    .catch((error) => {
+      ElMessage.error({ message: error })
+    })
+  allocationRoleFromOpenStatus.value = false
 }
 
 //重置搜索表单
@@ -562,4 +581,11 @@ export default {
   name: 'user',
 }
 </script>
-<style scoped></style>
+<style scoped>
+.searchForm .el-form-item {
+  margin-bottom: v-bind(more ? '18px': '0px');
+}
+*{
+  font-weight: 900;
+}
+</style>

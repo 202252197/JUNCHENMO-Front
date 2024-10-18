@@ -58,8 +58,10 @@
         <el-table-column prop="status" label="状态" align="center">
           <template #default="scope">
             <el-tag
-              :type="scope.row.status === 0 ? 'success' : 'error'"
-              disable-transitions
+              checked
+              size="small"
+              style="color: aliceblue"
+              :color="scope.row.status === 0 ? '#4165D7' : '#D05344'"
             >
               {{ scope.row.status === 0 ? '正常' : '停用' }}
             </el-tag>
@@ -74,7 +76,7 @@
               :disabled="isAdminById(scope.row.roleId)"
               text
             >
-              停用
+            停用
             </el-button>
             <el-button
               size="small"
@@ -82,7 +84,8 @@
               @click="updateInfoButtonClick(scope.row)"
               text
             >
-              修改
+              
+             修改
             </el-button>
             <el-button
               size="small"
@@ -91,7 +94,7 @@
               :disabled="isAdminById(scope.row.roleId)"
               text
             >
-              分配菜单
+            分配菜单
             </el-button>
             <el-button
               size="small"
@@ -100,7 +103,8 @@
               :disabled="isAdminById(scope.row.roleId)"
               text
             >
-              删除
+             
+            删除
             </el-button>
           </template>
         </el-table-column>
@@ -121,11 +125,11 @@
         </div>
       </template>
     </el-card>
-    <!--新增用户弹出框-->
+    <!--新增角色弹出框-->
     <el-dialog v-model="addfromOpenStatus" width="500" :show-close="false">
       <template #header="{ titleId, titleClass }">
         <div class="my-header">
-          <h4 :id="titleId" :class="titleClass">新增用户</h4>
+          <h4 :id="titleId" :class="titleClass">新增角色</h4>
         </div>
       </template>
       <el-form
@@ -150,86 +154,7 @@
         </div>
       </template>
     </el-dialog>
-    <!-- 
-    <el-dialog
-      v-model="updatePasswordfromOpenStatus"
-      width="500"
-      :show-close="false"
-    >
-      <template #header="{ titleId, titleClass }">
-        <div class="my-header">
-          <h4 :id="titleId" :class="titleClass">重置密码</h4>
-        </div>
-      </template>
-      <el-form :model="commonform" label-width="60" ref="updatePasswordFormRef">
-        <el-form-item label="用户名">
-          <el-input v-model="commonform.username" autocomplete="off" disabled />
-        </el-form-item>
-        <el-form-item label="昵称">
-          <el-input v-model="commonform.nickname" autocomplete="off" disabled />
-        </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <el-input
-            v-model="commonform.password"
-            autocomplete="off"
-            type="password"
-            show-password
-          />
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <div style="display: flex; justify-content: center">
-          <el-button @click="updatePasswordfromOpenStatus = false">
-            取消
-          </el-button>
-          <el-button
-            type="primary"
-            @click="updatePasswordItem(updatePasswordFormRef)"
-          >
-            确认
-          </el-button>
-        </div>
-      </template>
-    </el-dialog>
-    <el-dialog
-      v-model="updateInfofromOpenStatus"
-      width="500"
-      :show-close="false"
-    >
-      <template #header="{ titleId, titleClass }">
-        <div class="my-header">
-          <h4 :id="titleId" :class="titleClass">修改用户信息</h4>
-        </div>
-      </template>
-      <el-form
-        :model="commonform"
-        label-width="60"
-        ref="updateInfoFormRef"
-        :rules="rules"
-      >
-        <el-form-item label="用户名">
-          <el-input v-model="commonform.username" autocomplete="off" disabled />
-        </el-form-item>
-        <el-form-item label="昵称" prop="nickname">
-          <el-input v-model="commonform.nickname" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="手机号">
-          <el-input v-model="commonform.mobile" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="邮箱">
-          <el-input v-model="commonform.email" autocomplete="off" />
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <div style="display: flex; justify-content: center">
-          <el-button @click="updateInfofromOpenStatus = false">取消</el-button>
-          <el-button type="primary" @click="updateInfoItem(updateInfoFormRef)">
-            确认
-          </el-button>
-        </div>
-      </template>
-    </el-dialog>
-    -->
+   
   </div>
 </template>
 
@@ -252,7 +177,7 @@ const searchform = reactive({
   status: '',
 })
 
-//表单填写的内容
+//新增表单填写的内容
 const commonform = reactive({
   roleId: '',
   name: '',
@@ -349,4 +274,11 @@ export default {
   name: 'role',
 }
 </script>
-<style scoped></style>
+<style scoped>
+.searchForm .el-form-item {
+  margin-bottom: v-bind(more ? '18px': '0px');
+}
+*{
+  font-weight: 900;
+}
+</style>

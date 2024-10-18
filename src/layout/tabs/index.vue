@@ -3,7 +3,6 @@
     <el-col :span="23">
       <el-scrollbar ref="scrollbarRef" @wheel.prevent="handleScroll">
         <!-- 面包屑动态的展示路由名字与标题 -->
-
         <div class="tabs-jcm">
           <transition-group name="tab">
             <div

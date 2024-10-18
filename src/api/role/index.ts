@@ -2,33 +2,55 @@
 
 import request from '@/utils/request'
 import type { roleListRep } from './type'
-enum SERVER_NAME {
-  SYSTEM = '/system',
-}
-//项目角色相关的请求地址
-enum API {
+
+import API_ENUM from '@/enum/api-enum'
+
+export const API = {
   //获取全部角色列表
-  ROLE_LIST_ALL_URL = SERVER_NAME.SYSTEM + '/role/listAll',
+  ROLE_LIST_ALL_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_ROLE}/listAll`,
+  //获取用户所拥有的角色列表
+  USER_ROLES_LIST_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_ROLE}/queryUserRoles`,
   //获取角色列表
-  ROLE_LIST_URL = SERVER_NAME.SYSTEM + '/role/list',
+  ROLE_LIST_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_ROLE}/list`,
   //添加角色
-  ROLE_ADD_URL = SERVER_NAME.SYSTEM + '/role/',
+  ROLE_ADD_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_ROLE}/`,
   //删除角色
-  ROLE_DEL_URL = SERVER_NAME.SYSTEM + '/role/',
+  ROLE_DEL_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_ROLE}/`,
   //修改角色
-  ROLE_UP_INFO_URL = SERVER_NAME.SYSTEM + '/role/',
+  ROLE_UP_INFO_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_ROLE}/`,
   //修改角色状态
-  ROLE_UP_STATUS_URL = SERVER_NAME.SYSTEM + '/role/changeStatus',
+  ROLE_UP_STATUS_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_ROLE}/changeStatus`,
+  //选择授权用户的角色
+  ROLE_SELECT_USER_ROLES: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_ROLE}/authUserRole/selectAll`,
 }
 
-//全部角色列表获取接口
+/**
+ * 获取全部角色列表的接口
+ * @returns {Promise} - 返回一个Promise对象
+ */
 export const reqRoleAllList = () =>
   request<any>({
     method: 'get',
     url: API.ROLE_LIST_ALL_URL,
   })
 
-//角色列表获取接口
+/**
+ * 获取用户所拥有的角色列表的接口
+ * @returns {Promise} - 返回一个Promise对象
+ */
+export const reqUserRoleList = (userId: any) =>
+  request<any>({
+    method: 'get',
+    url: API.USER_ROLES_LIST_URL + '/' + userId,
+  })
+
+/**
+ * 获取角色列表的接口
+ * @param {Object} data - 查询条件
+ * @param {number} pageNum - 当前页码
+ * @param {number} pageSize - 每页数量
+ * @returns {Promise} - 返回一个Promise对象
+ */
 export const reqRoleList = (data: any, pageNum: number, pageSize: number) =>
   request<roleListRep>({
     method: 'post',
@@ -36,7 +58,11 @@ export const reqRoleList = (data: any, pageNum: number, pageSize: number) =>
     data,
   })
 
-//添加角色接口
+/**
+ * 添加角色的接口
+ * @param {Object} data - 角色数据
+ * @returns {Promise} - 返回一个Promise对象
+ */
 export const reqAddRole = (data: any) =>
   request<any>({
     method: 'post',
@@ -44,17 +70,38 @@ export const reqAddRole = (data: any) =>
     data,
   })
 
-//删除角色接口
+/**
+ * 删除角色的接口
+ * @param {string} userId - 角色id
+ * @returns {Promise} - 返回一个Promise对象
+ */
 export const reqDelRole = (userId: any) =>
   request<any>({
     method: 'delete',
     url: API.ROLE_DEL_URL + '/' + userId,
   })
 
-//修改角色的状态
+/**
+ * 修改角色的状态
+ * @param {Object} data - 修改状态的数据
+ * @returns {Promise} - 返回一个Promise对象
+ */
 export const reqUpStatusRole = (data: any) =>
   request<any>({
     method: 'put',
     url: API.ROLE_UP_STATUS_URL,
     data,
+  })
+
+/**
+ * 分配用户选择的角色
+ * @param {string} userId - 用户id
+ * @param {Array<string>} rolesId - 角色id的数组
+ * @returns {Promise} - 返回一个Promise对象
+ */
+export const reqSelectUserRoles = (userId: any, rolesId: any) =>
+  request<any>({
+    method: 'put',
+    url: API.ROLE_SELECT_USER_ROLES,
+    data: { userId: userId, rolesId: rolesId },
   })

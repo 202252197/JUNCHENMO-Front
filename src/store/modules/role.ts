@@ -6,6 +6,8 @@ import {
   reqUpStatusRole,
   reqAddRole,
   reqRoleAllList,
+  reqSelectUserRoles,
+  reqUserRoleList,
 } from '@/api/role'
 
 //创建角色小仓库
@@ -14,6 +16,15 @@ const roleoleStore = defineStore('role', {
     return {}
   },
   actions: {
+    //获取全部角色列表
+    async getUserRoleList(data: any) {
+      const result: any = await reqUserRoleList(data)
+      if (result.code == 200) {
+        return result
+      } else {
+        return Promise.reject(result.msg)
+      }
+    },
     //获取全部角色列表
     async roleAllList() {
       const result: any = await reqRoleAllList()
@@ -44,6 +55,15 @@ const roleoleStore = defineStore('role', {
     //修改角色状态
     async upStatusRole(data: any) {
       const result: any = await reqUpStatusRole(data)
+      if (result.code == 200) {
+        return 'ok'
+      } else {
+        return Promise.reject(result.msg)
+      }
+    },
+    //分配选择的角色
+    async selectUserRoles(userId: any, rolesId: any) {
+      const result: any = await reqSelectUserRoles(userId, rolesId)
       if (result.code == 200) {
         return 'ok'
       } else {

@@ -1,31 +1,39 @@
 
+/**
+ * tab 组件的过渡动画，向上滑动
+ */
 .tab-enter-active,
 .tab-leave-active{
-    transition: all 0.5s ease;
+    transition: all 0.5s ease; /* 过渡动画的时间和形式 */
 }
 .tab-enter{
-    transform: translateY(-100%);
-    opacity: 0;
+    transform: translateY(-100%); /* 初始状态，向上滑动 */
+    opacity: 0; /* 初始状态，透明度为0 */
 }
 .tab-leave-to{
-    transform: translateY(100%);
-    opacity: 0;
+    transform: translateY(100%); /* 离开状态，向下滑动 */
+    opacity: 0; /* 离开状态，透明度为0 */
 }
 
-/* fade-transform */
+/**
+ * 页面滑动过渡，向右滑动
+ */
 .slide-enter-active,
 .slide-leave-active{
-    transition: all 1s ease;
+    transition: all 1s ease; /* 过渡动画的时间和形式 */
 }
 .slide-enter{
-    transform: translateX(100%);
-    opacity: 0;
+    transform: translateX(-100%); /* 初始状态，向右滑动 */
+    opacity: 0; /* 初始状态，透明度为0 */
 }
 .slide-leave-to{
-    transform: translateX(-100%);
-    opacity: 0;
+    transform: translateX(100%); /* 离开状态，向左滑动 */
+    opacity: 0; /* 离开状态，透明度为0 */
 }
-/* breadcrumb transition */
+
+/**
+ * 面包屑导航的过渡动画，向上滑动
+ */
 .breadcrumb-enter-active{
   opacity: 0;
   transform: translateY(-10px);
@@ -47,3 +55,4 @@
 .breadcrumb-leave-active {
   position: absolute;
 }
+

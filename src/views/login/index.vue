@@ -15,62 +15,71 @@
     <div>JUN CHEN MO</div>
   </div>
   <el-row>
-    <el-col :span="8" :xs="24"></el-col>
-    <el-col :span="8" :xs="24">
+    <el-col :span="8" :xs="24" :offset="8">
       <el-row id="from">
-        <el-col :span="8" :xs="20" style="z-index: 2">
-          <div class="form-card">
-            <div
-              style="
-                font-size: 20px;
-                font-weight: 500;
-                margin-bottom: 20px;
-                color: black;
-              "
-            >
-              登录RBAC管理系统
-            </div>
-            <el-form
-              ref="ruleLoginRef"
-              style="align-items: center"
-              :model="from"
-              :rules="rules"
-              label-width="auto"
-              status-icon
-            >
-              <el-form-item prop="username" style="margin-bottom: 20px">
-                <el-input
-                  v-model="from.username"
-                  type="text"
-                  placeholder="用户名"
-                  :prefix-icon="User"
-                  autofocus
-                />
-              </el-form-item>
-              <el-form-item prop="password" style="margin-bottom: 20px">
-                <el-input
-                  v-model="from.password"
-                  placeholder="密码"
-                  type="password"
-                  :prefix-icon="Lock"
-                  show-password
-                />
-              </el-form-item>
-              <v-row>
-                <el-button
-                  color="#626aef"
-                  @click="submitForm(ruleLoginRef)"
-                  :loading-icon="Eleme"
-                  :loading="loadingBtn"
-                  style="width: 100%"
-                >
-                  登录
-                </el-button>
-              </v-row>
-            </el-form>
+        <div class="form-card" style="z-index: 2">
+          <div
+            style="
+              font-size: 20px;
+              font-weight: 500;
+              margin-bottom: 20px;
+              color: black;
+            "
+          >
+            登录RBAC管理系统
           </div>
-        </el-col>
-        <el-col :span="8" :xs="2"></el-col>
+          <el-form
+            ref="ruleLoginRef"
+            style="align-items: center"
+            :model="from"
+            :rules="rules"
+            label-width="auto"
+            status-icon
+          >
+            <el-form-item prop="username" class="form-item">
+              <el-input
+                v-model="from.username"
+                type="text"
+                placeholder="用户名"
+                :prefix-icon="User"
+                autofocus
+              />
+            </el-form-item>
+            <el-form-item prop="password" class="form-item">
+              <el-input
+                v-model="from.password"
+                placeholder="密码"
+                type="password"
+                :prefix-icon="Lock"
+                show-password
+              />
+            </el-form-item>
+            <el-row>
+              <el-col :span="15">
+                <el-form-item prop="code" class="form-item">
+                  <el-input
+                    v-model="from.code"
+                    type="text"
+                    placeholder="验证码"
+                    autofocus
+                  />
+                </el-form-item>
+              </el-col>
+              <el-col :span="8" :offset="1">
+                <img :src="codeImg" alt="验证码" @click="getCode" />
+              </el-col>
+            </el-row>
+            <el-button
+              color="#626aef"
+              @click="submitForm(ruleLoginRef)"
+              :loading-icon="Eleme"
+              :loading="loadingBtn"
+              style="width: 100%"
+            >
+              登录
+            </el-button>
+          </el-form>
+        </div>
       </el-row>
     </el-col>
   </el-row>
@@ -89,6 +98,8 @@ const useUserStore = UserStore()
 const loadingBtn = ref(false)
 //获取表单DOM
 const ruleLoginRef = ref<FormInstance>()
+//验证码图片
+const codeImg = ref('')
 //配置表单验证规则
 const rules = ref<FormRules<loginFormData>>({
   username: [
@@ -105,13 +116,38 @@ const rules = ref<FormRules<loginFormData>>({
       trigger: 'blur',
     },
   ],
+  code: [
+    {
+      required: true,
+      message: '验证码不能为空',
+      trigger: 'blur',
+    },
+  ],
 })
 //表单数据
 let from = reactive<loginFormData>({
   username: '',
   password: '',
+  code: '',
+  uuid: '',
 })
 
+const getCode = async () => {
+  const codeResult = await useUserStore.code()
+  codeImg.value = 'data:image/jpeg;base64,' + codeResult.img
+  from.uuid = codeResult.uuid
+}
+
+const init = async () => {
+  try {
+    await getCode()
+  } catch (error) {
+    //弹出登录失败的message
+    ElMessage.error({ message: '验证码获取失败' })
+  }
+}
+
+init()
 //登录
 const submitForm = async (formEl: FormInstance | undefined) => {
   loadingBtn.value = true
@@ -127,7 +163,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         ElMessage.success({ message: '登陆成功' })
       } catch (error) {
         //弹出登录失败的message
-        ElMessage.error({ message: '用户名或密码错误' })
+        from.code = ''
+        getCode()
+        ElMessage.error({ message: error })
       } finally {
         loadingBtn.value = false
       }
@@ -141,6 +179,10 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 </script>
 
 <style scoped lang="scss">
+/* 将样式统一设置在一个类中 */
+.form-item {
+  margin-bottom: 20px;
+}
 #from {
   justify-content: center;
   align-items: center;

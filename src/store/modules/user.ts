@@ -12,6 +12,7 @@ import type {
 import { SET_TOKEN, GET_TOKEN, RENOVE_TOKEN } from '@/utils/token'
 //导入请求
 import {
+  reqCode,
   reqLogin,
   reqLogout,
   reqUserInfo,
@@ -34,6 +35,16 @@ const useUserStore = defineStore('User', {
     }
   },
   actions: {
+    //异步|逻辑的地方
+    async code() {
+      //登录请求
+      const result: any = await reqCode()
+      if (result.code == 200) {
+        return result
+      } else {
+        return Promise.reject(result.msg)
+      }
+    },
     //异步|逻辑的地方
     async userLogin(data: loginFormData) {
       //登录请求
