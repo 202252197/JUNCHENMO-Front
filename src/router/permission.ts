@@ -23,6 +23,8 @@ const whiteList = ['/login', '/register']
 // 全局守卫；项目当中任意路由切换都会触发的钩子
 // 全局前置守卫
 router.beforeEach((to, from, next) => {
+  console.log(to)
+  console.log(from)
   nprogress.start()
   const token = GET_TOKEN()
   if (token) {
@@ -40,6 +42,7 @@ router.beforeEach((to, from, next) => {
           .then(() => {
             permissionStore.generateRoutes().then((accessRoutes: any) => {
               accessRoutes.forEach((route: any) => {
+                console.log(route.path)
                 if (isNotHttp(route.path)) {
                   router.addRoute(route) // 动态添加可访问路由表
                 }

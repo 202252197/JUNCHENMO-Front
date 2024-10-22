@@ -63,7 +63,7 @@
         :default-expand-all="expandStatus"
         v-if="isShow" 
         >
-        <el-table-column prop="name" label="菜单名称" align="center"/>
+        <el-table-column prop="name" label="菜单名称" />
         <el-table-column prop="icon" label="图标"  align="center">
           <template #default="scope">
             <el-icon>

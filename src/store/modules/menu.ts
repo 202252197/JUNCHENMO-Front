@@ -29,7 +29,10 @@ const usePermissionStore = defineStore('Menu', {
     generateRoutes() {
       return new Promise((resolve) => {
         getRouters().then((res) => {
+          console.log("路由数据")
+          console.log(res.data)
           const RoutesData = filterAsyncRouter(res.data)
+          console.log(RoutesData)
           //添加404页面
           RoutesData.push(error404)
           this.setRoutes(RoutesData)
@@ -56,7 +59,7 @@ function filterAsyncRouter(asyncRouterMap: any) {
   //遍历后台传来的路由字符串，转换为组件对象
   return asyncRouterMap.filter((route: any) => {
     //将缓存的router名称添加进去
-    if (route.meta.cache) {
+    if (route.meta&&route.meta.cache) {
       usePermissionStore().cacheRouterNames.push(route.name)
     }
     if (route.component) {
@@ -78,7 +81,7 @@ function filterAsyncRouter(asyncRouterMap: any) {
 function dynamicImportComponent(view: any) {
   let res
   Object.entries(modules).forEach(([key, value]) => {
-    const dir = key.split('views/')[1].split('.vue')[0]
+    const dir = key.split('views')[1].split('.vue')[0]
     if (dir === view) {
       res = value
     }
