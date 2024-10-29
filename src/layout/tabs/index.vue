@@ -21,13 +21,11 @@
                   >
                     <div style="display: flex; align-items: center">
                       <div>
-                        <el-icon>
-                          <component :is="tag.icon"></component>
-                        </el-icon>
+                        <SvgIcon :name="tag.icon" :color="iconColor"/>
                       </div>
                       <div style="margin-left: 3px">
                         <!-- 新增的分隔符 -->
-                        {{ tag.title }}
+                        <span :style="{color:iconColor}">{{ tag.title }}</span>
                       </div>
                     </div>
                   </el-check-tag>
@@ -55,13 +53,14 @@
                 >
                   <div style="display: flex; align-items: center">
                     <div>
-                      <el-icon>
-                        <component :is="tag.icon"></component>
-                      </el-icon>
+                      <!-- <el-icon>
+                           <component :is="tag.icon"></component>
+                        </el-icon> -->
+                        <SvgIcon :name="tag.icon" :color="iconColor"/>
                     </div>
                     <div style="margin-left: 3px">
                       <!-- 新增的分隔符 -->
-                      {{ tag.title }}
+                      <span :style="{color:iconColor}">{{ tag.title }}</span>
                     </div>
                   </div>
                 </el-check-tag>
@@ -81,7 +80,7 @@
           <el-dropdown-menu>
             <el-dropdown-item
               icon="CircleCloseFilled"
-              @click="TabsStore.removeOutherTab(router.path)"
+              @click="TabsStore.removeOutherTab(route.path)"
             >
               关闭其他标签
             </el-dropdown-item>
@@ -106,8 +105,10 @@ import useLayoutSettingStore from '@/store/modules/layout/layoutSetting'
 //创建Tabs相关的小仓库
 import useTabsStore from '@/store/modules/layout/tabs'
 let LayoutSettingStore = useLayoutSettingStore()
+//图标根据主题模式动态切换颜色
+const iconColor = computed(() => LayoutSettingStore.theme? 'black' : 'white');
 const $router = useRouter()
-const router = useRoute()
+const route = useRoute()
 let TabsStore = useTabsStore()
 
 const defalutTag: any = ref([
@@ -116,7 +117,7 @@ const defalutTag: any = ref([
     closable: false,
     path: '/home',
     checked: true,
-    icon: 'HomeFilled',
+    icon: 'home',
   },
 ])
 //**遍历添加默认的首页Tab */

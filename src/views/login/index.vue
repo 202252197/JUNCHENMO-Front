@@ -1,6 +1,7 @@
 <template>
+      <!-- src="https://my.spline.design/3dtextbluecopy-fc5e4a8ea28d8ba3fc3b96ebdb1a5283/" -->
   <iframe
-    src="https://my.spline.design/3dtextbluecopy-fc5e4a8ea28d8ba3fc3b96ebdb1a5283/"
+    src="https://my.spline.design/interactiveaiwebsite-91a32610b2d5f9e1e11e2236735b37fb/"
     frameborder="0"
     width="100%"
     height="100%"
@@ -15,18 +16,27 @@
     <div>JUN CHEN MO</div>
   </div>
   <el-row>
-    <el-col :span="8" :xs="24" :offset="8">
+    <el-col :span="8" :xs="24" :offset="1">
       <el-row id="from">
         <div class="form-card" style="z-index: 2">
           <div
             style="
-              font-size: 20px;
+              font-size: 30px;
               font-weight: 500;
-              margin-bottom: 20px;
+              margin-bottom: 10px;
               color: black;
             "
           >
             登录RBAC管理系统
+          </div>
+          <div
+            style="
+              font-size: 13px;
+              margin-bottom: 20px;
+              color: #595959;
+            "
+          >
+          The reverse determines the height, and the development determines the depth
           </div>
           <el-form
             ref="ruleLoginRef"
@@ -70,7 +80,7 @@
               </el-col>
             </el-row>
             <el-button
-              color="#626aef"
+              color="#0129F6"
               @click="submitForm(ruleLoginRef)"
               :loading-icon="Eleme"
               :loading="loadingBtn"
@@ -196,7 +206,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   z-index: 1;
   top: 10px;
   left: 10px;
-  color: aliceblue;
+  color: #0C9FA6;
   font-size: 18px;
 }
 
@@ -213,8 +223,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   width: 400px;
   height: auto;
   padding: 20px;
-  background-color: rgb(255, 255, 255);
-  border-radius: 8px;
+  // background-color: rgb(255, 255, 255);
+  // border-radius: 8px;
   filter: opacity(90%);
 }
 </style>

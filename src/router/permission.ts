@@ -16,15 +16,13 @@ const userStore = useUserStore(pinia)
 const permissionStore = usePermissionStore(pinia)
 
 import { GET_TOKEN } from '@/utils/token'
-import { isNotHttp } from '@/utils/common'
+
 
 //放行的白名单路由
 const whiteList = ['/login', '/register']
 // 全局守卫；项目当中任意路由切换都会触发的钩子
 // 全局前置守卫
 router.beforeEach((to, from, next) => {
-  console.log(to)
-  console.log(from)
   nprogress.start()
   const token = GET_TOKEN()
   if (token) {
@@ -40,17 +38,11 @@ router.beforeEach((to, from, next) => {
         userStore
           .userInfo()
           .then(() => {
-            permissionStore.generateRoutes().then((accessRoutes: any) => {
-              accessRoutes.forEach((route: any) => {
-                console.log(route.path)
-                if (isNotHttp(route.path)) {
-                  router.addRoute(route) // 动态添加可访问路由表
-                }
-              })
+            permissionStore.generateRoutes().then(() => {
               next({ ...to, replace: true })
             })
           })
-          .catch((error) => {
+          .catch(() => {
             userStore.userLogout().then(() => {
               next('/')
             })
@@ -74,3 +66,4 @@ router.beforeEach((to, from, next) => {
 router.afterEach((to: any, from: any) => {
   nprogress.done()
 })
+

@@ -3,11 +3,13 @@ import { defineStore } from 'pinia'
 //导入请求
 import {
   reqRoleList,
+  reqUpInfoRole,
   reqUpStatusRole,
   reqAddRole,
   reqRoleAllList,
   reqSelectUserRoles,
   reqUserRoleList,
+  reqDelRole,
 } from '@/api/role'
 
 //创建角色小仓库
@@ -46,6 +48,24 @@ const roleoleStore = defineStore('role', {
     //添加角色
     async addRole(data: any) {
       const result: any = await reqAddRole(data)
+      if (result.code == 200) {
+        return result
+      } else {
+        return Promise.reject(result.msg)
+      }
+    },
+     //删除角色
+    async deleteRole(data: any) {
+      const result: any = await reqDelRole(data)
+      if (result.code == 200) {
+        return result
+      } else {
+        return Promise.reject(result.msg)
+      }
+    },
+    //修改角色信息
+    async upInfoRole(data: any) {
+      const result: any = await reqUpInfoRole(data)
       if (result.code == 200) {
         return result
       } else {

@@ -18,13 +18,14 @@ body {
 
 
 html {
+
   /* 设置默认主题的滚动条背景颜色 */
   .el-scrollbar {
     --el-scrollbar-bg-color: $base-menu-sunny-background;
   }
   /* 设置卡片的样式 */
   .el-card {
-    --el-card-border-radius: 10px;
+    --el-card-border-radius: 8px;
   }
   /* 设置对话框的标题和内容区域的样式 */
   .el-card__header {
@@ -52,6 +53,15 @@ html {
     background-color: #5b6898;
     color: white;
   }
+  /* 单选框选中的背景颜色 */
+  .el-radio-button__original-radio:checked+.el-radio-button__inner{
+    background-color: #5072e6;
+  }
+  
+  /*分页选中的背景颜色*/
+  .el-pagination.is-background .btn-next.is-active, .el-pagination.is-background .btn-prev.is-active, .el-pagination.is-background .el-pager li.is-active{
+    background-color: #5072e6;
+  }
 
   /* tag 标签的选中颜色 */
   .el-check-tag.is-checked.el-check-tag--primary {
@@ -69,7 +79,7 @@ html {
 
   /* 对话框样式 */
   .el-dialog {
-    border-radius: 15px!important;
+    border-radius: 8px!important;
   }
 
   /* 菜单区域样式 */
@@ -88,10 +98,15 @@ html {
   .el-card {
     opacity: 0.85; /* 设置透明度为 85% */
   }
+  
+  /* 菜单栏选中的文字样式 */
+  .el-menu-item.is-active span{
+    color: black;
+  }
 
   /* 按钮区域样式 */
   .el-button {
-    border-radius: 10px;
+    border-radius: 5px;
   }
 
   /* 主要按钮样式 */
@@ -109,7 +124,6 @@ html {
 
 }
 
-
 html.dark {
   /* 设置深色主题的滚动条背景颜色 */
   .el-scrollbar {
@@ -120,7 +134,14 @@ html.dark {
   .el-card{
     --el-card-border-color: #121212;
     --el-card-bg-color: #121212;
-    --el-card-border-radius: 16px;
+    --el-card-border-radius: 8px;
+  }
+
+  .el-menu-item.is-active span{
+    color: rgb(255, 255, 255);
+  }
+  .el-dropdown span{
+    color: rgb(255, 255, 255);
   }
 }
 

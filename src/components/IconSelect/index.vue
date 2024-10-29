@@ -1,26 +1,18 @@
 <template>
     <el-popover
         placement="top"
-        width="350px"
+        width="390px"
         v-model:visible="showPopover"
         trigger="click">
         <template #reference>
             <div class="iconItem">
-                <el-form-item label="菜单图标" prop="code">
-                    <div v-if="icon" class="icon-container" > 
-                        <SvgIcon :name="icon" />
-                        <span class="colors">{{icon}}</span>
-                    </div>   
-                    <div v-else>
-                        <span>请选择图标</span>
-                    </div> 
-                </el-form-item>
+                <el-input v-model="icon" placeholder="请选择菜单图标" />
             </div>
         </template>
         <div class="search"> 
             <div class="search_input">
                 <el-input 
-                     placeholder="请输入图标名称" 
+                     placeholder="请输入需要搜索的图标名称" 
                     v-model="keyword" 
                     @input="searchKw"
                     @blur="searchKw"
@@ -29,12 +21,12 @@
                 </el-input>
             </div>       
             <div class="search_view">
-                <el-scrollbar height="400px">
+                <el-scrollbar height="300px">
                     <el-row :gutter="10" style="padding-top: 10px;">
-                        <el-col v-for="(item, index) in menuIcons" :key="index" :span="24/3">
-                            <div @click="changeIcons(item)"  class="icon-container icon-select-transition" >
+                        <el-col v-for="(item, index) in menuIcons" :key="index" :span="24/6" class="icon-col">
+                            <div @click="changeIcons(item)"  class="icon-container icon-select-transition">
                                 <SvgIcon :name="item" width="13px" height="13px"/>
-                                <span>{{item}}</span>
+                                <!-- <span>{{item}}</span> -->
                             </div>
                         </el-col>
                     </el-row>
@@ -78,7 +70,16 @@ const changeIcons = ( item: string ) => {
     showPopover.value = false
     emit('selected',icon.value)
 }
- 
+
+
+const clearIconInputValue = () => {
+    icon.value = ''
+};
+
+defineExpose({
+    clearIconInputValue
+})
+
 // 关闭
 const clearIconPpopver = () => {
     keyword.value = ''
@@ -94,14 +95,23 @@ watch([ keyword, ()=>props.icon],( newVal, oldVal ) => {
 },{immediate:true})
 </script>
 <style scoped>
-
+.colors{
+    margin-left: 3px;
+}
+.iconItem{
+    width: 100%;
+    cursor: pointer; /* 设置鼠标指针为手型 */
+}
 
 .icon-container {
   display: flex;
   align-items: center;
-  width: 100%;
+  justify-content: center;
+  margin: 10px;
+  background-color: #c7c7c8;
+  width: 40px;
+  height: 40px;
   cursor: pointer; /* 设置鼠标指针为手型 */
-
 }
 .icon-select-transition{
    transition: all 0.3s ease;
@@ -109,8 +119,7 @@ watch([ keyword, ()=>props.icon],( newVal, oldVal ) => {
 
 .icon-select-transition:hover {
   border-radius: 5%;
-  animation: touchAnimation 0.3s ease;
-  background: linear-gradient(to bottom right, #4CAF50, #81C784);
+  animation: touchAnimation 0.5s ease;
 }
 
 @keyframes touchAnimation {
@@ -118,7 +127,7 @@ watch([ keyword, ()=>props.icon],( newVal, oldVal ) => {
     transform: scale(1);
   }
   50% {
-    transform: scale(1.05);
+    transform: scale(1.15);
   }
   100% {
     transform: scale(1);

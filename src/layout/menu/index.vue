@@ -5,10 +5,11 @@
         <template v-if="item.meta.frame">
           <el-menu-item v-if="item.meta.hidden" @click="toFream(item.path)">
             <template #title>
-              <el-icon>
+              <!-- <el-icon>
                 <component :is="item.meta.icon"></component>
-              </el-icon>
-              {{ item.meta.title }}
+              </el-icon> -->
+              <SvgIcon :name="item.meta.icon" :color="iconColor"/>
+              <span style="margin-left: 5px;">{{ item.meta.title }}</span>
             </template>
           </el-menu-item>
         </template>
@@ -29,11 +30,9 @@
               )
             "
           >
-            <el-icon>
-              <component :is="item.meta.icon"></component>
-            </el-icon>
+          <SvgIcon :name="item.meta.icon"  :color="iconColor"/>
             <template #title>
-              <span>{{ item.meta.title }}</span>
+              <span style="margin-left: 5px;">{{ item.meta.title }}</span>
             </template>
           </el-menu-item>
         </template>
@@ -56,11 +55,9 @@
             )
           "
         >
-          <el-icon>
-            <component :is="item.children[0].meta.icon"></component>
-          </el-icon>
+          <SvgIcon :name="item.children[0].meta.icon"  :color="iconColor"/>
           <template #title>
-            <span>{{ item.children[0].meta.title }}</span>
+            <span  style="margin-left: 5px;">{{ item.children[0].meta.title }}</span>
           </template>
         </el-menu-item>
       </template>
@@ -68,10 +65,8 @@
       <template v-if="item.children && item.children.length > 1">
         <el-sub-menu v-if="item.meta.hidden" :index="item.path">
           <template #title>
-            <el-icon>
-              <component :is="item.meta.icon"></component>
-            </el-icon>
-            <span>{{ item.meta.title }}</span>
+            <SvgIcon :name="item.meta.icon" :color="iconColor"/>
+            <span style="margin-left: 5px;">{{ item.meta.title }}</span>
           </template>
           <Menu :menuList="item.children"></Menu>
         </el-sub-menu>
@@ -82,10 +77,15 @@
 <script setup lang="ts">
 //导入Router
 import { useRouter } from 'vue-router'
-const $router = useRouter()
 //创建Tabs相关的小仓库
 import useTabsStore from '@/store/modules/layout/tabs'
-let TabsStore = useTabsStore()
+//获取设置相关的小仓库
+import useLayoutSettingStore from '@/store/modules/layout/layoutSetting'
+const LayoutSettingStore = useLayoutSettingStore()
+//图标根据主题模式动态切换颜色
+const iconColor = computed(() => LayoutSettingStore.theme? 'black' : 'white');
+const $router = useRouter()
+const TabsStore = useTabsStore()
 //获取父组件传递过来的全部路由数组
 defineProps(['menuList'])
 //外联点击跳转
@@ -99,4 +99,6 @@ export default {
   name: 'Menu',
 }
 </script>
-<style scoped></style>
+<style scoped>
+
+</style>

@@ -12,7 +12,6 @@ const useTabsStore = defineStore('Tabs', {
   actions: {
     //添加Tag
     addTab(tag: Tag, $router: any) {
-      console.log(tag)
       //全部变为未选择灰色
       this.tabNotSelected()
       if (this.exitsTab(tag)) {

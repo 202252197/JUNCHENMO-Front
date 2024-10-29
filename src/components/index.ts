@@ -1,7 +1,8 @@
 import SvgIcon from './SvgIcon/index.vue'
 import IconSelect from './IconSelect/index.vue'
+import Copyright from './Copyright/index.vue'
 import type { App, Component } from 'vue'
-const components: { [name: string]: Component } = { SvgIcon,IconSelect }
+const components: { [name: string]: Component } = { SvgIcon,IconSelect,Copyright }
 //引入element-plus提供全部图标组件
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 export default {

@@ -438,7 +438,10 @@ const deleteItem = (item: any) => {
 }
 //停用用户触发的事件
 const disableItem = (item: any) => {
-  userStore
+  if(item.status==1){
+    ElMessage.warning({ message: '用户已经是停用状态' })
+  }else{
+    userStore
     .upStatusUser(item)
     .then((resp) => {
       searchList(searchform)
@@ -447,9 +450,11 @@ const disableItem = (item: any) => {
     .catch((error) => {
       ElMessage.error({ message: error })
     })
+  }
 }
 //点击添加按钮触发的事件
 const addButtenClick = () => {
+  resetobj(commonform)
   addfromOpenStatus.value = true
 }
 const addItem = (formEl: FormInstance | undefined) => {
@@ -503,11 +508,9 @@ const updatePasswordItem = (formEl: FormInstance | undefined) => {
 //修改用户触发的事件
 const updateInfoButtonClick = (item: any) => {
   updateInfofromOpenStatus.value = true
-  commonform.userId = item.userId
-  commonform.username = item.username
-  commonform.nickname = item.nickname
-  commonform.mobile = item.mobile
-  commonform.email = item.email
+  Object.keys(commonform).forEach((key) => {
+    commonform[key] = item[key];
+  });
 }
 const updateInfoItem = (formEl: FormInstance | undefined) => {
   if (!formEl) return

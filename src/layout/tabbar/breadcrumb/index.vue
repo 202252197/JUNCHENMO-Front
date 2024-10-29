@@ -8,10 +8,11 @@
     <!-- 面包屑动态的展示路由名字与标题 -->
     <transition-group name="breadcrumb">
       <el-breadcrumb-item
-        v-for="(item, index) in $route.matched"
+        v-for="(item, index) in route.matched"
         :key="index"
         v-show="item.meta.title"
         :to="item.path"
+        @click="tabClick(item)"
       >
         <!-- 图标 TODO::不太好看隐藏-->
         <!-- <el-icon>
@@ -25,13 +26,32 @@
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
+//创建用户相关的小仓库
+import type { Tag } from '@/store/modules/types/tabsType'
+//创建Tabs相关的小仓库
+import useTabsStore from '@/store/modules/layout/tabs'
 import useLayoutSettingStore from '@/store/modules/layout/layoutSetting'
 //获取路由对象
-let $route = useRoute()
+const route = useRoute()
+const $router = useRouter()
 //获取layout配置相关的仓库
-let LayoutSettingStore = useLayoutSettingStore()
+const LayoutSettingStore = useLayoutSettingStore()
+
+const TabsStore = useTabsStore()
 const changeIcon = () => {
   LayoutSettingStore.fold = !LayoutSettingStore.fold
+}
+
+
+const tabClick = (item:any) => {
+  const myTag: Tag = {
+    title: '',
+    closable: true,
+    path: item.redirect,
+    checked: false,
+    icon: ''
+  };
+  TabsStore.routerTab(myTag, $router)
 }
 </script>
 <script lang="ts">

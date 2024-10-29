@@ -5,6 +5,7 @@ import type { roleListRep } from './type'
 
 import API_ENUM from '@/enum/api-enum'
 
+//角色模块相关的请求接口
 export const API = {
   //获取全部角色列表
   ROLE_LIST_ALL_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_ROLE}/listAll`,
@@ -13,11 +14,11 @@ export const API = {
   //获取角色列表
   ROLE_LIST_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_ROLE}/list`,
   //添加角色
-  ROLE_ADD_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_ROLE}/`,
+  ROLE_ADD_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_ROLE}`,
   //删除角色
-  ROLE_DEL_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_ROLE}/`,
+  ROLE_DEL_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_ROLE}`,
   //修改角色
-  ROLE_UP_INFO_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_ROLE}/`,
+  ROLE_UP_INFO_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_ROLE}`,
   //修改角色状态
   ROLE_UP_STATUS_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_ROLE}/changeStatus`,
   //选择授权用户的角色
@@ -80,6 +81,19 @@ export const reqDelRole = (userId: any) =>
     method: 'delete',
     url: API.ROLE_DEL_URL + '/' + userId,
   })
+
+/**
+ * 修改角色的基本信息
+ * @param {Object} data - 修改基本信息的数据
+ * @returns {Promise} - 返回一个Promise对象
+ */
+export const reqUpInfoRole = (data: any) =>
+  request<any>({
+    method: 'put',
+    url: API.ROLE_UP_INFO_URL,
+    data,
+})
+
 
 /**
  * 修改角色的状态

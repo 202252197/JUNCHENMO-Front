@@ -7,32 +7,31 @@ import type {
   userInfoReponseData,
   userListRep,
 } from './type'
-enum SERVER_NAME {
-  SYSTEM = '/system',
-  AUTH = '/auth',
-}
+
+import API_ENUM from '@/enum/api-enum'
+
 //项目用户相关的请求地址
-enum API {
+export const API = {
   //获取图像验证码
-  CODE_URL = '/code',
+  CODE_URL: '/code',
   //登录
-  LOGIN_URL = SERVER_NAME.AUTH + '/login',
+  LOGIN_URL: `${API_ENUM.SERVER_NAME.AUTH}/login`,
   //登出
-  LOGOUT_URL = SERVER_NAME.AUTH + '/logout',
+  LOGOUT_URL: `${API_ENUM.SERVER_NAME.AUTH}/logout`,
   //获取用户信息
-  USERINFO_URL = SERVER_NAME.SYSTEM + '/user/getInfo',
+  USERINFO_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_USER}/getInfo`,
   //获取用户列表
-  USER_LIST_URL = SERVER_NAME.SYSTEM + '/user/list',
+  USER_LIST_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_USER}/list`,
   //添加用户
-  USER_ADD_URL = SERVER_NAME.SYSTEM + '/user/',
+  USER_ADD_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_USER}/`,
   //删除用户
-  USER_DEL_URL = SERVER_NAME.SYSTEM + '/user/',
+  USER_DEL_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_USER}/`,
   //修改用户信息
-  USER_UP_INFO_URL = SERVER_NAME.SYSTEM + '/user/',
+  USER_UP_INFO_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_USER}/`,
   //修改用户状态
-  USER_UP_STATUS_URL = SERVER_NAME.SYSTEM + '/user/changeStatus',
+  USER_UP_STATUS_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_USER}/changeStatus`,
   //修改用户密码
-  USER_UP_PASSWORD_URL = SERVER_NAME.SYSTEM + '/user/changePassword',
+  USER_UP_PASSWORD_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_USER}/changePassword`,
 }
 //登录接口
 export const reqCode = () =>

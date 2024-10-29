@@ -4,7 +4,7 @@
     <div
       v-show="!LayoutSettingStore.fold"
       class="selector-disabled"
-      style="color: #4165d7; font-size: 20px"
+      style="color: #0C9FA6; font-size: 20px"
     >
       {{ setting.title }}
     </div>

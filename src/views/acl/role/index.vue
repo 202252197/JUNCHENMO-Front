@@ -154,21 +154,51 @@
         </div>
       </template>
     </el-dialog>
-   
+
+     <!--修改角色弹出框-->
+    <el-dialog v-model="updateInfofromOpenStatus" width="500" :show-close="false">
+      <template #header="{ titleId, titleClass }">
+        <div class="my-header">
+          <h4 :id="titleId" :class="titleClass">新增角色</h4>
+        </div>
+      </template>
+      <el-form
+        :model="commonform"
+        label-width="80"
+        :rules="rules"
+        ref="updateInfoFormRef"
+      >
+        <el-form-item label="角色名称" prop="name">
+          <el-input v-model="commonform.name" autocomplete="off" />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <div style="display: flex; justify-content: center">
+          <el-button @click="addfromOpenStatus = false">取消</el-button>
+          <el-button type="primary" @click="updateInfoItem(updateInfoFormRef)">
+            确认
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { FormInstance, FormRules } from 'element-plus'
+import { resetobj } from '@/utils/common'
 import { isAdminById } from '@/utils/permission'
 import useRoleStore from '@/store/modules/role'
 const roleStore = useRoleStore()
 //添加表单打开的状态
 const addfromOpenStatus = ref(false)
+//修改表单打开的状态
+const updateInfofromOpenStatus = ref(false)
 
 //表单Dom
 const searchFormRef = ref<FormInstance>()
 const addFormRef = ref<FormInstance>()
+const updateInfoFormRef = ref<FormInstance>()
 
 //搜索表单填写的内容
 const searchform = reactive({
@@ -182,7 +212,7 @@ const commonform = reactive({
   roleId: '',
   name: '',
   code: '',
-})
+}) as any
 
 //表格数据
 const dataList = reactive({
@@ -225,8 +255,32 @@ const searchList = (searchData: any) => {
 //进入页面初始化的数据
 searchList(searchform)
 
+//页码变更处理方法
+const handleCurrentChange = (currentPage: number) => {
+  dataList.page = currentPage
+  searchList(searchform)
+}
+//页数切换触发的事件
+const handleSizeChange = (pageSize: number) => {
+  dataList.size = pageSize
+  searchList(searchform)
+}
+//删除角色触发的事件
+const deleteItem = (item: any) => {
+  roleStore
+    .deleteRole(item.roleId)
+    .then(() => {
+      searchList(searchform)
+      ElMessage.success({ message: '删除成功' })
+    })
+    .catch((error) => {
+      ElMessage.error({ message: error })
+    })
+}
+
 //点击添加按钮触发的事件
 const addButtenClick = () => {
+  resetobj(commonform)
   addfromOpenStatus.value = true
 }
 const addItem = (formEl: FormInstance | undefined) => {
@@ -239,6 +293,36 @@ const addItem = (formEl: FormInstance | undefined) => {
           addfromOpenStatus.value = false
           searchList(searchform)
           ElMessage.success({ message: '添加成功' })
+        })
+        .catch((error) => {
+          ElMessage.error({ message: error })
+        })
+    } else {
+      //弹出数据校验失败的message
+      ElMessage.error({ message: '请将信息填写完整' })
+    }
+  })
+}
+
+//修改角色触发的事件
+const updateInfoButtonClick = (item: any) => {
+  updateInfofromOpenStatus.value = true
+  Object.keys(commonform).forEach((key) => {
+      commonform[key] = item[key];
+    })
+}
+
+const updateInfoItem = (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  formEl.validate((valid) => {
+    if (valid) {
+      roleStore
+        .upInfoRole(commonform)
+        .then(() => {
+          updateInfofromOpenStatus.value = false
+          resetobj(commonform)
+          searchList(searchform)
+          ElMessage.success({ message: '信息修改成功' })
         })
         .catch((error) => {
           ElMessage.error({ message: error })
