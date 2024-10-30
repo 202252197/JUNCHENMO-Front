@@ -174,7 +174,36 @@
       </el-form>
       <template #footer>
         <div style="display: flex; justify-content: center">
-          <el-button @click="addfromOpenStatus = false">取消</el-button>
+          <el-button @click="updateInfofromOpenStatus = false">取消</el-button>
+          <el-button type="primary" @click="updateInfoItem(updateInfoFormRef)">
+            确认
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
+
+   <!--分配菜单弹出框-->
+    <el-dialog v-model="allocationMenuFromOpenStatus" width="500" :show-close="false">
+      <template #header="{ titleId, titleClass }">
+        <div class="my-header">
+          <h4 :id="titleId" :class="titleClass">分配菜单</h4>
+        </div>
+      </template>
+      <!-- <el-table
+      :data="tableData"
+      :span-method="objectSpanMethod"
+      border
+      style="width: 100%; margin-top: 20px"
+    >
+      <el-table-column prop="id" label="ID" width="180" />
+      <el-table-column prop="name" label="Name" />
+      <el-table-column prop="amount1" label="Amount 1" />
+      <el-table-column prop="amount2" label="Amount 2" />
+      <el-table-column prop="amount3" label="Amount 3" />
+    </el-table> -->
+      <template #footer>
+        <div style="display: flex; justify-content: center">
+          <el-button @click="updateInfofromOpenStatus = false">取消</el-button>
           <el-button type="primary" @click="updateInfoItem(updateInfoFormRef)">
             确认
           </el-button>
@@ -194,6 +223,8 @@ const roleStore = useRoleStore()
 const addfromOpenStatus = ref(false)
 //修改表单打开的状态
 const updateInfofromOpenStatus = ref(false)
+//分配菜单打开的状态
+const allocationMenuFromOpenStatus = ref<FormInstance>()
 
 //表单Dom
 const searchFormRef = ref<FormInstance>()
@@ -336,15 +367,19 @@ const updateInfoItem = (formEl: FormInstance | undefined) => {
 
 //停用用户触发的事件
 const disableItem = (item: any) => {
-  roleStore
-    .upStatusRole(item)
-    .then((resp) => {
-      searchList(searchform)
-      ElMessage.success({ message: '停用成功' })
-    })
-    .catch((error) => {
-      ElMessage.error({ message: error })
-    })
+  if(item.status==1){
+    ElMessage.warning({ message: '角色已经是停用状态' })
+  }else{
+    roleStore
+      .upStatusRole(item)
+      .then((resp) => {
+        searchList(searchform)
+        ElMessage.success({ message: '停用成功' })
+      })
+      .catch((error) => {
+        ElMessage.error({ message: error })
+      })
+  }
 }
 
 //重置搜索表单

@@ -29,10 +29,8 @@ router.beforeEach((to, from, next) => {
     document.title = `${setting.title} - ${to.meta.title}`
     if (to.path === '/login') {
       next('/')
-      nprogress.done()
     } else if (whiteList.indexOf(to.path) !== -1) {
       next()
-      nprogress.done()
     } else {
       if (userStore.roles.length === 0) {
         userStore
@@ -54,10 +52,8 @@ router.beforeEach((to, from, next) => {
   } else {
     if (whiteList.indexOf(to.path) !== -1) {
       next()
-      nprogress.done()
     } else {
       next(`/login?redirect=${to.fullPath}`)
-      nprogress.done()
     }
   }
 })

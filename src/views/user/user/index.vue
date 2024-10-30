@@ -538,7 +538,7 @@ const updateInfoItem = (formEl: FormInstance | undefined) => {
 const infoButtonClick = () => {}
 
 //点击分配角色触发的事件
-const allocationRoleButtonClick = async (item) => {
+const allocationRoleButtonClick = async (item:any) => {
   // 1. 更新表单信息
   commonform.userId = item.userId
   commonform.username = item.username
@@ -546,7 +546,7 @@ const allocationRoleButtonClick = async (item) => {
 
   try {
     // 2. 获取所有角色
-    const rolesAll = await roleStore.roleAllList()
+    const rolesAll = await roleStore.roleNotDisabledAllList()
     // 3. 获取用户已有的角色
     const userRoles = await roleStore.getUserRoleList(item.userId)
     // 4. 更新角色列表

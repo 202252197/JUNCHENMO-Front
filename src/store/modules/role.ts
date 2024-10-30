@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 //导入请求
 import {
   reqRoleList,
+  reqRoleNotDisabledAllList,
   reqUpInfoRole,
   reqUpStatusRole,
   reqAddRole,
@@ -30,6 +31,15 @@ const roleoleStore = defineStore('role', {
     //获取全部角色列表
     async roleAllList() {
       const result: any = await reqRoleAllList()
+      if (result.code == 200) {
+        return result
+      } else {
+        return Promise.reject(result.msg)
+      }
+    },
+    //获取没有停用的全部角色列表
+    async roleNotDisabledAllList() {
+      const result: any = await reqRoleNotDisabledAllList()
       if (result.code == 200) {
         return result
       } else {

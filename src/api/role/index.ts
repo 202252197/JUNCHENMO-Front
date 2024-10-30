@@ -13,6 +13,8 @@ export const API = {
   USER_ROLES_LIST_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_ROLE}/queryUserRoles`,
   //获取角色列表
   ROLE_LIST_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_ROLE}/list`,
+  //获取没有被禁用的角色列表
+  ROLE_NOT_DISABLED_LIST_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_ROLE}/listNotDisabledAll`,
   //添加角色
   ROLE_ADD_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_ROLE}`,
   //删除角色
@@ -34,6 +36,18 @@ export const reqRoleAllList = () =>
     method: 'get',
     url: API.ROLE_LIST_ALL_URL,
   })
+
+
+/**
+ * 获取没有被禁用的全部角色列表的接口
+ * @returns {Promise} - 返回一个Promise对象
+ */
+export const reqRoleNotDisabledAllList = () =>
+  request<any>({
+    method: 'get',
+    url: API.ROLE_NOT_DISABLED_LIST_URL,
+  })
+
 
 /**
  * 获取用户所拥有的角色列表的接口

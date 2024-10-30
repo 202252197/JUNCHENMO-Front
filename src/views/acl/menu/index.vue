@@ -258,7 +258,7 @@
       <template #footer>
         <el-divider border-style="double" />
         <div style="display: flex; justify-content: center">
-          <el-button @click="addfromOpenStatus = false">取消</el-button>
+          <el-button @click="updateInfofromOpenStatus = false">取消</el-button>
           <el-button type="primary" @click="updateInfoItem(addFormRef)">
             确认
           </el-button>
@@ -328,7 +328,7 @@ const commonform = reactive({
   link: '',
   sort:'',
   permission:'',
-  visible:false,
+  visible:true,
   keepAlive:false,
 }) as any
 //表格数据
@@ -353,6 +353,7 @@ searchList(searchform)
 //点击最上层新增按钮触发的事件
 const addButtenClick = () => {
   clearCommonFrom()
+  getMenuLastSort(0)
   catalogueStatus.value = ( commonform.type == 0)
   treeData = menuStore.getTreeSelectData(dataList.value)
   addfromOpenStatus.value = true
@@ -360,11 +361,7 @@ const addButtenClick = () => {
 //点击数据表格中item新增按钮触发的事件
 const addMenuItemClick = (item: any)=>{
   clearCommonFrom()
-  menuStore
-  .lastSortMenu(item.menuId)
-  .then((resp:any) => {
-    commonform.sort = resp.data
-  })
+  getMenuLastSort(item.menuId)
   if (iconSelectRef.value) {
     iconSelectRef.value.clearIconInputValue();
   }
@@ -373,6 +370,15 @@ const addMenuItemClick = (item: any)=>{
   commonform.parentId = `${item.menuId}`
   catalogueStatus.value = ( commonform.type == 0)
   addfromOpenStatus.value = true
+}
+
+//获取菜单最后的顺序号+100
+const getMenuLastSort=(menuId:any)=>{
+  menuStore
+  .lastSortMenu(menuId)
+  .then((resp:any) => {
+    commonform.sort = resp.data
+  })
 }
 const addItem = (formEl: FormInstance | undefined) => {
   if (!formEl) return
@@ -516,7 +522,7 @@ const clearCommonFrom = ()=>{
     }else if(key=="type"){
       commonform.type = 0;
     }else if(key=="visible"){
-      commonform.visible = false;
+      commonform.visible = true;
     }else if(key=="keepAlive"){
       commonform.keepAlive = false;
     }else{
