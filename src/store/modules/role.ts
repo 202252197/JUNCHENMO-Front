@@ -19,7 +19,7 @@ const roleoleStore = defineStore('role', {
     return {}
   },
   actions: {
-    //获取全部角色列表
+    //获取用户的角色列表
     async getUserRoleList(data: any) {
       const result: any = await reqUserRoleList(data)
       if (result.code == 200) {

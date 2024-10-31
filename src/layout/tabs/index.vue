@@ -21,7 +21,7 @@
                   >
                     <div style="display: flex; align-items: center">
                       <div>
-                        <SvgIcon :name="tag.icon" :color="iconColor"/>
+                        <svg-icon :name="tag.icon" :color="iconColor"/>
                       </div>
                       <div style="margin-left: 3px">
                         <!-- 新增的分隔符 -->
@@ -56,7 +56,7 @@
                       <!-- <el-icon>
                            <component :is="tag.icon"></component>
                         </el-icon> -->
-                        <SvgIcon :name="tag.icon" :color="iconColor"/>
+                        <svg-icon :name="tag.icon" :color="iconColor"/>
                     </div>
                     <div style="margin-left: 3px">
                       <!-- 新增的分隔符 -->

@@ -9,6 +9,9 @@ export const menuIcon = [
   'menu',
   'log',
   'dictData',
-  'dictType'
+  'dictType',
+  '点赞',
+  '链接',
+  'bug'
   //.....
 ]

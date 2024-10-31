@@ -7,7 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    Copyright: typeof import('./src/components/Copyright/index.vue')['default']
+    Copyright: typeof import('./src/components/copyright/index.vue')['default']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
@@ -47,9 +47,9 @@ declare module 'vue' {
     ElTreeSelect: typeof import('element-plus/es')['ElTreeSelect']
     ElWatermark: typeof import('element-plus/es')['ElWatermark']
     GrantTable: typeof import('./src/components/grant-table/index.vue')['default']
-    IconSelect: typeof import('./src/components/IconSelect/index.vue')['default']
+    IconSelect: typeof import('./src/components/icon-select/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    SvgIcon: typeof import('./src/components/SvgIcon/index.vue')['default']
+    SvgIcon: typeof import('./src/components/svg-icon/index.vue')['default']
   }
 }

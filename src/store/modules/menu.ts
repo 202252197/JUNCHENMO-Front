@@ -4,7 +4,7 @@ import router from '@/router'
 import { error404 } from '@/router/routes'
 import { isNotHttp } from '@/utils/common'
 //导入请求
-import { getRouters,reqAddMenu,reqMenuList,reqDelMenu,reqUpInfoMenu,reqLastSortMenu,reqHomeMenuIcon } from '@/api/menu'
+import { getRouters,reqAddMenu,reqMenuList,reqDelMenu,reqUpInfoMenu,reqLastSortMenu,reqHomeMenuIcon,reqRoleMenuList,reqSelectRoleMenus } from '@/api/menu'
 //导入layout组件
 import Layout from '@/layout/index.vue'
 //引入路由（常量路由）
@@ -122,6 +122,24 @@ const usePermissionStore = defineStore('Menu', {
           return Promise.reject(result.msg)
         }
      },
+    //获取角色的菜单列表
+    async getRoleMenuList(data: any) {
+      const result: any = await reqRoleMenuList(data)
+      if (result.code == 200) {
+        return result
+      } else {
+        return Promise.reject(result.msg)
+      }
+    },
+    //分配选择的菜单
+    async selectRoleMenus(userId: any, rolesId: any) {
+      const result: any = await reqSelectRoleMenus(userId, rolesId)
+      if (result.code == 200) {
+        return 'ok'
+      } else {
+        return Promise.reject(result.msg)
+      }
+    },
   },
   getters: {},
 })

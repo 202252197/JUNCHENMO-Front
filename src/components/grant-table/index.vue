@@ -53,137 +53,113 @@
 
 <script lang="ts" setup>
 import useMenuStore from '@/store/modules/menu'
-import { da } from 'element-plus/es/locales.mjs';
 const menuStore = useMenuStore()
 //选中的值数组
 const checkedKeys = ref<Array<number>>([]);
 //菜单数据
 const menuData = ref([] as any)
-const menu={
-            name: '',
-            status: '',
-        }
 
-  // 初始化
-  const init = () => {
-    menuStore
-    .menuList(menu)
-    .then((resp: any) => {
-        menuData.value = resp
-        console.log(menuData.value)
-    })
-    .catch((error) => {
-        ElMessage.error({ message: error })
-    })
-  };
-  init()
 
-  // 获取值
-  const getValue = () => {
-    return checkedKeys.value;
-  };
+// 初始化
+const init = () => {
+  menuStore
+  .menuList({name: '',status: ''})
+  .then((resp: any) => {
+      menuData.value = resp
+      console.log(menuData.value)
+  })
+  .catch((error) => {
+      ElMessage.error({ message: error })
+  })
+};
+init()
+const setValue = (keys:number[]) => {
+  return  checkedKeys.value = keys;
+};
+// 获取值
+const getValue = () => {
+  return checkedKeys.value;
+};
 
-  // 监听级联变化
-  watch(checkedKeys, (after: Array<number>, before: Array<number>) => {
-    const afterLength = after.length;
-    const beforeLength = before.length;
-    if (afterLength > beforeLength) {
-      // 选择 一定是最后一个
-      checkOrUncheckMenu(after[afterLength - 1], true);
-    } else if (afterLength < beforeLength) {
-      // 取消
-      let uncheckedId = null;
-      for (let i = 0; i < afterLength; i++) {
-        if (after[i] !== before[i]) {
-          uncheckedId = before[i];
-          break;
-        }
+defineExpose({ setValue, getValue});
+
+// 监听级联变化
+watch(checkedKeys, (after: Array<number>, before: Array<number>) => {
+  const afterLength = after.length;
+  const beforeLength = before.length;
+  if (afterLength > beforeLength) {
+    // 选择 一定是最后一个
+    checkOrUncheckMenu(after[afterLength - 1], true);
+  } else if (afterLength < beforeLength) {
+    // 取消
+    let uncheckedId = null;
+    for (let i = 0; i < afterLength; i++) {
+      if (after[i] !== before[i]) {
+        uncheckedId = before[i];
+        break;
       }
-      if (uncheckedId == null) {
-        uncheckedId = before[beforeLength - 1];
+    }
+    if (uncheckedId == null) {
+      uncheckedId = before[beforeLength - 1];
+    }
+    checkOrUncheckMenu(uncheckedId, false);
+  }
+});
+
+// 级联选择/取消选择菜单
+const checkOrUncheckMenu = (menuId: number, check: boolean) => {
+  // 获取所在子节点id
+  const childrenId: number[] = getChildMenuIds(menuId, menuData.value);
+  // 获取所在父节点Id
+  // const parentId: number[] = getparentMenuIds(menuId, menuData.value);
+  if(check){
+      //选中
+      checkedKeys.value = [...new Set([...checkedKeys.value, ...childrenId])];
+  }else{
+      // 取消选择
+      checkedKeys.value = checkedKeys.value.filter(s => !childrenId.includes(s));
+  }
+
+};
+  
+
+const getChildMenuIds=(menuId:number, menuData:any)=> {
+  let childMenuIds:Array<number> = [];
+  const recursiveSearch = (id, data) => {
+      for (const menu of data) {
+          if (menu.parentId === id) {
+              childMenuIds.push(menu.menuId);
+              recursiveSearch(menu.menuId, menu.children);
+          }else{
+              recursiveSearch(id, menu.children);
+          }
       }
-      checkOrUncheckMenu(uncheckedId, false);
-    }
-  });
-
-  // 级联选择/取消选择菜单
-  const checkOrUncheckMenu = (menuId: number, check: boolean) => {
-    console.log("测试数据")
-    console.log(menuId+"==="+check)
-    // 获取所在子节点id
-    const childrenId: number[] = getChildMenuIds(menuId, menuData.value);
-    console.log(childrenId)
-    if(check){
-        //选中
-        checkedKeys.value = [...new Set([...checkedKeys.value, ...childrenId])];
-    }else{
-        // 取消选择
-        checkedKeys.value = checkedKeys.value.filter(s => !childrenId.includes(s));
-    }
-    // // 查询当前节点
-    // const node = findNode(id, menuData.value, 'id');
-    // if (!node) {
-    //   return;
-    // }
-    // const childrenId: number[] = [];
-    // // 获取所在子节点id
-    // flatNodeKeys(node.children, childrenId, 'id');
-    // if (check) {
-    //   // 选中
-    //   checkedKeys.value = [...new Set([...checkedKeys.value, ...childrenId])];
-    // } else {
-    //   // 取消选择
-    //   checkedKeys.value = checkedKeys.value.filter(s => !childrenId.includes(s));
-    // }
   };
+  recursiveSearch(menuId, menuData);
+  return childMenuIds;
+}
 
-  const getChildMenuIds=(menuId:number, menuData:any)=> {
-    let childMenuIds:Array<number> = [];
-    const recursiveSearch = (id, data) => {
-        for (const menu of data) {
-            if (menu.parentId === id) {
-                childMenuIds.push(menu.menuId);
-                recursiveSearch(menu.menuId, menu.children);
-            }else{
-                recursiveSearch(id, menu.children);
-            }
-        }
-    };
-    recursiveSearch(menuId, menuData);
-    return childMenuIds;
-    }
-// // 获取所有节点
-// const flatNodes = (nodes:any, result:any) => {
-//   if (!nodes || !nodes.length) {
-//     return;
-//   }
-//   nodes.forEach(s => {
-//     result.push(s);
-//     flatNodes(s.children, result);
-//   });
-// };
+const getparentMenuIds = (menuId: number, menuData: any) => {
+  let parentMenuIds: Array<number> = [];
+  const findAncestor = (id: number, data: any) => {
+      for (const menu of data) {
+          // 找到当前菜单，更新currentMenu并将其menuId加入parentMenuIds
+          if (menu.menuId == id) {
+              parentMenuIds.push(menu.menuId);
+              // 如果父菜单Id不为0，继续向上查找
+              if (menu.parentId!= 0) {
+                  findAncestor(menu.parentId, menuData);
+              }
+          } else {
+              // 在子菜单中继续查找当前id对应的菜单
+              findAncestor(id, menu.children);
+          }
+      }
+  };
+  findAncestor(menuId, menuData);
+  return parentMenuIds;
+}
 
-// // 寻找当前节点
-// const findNode = (key: any,nodes:any, keyName = 'key')  => {
-//   if (!nodes || !nodes.length) {
-//     return undefined as unknown;
-//   }
-//   for (let node of nodes) {
-//     if (node[keyName] === key) {
-//       return node;
-//     }
-//   }
-//   // 寻找子级
-//   for (let node of nodes) {
-//     if (node.children?.length) {
-//       const childrenNode = findNode(key, node.children, keyName);
-//       if (childrenNode) {
-//         return childrenNode;
-//       }
-//     }
-//   }
-//   return undefined as unknown;
-// };
 
 </script>
 

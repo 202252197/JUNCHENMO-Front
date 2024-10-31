@@ -61,7 +61,7 @@
       </template>
 
       <el-table :data="dataList.list" table-layout="auto">
-        <el-table-column type="index" label="序列" width="70" align="center" />
+        <el-table-column prop="userId" label="ID" align="center" />
         <el-table-column prop="username" label="用户名" align="center" />
         <el-table-column prop="nickname" label="昵称" align="center" />
         <el-table-column prop="mobile" label="手机号" align="center" />
@@ -555,7 +555,7 @@ const allocationRoleButtonClick = async (item:any) => {
     // 5. 所有异步操作完成后，更新状态
     allocationRoleFromOpenStatus.value = true
   } catch (error) {
-    console.error('Error during role allocation process:', error)
+    ElMessage.error({ message: error })
     // 根据需要处理错误
   }
 }

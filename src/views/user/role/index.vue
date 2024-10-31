@@ -52,7 +52,7 @@
       </template>
 
       <el-table :data="dataList.list" table-layout="auto">
-        <el-table-column type="index" label="序列" width="70" align="center" />
+        <el-table-column prop="roleId" label="ID" align="center" />
         <el-table-column prop="name" label="角色名称" align="center" />
         <el-table-column prop="code" label="角色编码" align="center" />
         <el-table-column prop="status" label="状态" align="center">
@@ -90,7 +90,7 @@
             <el-button
               size="small"
               type="primary"
-              @click="updateInfoButtonClick(scope.row)"
+              @click="allocationMenuButtonClick(scope.row)"
               :disabled="isAdminById(scope.row.roleId)"
               text
             >
@@ -183,28 +183,17 @@
     </el-dialog>
 
    <!--分配菜单弹出框-->
-    <el-dialog v-model="allocationMenuFromOpenStatus" width="500" :show-close="false">
+    <el-dialog v-model="allocationMenuFromOpenStatus" width="1000" :show-close="false">
       <template #header="{ titleId, titleClass }">
         <div class="my-header">
           <h4 :id="titleId" :class="titleClass">分配菜单</h4>
         </div>
       </template>
-      <!-- <el-table
-      :data="tableData"
-      :span-method="objectSpanMethod"
-      border
-      style="width: 100%; margin-top: 20px"
-    >
-      <el-table-column prop="id" label="ID" width="180" />
-      <el-table-column prop="name" label="Name" />
-      <el-table-column prop="amount1" label="Amount 1" />
-      <el-table-column prop="amount2" label="Amount 2" />
-      <el-table-column prop="amount3" label="Amount 3" />
-    </el-table> -->
+      <grant-table ref="grantTableRef"></grant-table>
       <template #footer>
         <div style="display: flex; justify-content: center">
-          <el-button @click="updateInfofromOpenStatus = false">取消</el-button>
-          <el-button type="primary" @click="updateInfoItem(updateInfoFormRef)">
+          <el-button @click="allocationMenuFromOpenStatus = false">取消</el-button>
+          <el-button type="primary" @click="selectAuthRoleMenus(updateInfoFormRef)">
             确认
           </el-button>
         </div>
@@ -218,19 +207,22 @@ import type { FormInstance, FormRules } from 'element-plus'
 import { resetobj } from '@/utils/common'
 import { isAdminById } from '@/utils/permission'
 import useRoleStore from '@/store/modules/role'
+import useMenuStore from '@/store/modules/menu'
 const roleStore = useRoleStore()
+const menuStore = useMenuStore()
 //添加表单打开的状态
 const addfromOpenStatus = ref(false)
 //修改表单打开的状态
 const updateInfofromOpenStatus = ref(false)
 //分配菜单打开的状态
-const allocationMenuFromOpenStatus = ref<FormInstance>()
+const allocationMenuFromOpenStatus = ref(false)
 
 //表单Dom
 const searchFormRef = ref<FormInstance>()
 const addFormRef = ref<FormInstance>()
 const updateInfoFormRef = ref<FormInstance>()
 
+const grantTableRef = ref(null)
 //搜索表单填写的内容
 const searchform = reactive({
   name: '',
@@ -335,35 +327,40 @@ const addItem = (formEl: FormInstance | undefined) => {
   })
 }
 
-//修改角色触发的事件
-const updateInfoButtonClick = (item: any) => {
-  updateInfofromOpenStatus.value = true
-  Object.keys(commonform).forEach((key) => {
-      commonform[key] = item[key];
-    })
+//分配角色触发的事件
+const allocationMenuButtonClick = (item: any) => {
+  commonform.roleId = item.roleId
+  menuStore
+      .getRoleMenuList(commonform.roleId)
+      .then((resp) => {
+        if(grantTableRef?.value){
+          grantTableRef?.value.setValue(resp.data)
+        }
+        searchList(searchform)
+      })
+      .catch((error) => {
+        ElMessage.error({ message: error })
+      })
+
+  allocationMenuFromOpenStatus.value = true
 }
 
-const updateInfoItem = (formEl: FormInstance | undefined) => {
-  if (!formEl) return
-  formEl.validate((valid) => {
-    if (valid) {
-      roleStore
-        .upInfoRole(commonform)
-        .then(() => {
-          updateInfofromOpenStatus.value = false
-          resetobj(commonform)
-          searchList(searchform)
-          ElMessage.success({ message: '信息修改成功' })
-        })
-        .catch((error) => {
-          ElMessage.error({ message: error })
-        })
-    } else {
-      //弹出数据校验失败的message
-      ElMessage.error({ message: '请将信息填写完整' })
-    }
-  })
+const selectAuthRoleMenus = (formEl: FormInstance | undefined) => {
+  console.log( grantTableRef?.value.getValue())
+  if(grantTableRef?.value){
+    menuStore
+      .selectRoleMenus(commonform.roleId, grantTableRef?.value.getValue())
+      .then(() => {
+        searchList(searchform)
+        ElMessage.success({ message: '分配成功' })
+      })
+      .catch((error) => {
+        ElMessage.error({ message: error })
+      })
+  }
+  allocationMenuFromOpenStatus.value = false
 }
+
 
 //停用用户触发的事件
 const disableItem = (item: any) => {

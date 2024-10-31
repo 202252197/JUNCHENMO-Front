@@ -8,7 +8,7 @@
               <!-- <el-icon>
                 <component :is="item.meta.icon"></component>
               </el-icon> -->
-              <SvgIcon :name="item.meta.icon" :color="iconColor"/>
+              <svg-icon :name="item.meta.icon" :color="iconColor"/>
               <span style="margin-left: 5px;">{{ item.meta.title }}</span>
             </template>
           </el-menu-item>
@@ -30,7 +30,7 @@
               )
             "
           >
-          <SvgIcon :name="item.meta.icon"  :color="iconColor"/>
+          <svg-icon :name="item.meta.icon"  :color="iconColor"/>
             <template #title>
               <span style="margin-left: 5px;">{{ item.meta.title }}</span>
             </template>
@@ -55,7 +55,7 @@
             )
           "
         >
-          <SvgIcon :name="item.children[0].meta.icon"  :color="iconColor"/>
+          <svg-icon :name="item.children[0].meta.icon"  :color="iconColor"/>
           <template #title>
             <span  style="margin-left: 5px;">{{ item.children[0].meta.title }}</span>
           </template>
@@ -65,7 +65,7 @@
       <template v-if="item.children && item.children.length > 1">
         <el-sub-menu v-if="item.meta.hidden" :index="item.path">
           <template #title>
-            <SvgIcon :name="item.meta.icon" :color="iconColor"/>
+            <svg-icon :name="item.meta.icon" :color="iconColor"/>
             <span style="margin-left: 5px;">{{ item.meta.title }}</span>
           </template>
           <Menu :menuList="item.children"></Menu>

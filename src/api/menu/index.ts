@@ -20,6 +20,10 @@ export const API = {
   MENU_LAST_SORT_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_MENU}/getChildLastSort`,
   //动态获取首页的ICON图标
   MENU_HOME_ICON_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_MENU}/getHomeMenuIcon`,
+  //获取用户所拥有的角色列表
+  ROLE_MENUS_LIST_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_MENU}/queryRoleMenus`,
+  //选择授权角色的菜单
+  MENU_SELECT_USER_ROLES: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_MENU}/authRoleMenu/selectAll`,
 }
 
 
@@ -83,3 +87,27 @@ export const reqHomeMenuIcon = () =>
     method: 'get',
     url: API.MENU_HOME_ICON_URL,
 })
+
+/**
+ * 获取角色所拥有的菜单列表的接口
+ * @returns {Promise} - 返回一个Promise对象
+ */
+export const reqRoleMenuList = (roleId: any) =>
+  request<any>({
+    method: 'get',
+    url: API.ROLE_MENUS_LIST_URL + '/' + roleId,
+ })
+
+
+/**
+ * 分配用户选择的菜单
+ * @param {string} roleId - 用户id
+ * @param {Array<string>} menusId - 菜单id的数组
+ * @returns {Promise} - 返回一个Promise对象
+ */
+export const reqSelectRoleMenus = (roleId: any, menusId: any) =>
+  request<any>({
+    method: 'put',
+    url: API.MENU_SELECT_USER_ROLES,
+    data: { roleId: roleId, menusId: menusId },
+  })

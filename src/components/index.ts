@@ -1,6 +1,6 @@
-import SvgIcon from './SvgIcon/index.vue'
-import IconSelect from './IconSelect/index.vue'
-import Copyright from './Copyright/index.vue'
+import SvgIcon from './svg-icon/index.vue'
+import IconSelect from './icon-select/index.vue'
+import Copyright from './copyright/index.vue'
 import GrantTable from './grant-table/index.vue'
 import type { App, Component } from 'vue'
 const components: { [name: string]: Component } = { SvgIcon,IconSelect,Copyright,GrantTable }

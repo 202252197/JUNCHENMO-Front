@@ -25,7 +25,7 @@
                     <el-row :gutter="10" style="padding-top: 10px;">
                         <el-col v-for="(item, index) in menuIcons" :key="index" :span="24/6" class="icon-col">
                             <div @click="changeIcons(item)"  class="icon-container icon-select-transition">
-                                <SvgIcon :name="item" width="18px" height="18px"/>
+                                <svg-icon :name="item" width="18px" height="18px"/>
                                 <!-- <span>{{item}}</span> -->
                             </div>
                         </el-col>

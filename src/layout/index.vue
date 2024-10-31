@@ -64,7 +64,7 @@
         :font="{ color: 'blue' }"
       > -->
       <Main></Main>
-      <Copyright></Copyright>
+      <copyright></copyright>
       <!-- </el-watermark> -->
     </div>
   </div>

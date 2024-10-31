@@ -56,7 +56,7 @@
         <el-table-column prop="name" label="菜单名称" />
         <el-table-column prop="icon" label="图标"  align="center">
           <template #default="scope">
-            <SvgIcon :name="scope.row.icon" :color="iconColor"/>
+            <svg-icon :name="scope.row.icon" :color="iconColor"/>
           </template>
         </el-table-column>
         <el-table-column prop="type" label="类型" align="center">
@@ -91,7 +91,7 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="permission" label="权限标识" align="center"/>
+        <el-table-column prop="permission" label="权限标识"  align="center"/>
         <el-table-column prop="component" label="组件名称"  align="center"/>
         <el-table-column prop="link" label="链接路径"  align="center"/>
        
@@ -159,7 +159,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item  v-show="!featureStatus" label="菜单图标" prop="icon">
-          <IconSelect :icon="commonform.icon" style="width: 100%" ref="iconSelectRef" @selected="selected"/>
+          <icon-select :icon="commonform.icon" style="width: 100%" ref="iconSelectRef" @selected="selected"/>
         </el-form-item>
         <el-form-item  v-show="!featureStatus" label="组件" prop="component">
           <el-input v-model="commonform.component" autocomplete="off" placeholder="路由组件名称"/>
