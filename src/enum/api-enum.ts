@@ -30,6 +30,14 @@ enum SERVER_MODE_NAME {
    * 系统菜单相关接口
    */
   SYSTEM_MENU = '/system/menu',
+   /**
+   * 系统字典项相关接口
+   */
+  SYSTEM_DICT_TYPE = '/system/dict-type',
+   /**
+   * 系统字典值相关接口
+   */
+  SYSTEM_DICT_DATA = '/system/dict-data',
 }
 
 export default {

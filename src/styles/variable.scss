@@ -3,38 +3,32 @@
 //定义项目的主题颜色
 $title-jcm:25px;
 //左侧菜单的宽度
-$base-menu-width:240px;
+$base-menu-width:220px;
 
 //白天
-//左侧菜单的背景颜色
-$base-menu-sunny-background:#ffffff;
-//tabbar的背景颜色
-$base-tabbar-sunny-background:#ffffff;
-//tabs的背景颜色
-$base-tabbar-sunny-tabs-background:#ffffff;
+$base-sunny-color:#ffffff;
 //内容区的背景颜色
 $base-main-sunny-background: #f2f3f5;
+//主题色
+// $base-theme-sunny-color:#1dbea1;
+$base-theme-sunny-color:black;
 
 //黑夜
-$base-color:#121212;
-//左侧菜单的背景颜色
-$base-menu-moon-background:#121212;
-//tabbar的背景颜色
-$base-tabbar-moon-background:#121212;
-//tabs的背景颜色
-$base-tabbar-moon-tabs-background:#121212;
+$base-moon-color:#121212;
 //内容区的背景颜色
-$base-main-moon-background: rgb(0, 0, 0);
+$base-main-moon-background: #000000;
+//主题色
+$base-theme-moon-color:#c02727;
+
 //内容区的内边距
 $base-main-context-padding:20px;
-
 //顶部导航的高度
 $base-tabbar-height:45px;
 //顶部Tabs的高度
-$base-tabs-height:30px;
+$base-tabs-height:45px;
 //左侧菜单logo高度设置
 $base-menu-logo-height:50px;
 
 
 //左侧菜单折叠之后的宽度
-$base-menu-min-width:60px;
+$base-menu-min-width:65px;

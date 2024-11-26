@@ -46,7 +46,7 @@
             <span>用户列表</span>
           </div>
           <div class="card-end">
-            <el-button type="primary" @click="addButtenClick()">新增</el-button>
+            <el-button type="primary" @click="addButtonClick()">新增</el-button>
           </div>
         </div>
       </template>
@@ -84,7 +84,6 @@
               @click="updateInfoButtonClick(scope.row)"
               text
             >
-              
              修改
             </el-button>
             <el-button
@@ -302,7 +301,7 @@ const deleteItem = (item: any) => {
 }
 
 //点击添加按钮触发的事件
-const addButtenClick = () => {
+const addButtonClick = () => {
   resetobj(commonform)
   addfromOpenStatus.value = true
 }
@@ -362,6 +361,35 @@ const selectAuthRoleMenus = (formEl: FormInstance | undefined) => {
 }
 
 
+//修改用户触发的事件
+const updateInfoButtonClick = (item: any) => {
+  updateInfofromOpenStatus.value = true
+  Object.keys(commonform).forEach((key) => {
+    commonform[key] = item[key];
+  });
+}
+const updateInfoItem = (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  formEl.validate((valid) => {
+    if (valid) {
+      roleStore
+        .upInfoRole(commonform)
+        .then(() => {
+          updateInfofromOpenStatus.value = false
+          resetobj(commonform)
+          searchList(searchform)
+          ElMessage.success({ message: '信息修改成功' })
+        })
+        .catch((error) => {
+          ElMessage.error({ message: error })
+        })
+    } else {
+      //弹出数据校验失败的message
+      ElMessage.error({ message: '请将信息填写完整' })
+    }
+  })
+}
+
 //停用用户触发的事件
 const disableItem = (item: any) => {
   if(item.status==1){
@@ -391,9 +419,6 @@ export default {
 }
 </script>
 <style scoped>
-.searchForm .el-form-item {
-  margin-bottom: v-bind(more ? '18px': '0px');
-}
 *{
   font-weight: 900;
 }

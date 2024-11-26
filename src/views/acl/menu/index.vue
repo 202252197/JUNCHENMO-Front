@@ -22,7 +22,7 @@
           </el-form-item>
          
           <div style="margin-left: auto">
-            <el-button type="primary" @click="addButtenClick()">新增</el-button>
+            <el-button type="primary" @click="addButtonClick()">新增</el-button>
             <el-button type="primary" @click="searchList(searchform)">
               搜索
             </el-button>
@@ -351,7 +351,7 @@ const searchList = (searchData: any) => {
 searchList(searchform)
 
 //点击最上层新增按钮触发的事件
-const addButtenClick = () => {
+const addButtonClick = () => {
   clearCommonFrom()
   getMenuLastSort(0)
   catalogueStatus.value = ( commonform.type == 0)

@@ -1,5 +1,5 @@
 <template>
-  <div class="logo" v-if="setting.logoHidden">
+  <div class="logo noselect" v-if="setting.logoHidden">
     <img :src="setting.logo" draggable="false" />
     <div
       v-show="!LayoutSettingStore.fold"
@@ -23,7 +23,7 @@ import setting from '@/setting'
 .logo {
   padding: 10px;
   width: 100%;
-  height: $base-menu-logo-height;
+  height: 40px;
   align-items: center;
   justify-content: center;
   display: flex;

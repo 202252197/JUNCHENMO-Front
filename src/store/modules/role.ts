@@ -14,7 +14,7 @@ import {
 } from '@/api/role'
 
 //创建角色小仓库
-const roleoleStore = defineStore('role', {
+const useRoleStore = defineStore('role', {
   state: () => {
     return {}
   },
@@ -105,4 +105,4 @@ const roleoleStore = defineStore('role', {
 })
 
 //对外暴露获取小仓库的方法
-export default roleoleStore
+export default useRoleStore

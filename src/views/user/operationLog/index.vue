@@ -129,9 +129,7 @@
   }
   </script>
   <style scoped>
-  .searchForm .el-form-item {
-    margin-bottom: v-bind(more ? '18px': '0px');
-  }
+
   *{
     font-weight: 900;
   }

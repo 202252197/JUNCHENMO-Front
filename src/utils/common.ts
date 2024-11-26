@@ -33,7 +33,7 @@ export const getTime = (): TimePeriodEnum => {
 export const resetobj = (obj: any) => {
   for (const key in obj) {
     if (Object.hasOwnProperty.call(obj, key)) {
-      obj[key] = ''
+      obj[key] = undefined
     }
   }
 }

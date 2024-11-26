@@ -22,13 +22,12 @@
               <el-option label="禁用" value="1" />
             </el-select>
           </el-form-item>
-         
-            <el-form-item v-show="more" label="手机号" prop="mobile">
-              <el-input v-model="searchform.mobile" />
-            </el-form-item>
-            <el-form-item  v-show="more" label="邮箱" prop="email">
-              <el-input v-model="searchform.email" />
-            </el-form-item>
+          <el-form-item v-show="more" label="手机号" prop="mobile">
+            <el-input v-model="searchform.mobile" />
+          </el-form-item>
+          <el-form-item v-show="more" label="邮箱" prop="email">
+            <el-input v-model="searchform.email" />
+          </el-form-item>
           <div style="margin-left: auto">
             <el-button type="info" @click="resetSearchForm(searchFormRef)">
               重置
@@ -88,7 +87,7 @@
               :disabled="isAdminById(scope.row.userId)"
               text
             >
-            <span style="font-weight: 900;">停用</span>
+              <span style="font-weight: 900">停用</span>
             </el-button>
             <el-button
               size="small"
@@ -96,7 +95,7 @@
               @click="updateInfoButtonClick(scope.row)"
               text
             >
-            修改
+              修改
             </el-button>
             <el-button
               size="small"
@@ -104,7 +103,7 @@
               @click="handleDelete(scope.$index, scope.row)"
               text
             >
-           详情
+              详情
             </el-button>
             <el-button
               size="small"
@@ -113,7 +112,7 @@
               :disabled="isAdminById(scope.row.userId)"
               text
             >
-            重置密码
+              重置密码
             </el-button>
             <el-button
               size="small"
@@ -122,7 +121,7 @@
               :disabled="isAdminById(scope.row.userId)"
               text
             >
-           分配角色
+              分配角色
             </el-button>
             <el-button
               size="small"
@@ -131,7 +130,7 @@
               :disabled="isAdminById(scope.row.userId)"
               text
             >
-           删除
+              删除
             </el-button>
           </template>
         </el-table-column>
@@ -438,18 +437,18 @@ const deleteItem = (item: any) => {
 }
 //停用用户触发的事件
 const disableItem = (item: any) => {
-  if(item.status==1){
+  if (item.status == 1) {
     ElMessage.warning({ message: '用户已经是停用状态' })
-  }else{
+  } else {
     userStore
-    .upStatusUser(item)
-    .then((resp) => {
-      searchList(searchform)
-      ElMessage.success({ message: '停用成功' })
-    })
-    .catch((error) => {
-      ElMessage.error({ message: error })
-    })
+      .upStatusUser(item)
+      .then((resp) => {
+        searchList(searchform)
+        ElMessage.success({ message: '停用成功' })
+      })
+      .catch((error) => {
+        ElMessage.error({ message: error })
+      })
   }
 }
 //点击添加按钮触发的事件
@@ -509,8 +508,8 @@ const updatePasswordItem = (formEl: FormInstance | undefined) => {
 const updateInfoButtonClick = (item: any) => {
   updateInfofromOpenStatus.value = true
   Object.keys(commonform).forEach((key) => {
-    commonform[key] = item[key];
-  });
+    commonform[key] = item[key]
+  })
 }
 const updateInfoItem = (formEl: FormInstance | undefined) => {
   if (!formEl) return
@@ -538,7 +537,7 @@ const updateInfoItem = (formEl: FormInstance | undefined) => {
 const infoButtonClick = () => {}
 
 //点击分配角色触发的事件
-const allocationRoleButtonClick = async (item:any) => {
+const allocationRoleButtonClick = async (item: any) => {
   // 1. 更新表单信息
   commonform.userId = item.userId
   commonform.username = item.username
@@ -588,7 +587,7 @@ export default {
 .searchForm .el-form-item {
   margin-bottom: v-bind(more ? '18px': '0px');
 }
-*{
+* {
   font-weight: 900;
 }
 </style>

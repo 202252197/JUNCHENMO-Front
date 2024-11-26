@@ -19,6 +19,7 @@
     "@element-plus/icons-vue": "^2.3.1",
     "axios": "^1.6.8",
     "element-plus": "^2.6.2",
+    "monaco-editor": "^0.44.0",
     "nprogress": "^0.2.0",
     "pinia": "^2.1.7",
     "vue": "^3.4.21",

@@ -11,7 +11,7 @@ import Layout from '@/layout/index.vue'
 import { constantRoutes } from '@/router/routes'
 const modules = import.meta.glob('../../views/**/**/*.vue')
 //创建用户小仓库
-const usePermissionStore = defineStore('Menu', {
+const useMenuStore = defineStore('Menu', {
   state: () => {
     return {
       routes: [] as any, //路由树
@@ -150,7 +150,7 @@ function filterAsyncRouter(asyncRouterMap: any) {
   return asyncRouterMap.filter((route: any) => {
     //将缓存的router名称添加进去
     if (route.meta&&route.meta.cache) {
-      usePermissionStore().cacheRouterNames.push(route.name)
+      useMenuStore().cacheRouterNames.push(route.name)
     }
     if (route.component) {
       if (route.component === 'Layout') {
@@ -179,4 +179,4 @@ function dynamicImportComponent(view: any) {
   return res
 }
 //对外暴露获取小仓库的方法
-export default usePermissionStore
+export default useMenuStore

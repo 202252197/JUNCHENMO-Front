@@ -1,6 +1,6 @@
 <template>
   <!-- 顶部左侧静态 -->
-  <el-icon style="margin-right: 10px" @click="changeIcon">
+  <el-icon class="foldwithExpand" @click="changeIcon">
     <component :is="LayoutSettingStore.fold ? 'Fold' : 'Expand'"></component>
   </el-icon>
   <!-- 左侧面包屑 -->
@@ -14,11 +14,10 @@
         :to="item.path"
         @click="tabClick(item)"
       >
-        <!-- 图标 TODO::不太好看隐藏-->
-        <!-- <el-icon>
-        <component :is="item.meta.icon"></component>
-      </el-icon> -->
-        <span style="margin: 0px 5px">{{ item.meta.title }}</span>
+      <div style="display: flex; align-items: center;">
+        <div><svg-icon :name="item.meta.icon" :color="LayoutSettingStore.theme ? 'black' : 'white'"/></div>
+        <div><span style="margin: 0px 5px">{{ item.meta.title }}</span></div>
+      </div>
       </el-breadcrumb-item>
     </transition-group>
   </el-breadcrumb>
@@ -59,4 +58,9 @@ export default {
   name: 'Breadcrumb',
 }
 </script>
-<style lang="scss"></style>
+<style lang="scss" scoped>
+.foldwithExpand{
+  margin-right: 10px;
+  cursor: pointer;
+}
+</style>

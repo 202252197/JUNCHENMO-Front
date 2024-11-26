@@ -1,5 +1,5 @@
 <template>
-    <div class="ivu-global-footer i-copyright" >
+    <div class="ivu-global-footer i-copyright">
        <div class="ivu-global-footer-links">
           <a :href="item.href" target="_blank" v-for="(item,index) in links" :key="index">{{item.title}}</a>
        </div>
@@ -8,8 +8,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
-
 // 定义数据
 const links = ref([
     {
@@ -48,12 +46,9 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
 .ivu-global-footer {
-  /* margin: 48px 0 24px 0; */
-  /* padding: 0 16px; */
-  margin: 5px 0px;
+  padding: 5px;
   text-align: center;
   box-sizing: border-box;
   margin-top: 40px;

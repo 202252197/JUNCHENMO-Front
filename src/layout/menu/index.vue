@@ -1,76 +1,73 @@
 <template>
   <template v-for="item in menuList" :key="item.path">
-      <!-- 没有子路由 -->
-      <template v-if="!item.children">
-        <template v-if="item.meta.frame">
-          <el-menu-item v-if="item.meta.hidden" @click="toFream(item.path)">
-            <template #title>
-              <!-- <el-icon>
-                <component :is="item.meta.icon"></component>
-              </el-icon> -->
+        <!-- 没有子路由 -->
+        <template v-if="!item.children">
+          <template v-if="item.meta.frame">
+            <el-menu-item v-if="item.meta.hidden" @click="toFream(item.path)">
               <svg-icon :name="item.meta.icon" :color="iconColor"/>
-              <span style="margin-left: 5px;">{{ item.meta.title }}</span>
-            </template>
-          </el-menu-item>
+              <template #title>
+                <span style="margin-left: 5px;">{{ item.meta.title }}</span>
+              </template>
+            </el-menu-item>
+          </template>
+          <template v-else>
+            <el-menu-item
+              v-if="item.meta.hidden"
+              :index="item.path"
+              @click="
+                TabsStore.addTab(
+                  {
+                    path: item.path,
+                    closable: true,
+                    title: item.meta.title,
+                    checked: true,
+                    icon: item.meta.icon,
+                  },
+                  $router,
+                )
+              "
+            >
+              <svg-icon :name="item.meta.icon"  :color="iconColor"/>
+              <template #title>
+                <span style="margin-left: 5px;">{{ item.meta.title }}</span>
+              </template>
+            </el-menu-item>
+          </template>
         </template>
-        <template v-else>
+        <!-- 有子路由但是只有一个子路由 -->
+        <template v-if="item.children && item.children.length == 1">
           <el-menu-item
-            v-if="item.meta.hidden"
-            :index="item.path"
+            v-if="item.children[0].meta.hidden"
+            :index="item.children[0].path"
             @click="
               TabsStore.addTab(
                 {
-                  path: item.path,
+                  path: item.children[0].path,
                   closable: true,
-                  title: item.meta.title,
+                  title: item.children[0].meta.title,
                   checked: true,
-                  icon: item.meta.icon,
+                  icon: item.children[0].meta.icon,
                 },
                 $router,
               )
             "
           >
-          <svg-icon :name="item.meta.icon"  :color="iconColor"/>
+            <svg-icon :name="item.children[0].meta.icon"  :color="iconColor"/>
             <template #title>
-              <span style="margin-left: 5px;">{{ item.meta.title }}</span>
+              <span  style="margin-left: 5px;">{{ item.children[0].meta.title }}</span>
             </template>
           </el-menu-item>
         </template>
-      </template>
-      <!-- 有子路由但是只有一个子路由 -->
-      <template v-if="item.children && item.children.length == 1">
-        <el-menu-item
-          v-if="item.children[0].meta.hidden"
-          :index="item.children[0].path"
-          @click="
-            TabsStore.addTab(
-              {
-                path: item.children[0].path,
-                closable: true,
-                title: item.children[0].meta.title,
-                checked: true,
-                icon: item.children[0].meta.icon,
-              },
-              $router,
-            )
-          "
-        >
-          <svg-icon :name="item.children[0].meta.icon"  :color="iconColor"/>
-          <template #title>
-            <span  style="margin-left: 5px;">{{ item.children[0].meta.title }}</span>
-          </template>
-        </el-menu-item>
-      </template>
-      <!-- 有子路由且个数大于一个 -->
-      <template v-if="item.children && item.children.length > 1">
-        <el-sub-menu v-if="item.meta.hidden" :index="item.path">
-          <template #title>
-            <svg-icon :name="item.meta.icon" :color="iconColor"/>
-            <span style="margin-left: 5px;">{{ item.meta.title }}</span>
-          </template>
-          <Menu :menuList="item.children"></Menu>
-        </el-sub-menu>
-      </template>
+        <!-- 有子路由且个数大于一个 -->
+        <template v-if="item.children && item.children.length > 1">
+          <el-sub-menu v-if="item.meta.hidden" :index="item.path">
+            <template #title>
+              <svg-icon :name="item.meta.icon" :color="iconColor"/>
+              <span style="margin-left: 5px;">{{ item.meta.title }}</span>
+            </template>
+            <Menu :menuList="item.children"></Menu>
+          </el-sub-menu>
+        </template>
     </template>
 </template>
 
@@ -95,7 +92,6 @@ const toFream = (path:any) => {
 </script>
 <script lang="ts">
 export default {
-  // eslint-disable-next-line vue/no-reserved-component-names
   name: 'Menu',
 }
 </script>

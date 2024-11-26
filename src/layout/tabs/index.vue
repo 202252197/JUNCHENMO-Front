@@ -1,7 +1,10 @@
 <template>
-  <el-row>
-    <el-col :span="23">
-      <el-scrollbar ref="scrollbarRef" @wheel.prevent="handleScroll">
+  <el-row class="row-tabs" :class="{
+      moon: !LayoutSettingStore.theme,
+      sunny: LayoutSettingStore.theme,
+    }">
+    <el-col :span="23" >
+      <el-scrollbar ref="scrollbarRef"   @wheel.prevent="handleScroll" >
         <!-- 面包屑动态的展示路由名字与标题 -->
         <div class="tabs-jcm">
           <transition-group name="tab">
@@ -53,14 +56,11 @@
                 >
                   <div style="display: flex; align-items: center">
                     <div>
-                      <!-- <el-icon>
-                           <component :is="tag.icon"></component>
-                        </el-icon> -->
-                        <svg-icon :name="tag.icon" :color="iconColor"/>
+                      <svg-icon :name="tag.icon" :color="iconColor"/>
                     </div>
                     <div style="margin-left: 3px">
                       <!-- 新增的分隔符 -->
-                      <span :style="{color:iconColor}">{{ tag.title }}</span>
+                      <span :style="iconColor">{{ tag.title }}</span>
                     </div>
                   </div>
                 </el-check-tag>
@@ -100,16 +100,17 @@
 <script setup lang="ts">
 //导入Router
 import { useRouter, useRoute } from 'vue-router'
+import { ElScrollbar } from 'element-plus'
 //获取设置相关的小仓库
 import useLayoutSettingStore from '@/store/modules/layout/layoutSetting'
 //创建Tabs相关的小仓库
 import useTabsStore from '@/store/modules/layout/tabs'
-let LayoutSettingStore = useLayoutSettingStore()
+const LayoutSettingStore = useLayoutSettingStore()
+const TabsStore = useTabsStore()
 //图标根据主题模式动态切换颜色
 const iconColor = computed(() => LayoutSettingStore.theme? 'black' : 'white');
 const $router = useRouter()
 const route = useRoute()
-let TabsStore = useTabsStore()
 
 const defalutTag: any = ref([
   {
@@ -126,12 +127,13 @@ defalutTag.value.forEach((element: any) => {
 })
 
 //每次滚动左右移动10px
-const scrollbarRef = ref<any>()
+const scrollbarRef = ref()
+  
 let currentPosition = 0
 
 const handleScroll = (e: WheelEvent) => {
   const delta = Math.sign(e.deltaY) // get the direction of the scroll (1 for down, -1 for up)
-  const newPosition = currentPosition + 10 * delta // calculate the new position based on the direction and step size
+  const newPosition = currentPosition + 15 * delta // calculate the new position based on the direction and step size
   if (
     newPosition >= 0 &&
     newPosition <=
@@ -145,28 +147,40 @@ const handleScroll = (e: WheelEvent) => {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .tabs-jcm {
   -ms-overflow-style: none; /* 隐藏 IE 和 Edge 的滚动条 */
   scrollbar-width: none; /* 隐藏 Firefox 的滚动条 */
   height: 100%;
+  padding: 5px;
   align-items: center;
   display: flex;
+}
+.row-tabs {
+  &.moon {
+    background-color:  $base-moon-color;
+    filter: drop-shadow(5px 3px 5px $base-theme-moon-color)  !important;
+  }
+  &.sunny {
+    background-color: $base-sunny-color;
+    filter: drop-shadow(5px 3px 5px $base-theme-sunny-color)  !important;
+  }
 }
 .el-dropdown-jcm {
   height: 100%;
   align-items: center;
+  justify-content: center;
   display: flex;
   flex-direction: column;
 }
 .el-check-tag-jcm {
-  margin-left: 10px;
+  margin-right: 10px;
   display: flex;
   align-items: center;
 }
 .tabs-dropdown-button-jcm {
   background-color: v-bind(
-    'LayoutSettingStore.theme ? "$base-tabbar-sunny-tabs-background" : "$base-tabbar-moon-tabs-background"'
+    'LayoutSettingStore.theme ? "$base-sunny-color" : "$base-moon-color"'
   );
   border: 0px;
 }
@@ -179,7 +193,9 @@ const handleScroll = (e: WheelEvent) => {
   width: auto;
   text-align: center;
 }
-
+.scrollbar-demo-item:nth-child(1){
+  margin-left: 15px;
+}
 /** 隐藏横向滚动条 */
 .el-scrollbar__bar .is-horizontal {
   bottom: 0px;

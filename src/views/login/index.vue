@@ -76,7 +76,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="8" :offset="1">
-                <img :src="codeImg" alt="验证码" @click="getCode" />
+                <img :src="codeImg" alt="验证码" @click="getCode" class="code-img" />
               </el-col>
             </el-row>
             <el-button
@@ -189,6 +189,11 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 </script>
 
 <style scoped lang="scss">
+.code-img{
+  filter: drop-shadow(0px 0px 5px #334de3) !important;
+  border-radius: 5px;
+  cursor: pointer;
+}
 /* 将样式统一设置在一个类中 */
 .form-item {
   margin-bottom: 20px;
