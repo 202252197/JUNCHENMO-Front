@@ -90,7 +90,7 @@ export default {
 /* 给包含el-menu的父div添加样式和动画效果 */
 .layout_slider {
   /* 设置过渡效果，针对宽度、高度和透明度属性进行过渡，过渡时间为0.3秒，过渡效果为ease（先加速后减速） */
-  transition: width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
+  transition: width 0.1s ease, height 0.1s ease, opacity 0.1s ease;
   /* 设置初始透明度为1，表示完全不透明 */
   opacity: 1;
 }

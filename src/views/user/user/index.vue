@@ -71,7 +71,7 @@
               checked
               size="small"
               style="color: aliceblue"
-              :color="scope.row.status === 0 ? '#4165D7' : '#D05344'"
+              :color="scope.row.status === 0 ? 'black' : 'red'"
             >
               {{ scope.row.status === 0 ? '正常' : '停用' }}
             </el-tag>
@@ -323,12 +323,12 @@
 <script setup lang="ts">
 import type { FormInstance, FormRules } from 'element-plus'
 import { isAdminById } from '@/utils/permission'
-import { resetobj } from '@/utils/common'
 //仓库
 import useUserStore from '@/store/modules/user'
 import useRoleStore from '@/store/modules/role'
 const userStore = useUserStore()
 const roleStore = useRoleStore()
+const { proxy } = getCurrentInstance();
 //添加表单打开的状态
 const addfromOpenStatus = ref(false)
 //修改密码表单打开的状态
@@ -453,7 +453,7 @@ const disableItem = (item: any) => {
 }
 //点击添加按钮触发的事件
 const addButtenClick = () => {
-  resetobj(commonform)
+  proxy.$resetObj(commonform)
   addfromOpenStatus.value = true
 }
 const addItem = (formEl: FormInstance | undefined) => {
@@ -464,7 +464,7 @@ const addItem = (formEl: FormInstance | undefined) => {
         .addUser(commonform)
         .then(() => {
           addfromOpenStatus.value = false
-          resetobj(commonform)
+          proxy.$resetObj(commonform)
           searchList(searchform)
           ElMessage.success({ message: '添加成功' })
         })
@@ -519,7 +519,7 @@ const updateInfoItem = (formEl: FormInstance | undefined) => {
         .upInfoUser(commonform)
         .then(() => {
           updateInfofromOpenStatus.value = false
-          resetobj(commonform)
+          proxy.$resetObj(commonform)
           searchList(searchform)
           ElMessage.success({ message: '信息修改成功' })
         })

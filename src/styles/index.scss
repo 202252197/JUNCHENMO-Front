@@ -24,7 +24,14 @@ html {
     --el-scrollbar-bg-color: $base-sunny-color;
   }
 
-
+  .el-tag.el-tag--info {
+    --el-tag-bg-color: #000000;
+    --el-tag-text-color: #ffffff;
+  }
+  .el-tag.el-tag--info:hover {
+    background-color: #666; 
+    cursor: pointer;
+  }
   /* 单选框选中的背景颜色 */
   .el-radio-button__original-radio:checked+.el-radio-button__inner{
     background-color: $base-theme-sunny-color;
@@ -69,8 +76,12 @@ html {
     user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
   }
 
+  .el-card__header{
+    background: $base-sunny-color  !important;
+  }
   .el-card{
-    filter: drop-shadow(-2px 0px 0px $base-theme-sunny-color) !important;
+    border-radius: 8px;
+    filter: drop-shadow(-4px 0px 0px $base-theme-sunny-color) !important;
   }
 
   .el-sub-menu .el-sub-menu__icon-arrow{
@@ -129,12 +140,18 @@ html.dark {
   .el-scrollbar {
     --el-scrollbar-bg-color: $base-moon-color;
   }
+
+  .el-card__header{
+    background: $base-moon-color  !important;
+    filter:drop-shadow(0px 3px 2px $base-theme-moon-color) !important;
+  }
   
   /* 设置深色主题的卡片样式 */
   .el-card{
     --el-card-border-color: #121212;
     --el-card-bg-color: #121212;
     --el-card-border-radius: 8px;
+    filter: drop-shadow(-4px 0px 0px $base-theme-moon-color) !important;
   }
 
   .el-menu-item.is-active span{
@@ -155,6 +172,14 @@ html.dark {
   .el-check-tag{
     color: white;
   }
+  .el-tag.el-tag--info {
+    --el-tag-bg-color: red;
+    --el-tag-text-color: #ffffff;
+  }
+.el-tag.el-tag--info:hover {
+  background-color: #9a0909; 
+  cursor: pointer;
+}
   /* tag 标签的主颜色 */
   .el-check-tag--primary {
     background-color: $base-theme-moon-color;
@@ -198,9 +223,6 @@ html.dark {
   //   background-color: black !important;
   //   filter: drop-shadow(5px 0px 5px $base-theme-moon-color);
   // }
-  .el-card{
-    filter: drop-shadow(-2px 0px 0px $base-theme-moon-color) !important;
-  }
   .el-dialog{
     filter: drop-shadow(0px 0px 5px $base-theme-moon-color);
   }
@@ -256,13 +278,10 @@ html.dark {
   border-radius: 8px!important;
 }
 
-.el-card {
-  opacity: 0.85; /* 设置透明度为 85% */
-}
-
-
 /* 设置卡片的样式 */
 .el-card {
+  opacity: 0.85; /* 设置透明度为 85% */
+  --el-card-padding: 15px !important;; 
   --el-card-border-radius: 8px;
 }
 /* 设置对话框的标题和内容区域的样式 */
@@ -285,3 +304,5 @@ html.dark {
 .el-card__footer {
   border-top: 0;
 }
+
+

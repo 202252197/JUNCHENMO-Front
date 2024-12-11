@@ -64,7 +64,7 @@ export const reqDelMenu = (menuId: any) =>
   request<any>({
     method: 'delete',
     url: API.MENU_DELETE_URL + '/' + menuId,
-  })
+})
 
 //修改菜单的基本信息
 export const reqUpInfoMenu = (data: any) =>

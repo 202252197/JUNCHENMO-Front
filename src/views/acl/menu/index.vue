@@ -77,7 +77,7 @@
               checked
               size="small"
               style="color: aliceblue"
-              :color="scope.row.status === 0 ? '#4165D7' : '#D05344'"
+              :color="scope.row.status === 0 ? 'black' : 'red'"
             >
               {{ scope.row.status === 0 ? '正常' : '禁用 ' }}
             </el-tag>

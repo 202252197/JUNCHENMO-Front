@@ -51,7 +51,7 @@
         <el-table-column prop="description" label="描述" align="center" />
         <el-table-column prop="type" label="类型" align="center">
           <template #default="scope">
-            <el-tag size="small" style="color: aliceblue" :color="getColorByType(scope.row.type)">
+            <el-tag size="small" type="info" style="color:white">
               {{ getStatusByType(scope.row.type) }}
             </el-tag>
           </template>
@@ -59,7 +59,7 @@
         <el-table-column prop="status" label="状态" align="center">
           <template #default="scope">
             <el-tag checked size="small" style="color: aliceblue"
-              :color="scope.row.status === 0 ? '#4165D7' : '#D05344'">
+              :color="scope.row.status === 0 ? '#4165D7' : 'red'">
               {{ scope.row.status === 0 ? '正常' : '停用' }}
             </el-tag>
           </template>
@@ -90,7 +90,7 @@
     </el-card>
 
     <!--新增字典配置项弹出框-->
-    <el-dialog v-model="addfromOpenStatus" width="500" :show-close="false">
+    <el-dialog v-model="fromOpenStatus" width="500" :show-close="false">
       <template #header="{ titleId, titleClass }">
         <div class="my-header">
           <h4 :id="titleId" :class="titleClass">新增字典配置项</h4>
@@ -133,23 +133,21 @@
           </el-form-item>
         </div>
 
-        <el-row :gutter="0" justify="space-evenly">
-          <el-col :span="3"><el-tag type="info">status</el-tag></el-col>
-          <el-col :span="3"><el-tag type="info">color</el-tag></el-col>
-          <el-col :span="3"><el-tag type="info">dissss</el-tag></el-col>
-          <el-col :span="3"><el-tag type="info">Tag 3</el-tag></el-col>
-          <el-col :span="3"><el-tag type="info">Tag 3</el-tag></el-col>
-          <el-col :span="4">
-            <el-button size="small" type="info" @click="addExtraClick()" style="width: 100%;" text>
+        <div class="tag-container">
+          <div class="tag-wrapper" v-for="item in loadDictDataByName('extrasDefaultTag')">
+            <el-tag type="info" class="flex-tag" @click="addExtraClick(item.value,item.type)">{{ item.value }}</el-tag>
+          </div>
+          <div class="button-wrapper">
+            <el-button size="small" type="info" @click="addExtraClick(null,null)" style="width: 100%;" text>
               <svg-icon name="加号" width="18px" height="18px" :color="LayoutSettingStore.theme ? 'black' : 'white'" />
             </el-button>
-          </el-col>
-        </el-row>
+          </div>
+        </div>
 
       </el-form>
       <template #footer>
         <div style="display: flex; justify-content: center">
-          <el-button @click="addfromOpenStatus = false">取消</el-button>
+          <el-button @click="fromOpenStatus = false">取消</el-button>
           <el-button type="primary" @click="addItem(addFormRef)">
             确认
           </el-button>
@@ -165,23 +163,49 @@
 <script setup lang="ts">
 import type { FormInstance, FormRules } from 'element-plus'
 import useDictTypeStore from '@/store/modules/dictType'
-import { resetobj } from '@/utils/common'
+import useDictDataStore from '@/store/modules/dictData'
 //获取设置相关的小仓库
 import useLayoutSettingStore from '@/store/modules/layout/layoutSetting'
 //获取layout配置相关的仓库
 const LayoutSettingStore = useLayoutSettingStore()
+const dictDataStore = useDictDataStore()
 const dictTypeStore = useDictTypeStore()
-
-//添加表单打开的状态
-const addfromOpenStatus = ref(false)
-//查看表单打开的状态
-const viewfromOpenStatus = ref(false)
+const { proxy } = getCurrentInstance();
+//弹出框打开的状态
+const fromOpenStatus = ref(false)
 //表单Dom
 const searchFormRef = ref<FormInstance>()
 const addFormRef = ref<FormInstance>()
 //编辑表单
 const view = ref();
+//字典数据
+let dictData = reactive([]);
 
+onMounted(() => {
+  // 组件已挂载，调用获取数据的方法
+ //进入页面初始化的数据列表
+  searchList(searchform)
+  //进入页面初始化的字典数据
+  loadDictData()
+  
+});
+
+
+const loadDictData = () => {
+  const dictNames = ['extrasDefaultTag']
+  dictDataStore
+    .dictDataInfoList(dictNames)
+    .then((resp) => {
+      dictData=resp.data
+    })
+    .catch((error) => {
+      ElMessage.error({ message: error })
+    })
+}
+
+const loadDictDataByName = (name: string) => {
+   return dictData.filter((item: any) => item.name === name);
+};
 //搜索表单填写的内容
 const searchform = reactive({
   name: undefined,
@@ -194,7 +218,7 @@ const commonform = reactive({
   name: undefined,
   type: undefined,
   description: undefined,
-  extraSchemas: undefined,
+  extraSchema: undefined,
 })
 const extraSchemas = reactive<Array<any>>([]);
 
@@ -231,12 +255,21 @@ const rules = ref<FormRules>({
   ],
 })
 
-const addExtraClick = () => {
-  const newParam = {
-    parameter: undefined,
-    type: '0'
-  };
-  extraSchemas.push(newParam);
+const addExtraClick = (parameter: string, type: number) => {
+    const newParam = {
+      parameter: parameter,
+      type: type
+    };
+    if (parameter && parameter.trim()!== '') {
+        
+        const isDuplicate = extraSchemas.some((item) => item.parameter === parameter);
+        if (!isDuplicate) {
+            extraSchemas.push(newParam);
+        }
+    } else {
+        // 处理 parameter 为空字符串的情况，例如给出提示或进行其他逻辑
+        extraSchemas.push(newParam);
+    }
 };
 
 
@@ -257,8 +290,7 @@ const searchList = (searchData: any) => {
       ElMessage.error({ message: error })
     })
 }
-//进入页面初始化的数据
-searchList(searchform)
+
 
 //页码变更处理方法
 const handleCurrentChange = (currentPage: number) => {
@@ -271,31 +303,32 @@ const handleSizeChange = (pageSize: number) => {
   searchList(searchform)
 }
 
-//删除字典类型触发的事件
-// const deleteItem = (item: any) => {
-//   dictTypeStore
-//     .deleteDictType(item.roleId)
-//     .then(() => {
-//       searchList(searchform)
-//       ElMessage.success({ message: '删除成功' })
-//     })
-//     .catch((error) => {
-//       ElMessage.error({ message: error })
-//     })
-// }
+// 删除字典类型触发的事件
+const deleteItem = (item: any) => {
+  dictTypeStore
+    .deleteDictType(item.dictTypeId)
+    .then(() => {
+      searchList(searchform)
+      ElMessage.success({ message: '删除成功' })
+    })
+    .catch((error) => {
+      ElMessage.error({ message: error })
+    })
+}
 
 //点击添加按钮触发的事件
 const addButtenClick = () => {
-  resetobj(commonform)
+  proxy.$resetObj(commonform)
   extraSchemas.length = 0;
-  addfromOpenStatus.value = true
+  fromOpenStatus.value = true
 }
 const addItem = (formEl: FormInstance | undefined) => {
+  console.log(extraSchemas)
   if (!formEl) return
   // 验证参数
   formEl.validate((valid) => {
     if (valid) {
-      commonform.extraSchemas = extraSchemas
+      commonform.extraSchema = JSON.stringify(extraSchemas) 
       // 验证额外参数
       if (extraSchemas) {
         for (let i = 0; i < extraSchemas.length; i++) {
@@ -315,7 +348,7 @@ const addItem = (formEl: FormInstance | undefined) => {
       dictTypeStore
         .addDictType(commonform)
         .then(() => {
-          addfromOpenStatus.value = false
+          fromOpenStatus.value = false
           searchList(searchform)
           ElMessage.success({ message: '添加成功' })
         })
@@ -329,15 +362,6 @@ const addItem = (formEl: FormInstance | undefined) => {
   })
 }
 
-
-//点击查看按钮触发的事件
-const viewButtonClick = (item: any) => {
-  viewModelTitle.value = item.name + " - " + item.description
-  resetobj(commonform)
-  viewfromOpenStatus.value = true
-
-}
-
 //重置搜索表单
 const resetSearchForm = (ruleFormRef: any) => {
   if (!ruleFormRef) return
@@ -345,23 +369,6 @@ const resetSearchForm = (ruleFormRef: any) => {
 }
 
 
-//获取表格状态转意的字符串和颜色方法
-const getColorByType = (type: any) => {
-  switch (type) {
-    case 0:
-      return '#836FFF';
-    case 1:
-      return '#FF6A6A';
-    case 2:
-      return '#43CD80';
-    case 3:
-      return '#E1B5A5';
-    case 4:
-      return '#E4DCD0';
-    default:
-      return '#999';
-  }
-}
 const getStatusByType = (type: any) => {
   switch (type) {
     case 0:
@@ -388,5 +395,21 @@ export default {
 <style scoped>
 * {
   font-weight: 900;
+}
+.tag-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.tag-wrapper {
+  margin-left:18px; 
+  margin-right: 3px; /* 设置每个标签之间相隔5px */
+  max-width: calc(10 / 9 * 100%); /* 最大el-tag可占用10/7的大小，这里使用calc函数结合百分比设置宽度 */
+}
+.flex-tag {
+  width: auto; /* 让el-tag宽度自适应内容宽度 */
+}
+.button-wrapper {
+  width: calc(10 / 1 * 100%); /* el-button占用10/3的宽度 */
 }
 </style>

@@ -12,6 +12,8 @@ export const API = {
   DICT_TYPE_LIST_ALL_URL : `${API_ENUM.SERVER_MODE_NAME.SYSTEM_DICT_TYPE}/listAll`,
   //添加数据字典
   DICT_TYPE_ADD_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_DICT_TYPE}`,
+  //删除数据字典项
+  DICT_TYPE_DELETE_URL : `${API_ENUM.SERVER_MODE_NAME.SYSTEM_DICT_TYPE}/`,
 }
 
 //获取字典项列表
@@ -40,4 +42,15 @@ export const reqAddDictType = (data: any) =>
     method: 'post',
     url: API.DICT_TYPE_ADD_URL,
     data,
+})
+
+/**
+ * 删除字典项的接口
+ * @param {string} dictTypeId - 字典项id
+ * @returns {Promise} - 返回一个Promise对象
+ */
+export const reqDelDictType = (dictTypeId: any) =>
+  request<any>({
+    method: 'delete',
+    url: API.DICT_TYPE_DELETE_URL + '/' + dictTypeId,
 })

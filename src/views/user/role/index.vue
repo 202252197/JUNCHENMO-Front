@@ -61,7 +61,7 @@
               checked
               size="small"
               style="color: aliceblue"
-              :color="scope.row.status === 0 ? '#4165D7' : '#D05344'"
+              :color="scope.row.status === 0 ? 'black' : 'red'"
             >
               {{ scope.row.status === 0 ? '正常' : '停用' }}
             </el-tag>
@@ -203,12 +203,12 @@
 
 <script setup lang="ts">
 import type { FormInstance, FormRules } from 'element-plus'
-import { resetobj } from '@/utils/common'
 import { isAdminById } from '@/utils/permission'
 import useRoleStore from '@/store/modules/role'
 import useMenuStore from '@/store/modules/menu'
 const roleStore = useRoleStore()
 const menuStore = useMenuStore()
+const { proxy } = getCurrentInstance();
 //添加表单打开的状态
 const addfromOpenStatus = ref(false)
 //修改表单打开的状态
@@ -302,7 +302,7 @@ const deleteItem = (item: any) => {
 
 //点击添加按钮触发的事件
 const addButtonClick = () => {
-  resetobj(commonform)
+  proxy.$resetObj(commonform)
   addfromOpenStatus.value = true
 }
 const addItem = (formEl: FormInstance | undefined) => {

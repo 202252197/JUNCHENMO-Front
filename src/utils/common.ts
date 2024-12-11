@@ -30,11 +30,18 @@ export const getTime = (): TimePeriodEnum => {
 }
 
 //重置对象的所有属性值为空
-export const resetobj = (obj: any) => {
+export function resetObj(obj: any){
   for (const key in obj) {
     if (Object.hasOwnProperty.call(obj, key)) {
       obj[key] = undefined
     }
   }
 }
-
+// utils.js
+export function copyText(text:any) {
+  return navigator.clipboard.writeText(text).then(() => {
+    alert("已复制内容：" + text);
+  }).catch((err) => {
+    console.error("复制失败：", err);
+  });
+}

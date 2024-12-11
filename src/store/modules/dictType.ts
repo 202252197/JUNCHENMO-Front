@@ -2,7 +2,7 @@
 import { defineStore } from 'pinia'
 //导入请求
 import {
-   reqDictTypeList,reqAddDictType,reqDictTypeListAll
+   reqDictTypeList,reqAddDictType,reqDictTypeListAll,reqDelDictType
 } from '@/api/dictType'
 
 //创建角色小仓库
@@ -32,6 +32,15 @@ const useDictTypeStore = defineStore('dictType', {
     //添加字典项
     async addDictType(data: any) {
       const result: any = await reqAddDictType(data)
+      if (result.code == 200) {
+        return result
+      } else {
+        return Promise.reject(result.msg)
+      }
+    },
+    //删除字典项
+    async deleteDictType(data: any) {
+      const result: any = await reqDelDictType(data)
       if (result.code == 200) {
         return result
       } else {

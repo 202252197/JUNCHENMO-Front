@@ -190,8 +190,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 
 <style scoped lang="scss">
 .code-img{
-  filter: drop-shadow(0px 0px 5px #334de3) !important;
-  border-radius: 5px;
+  filter: drop-shadow(0px 0px 3px #334de3) !important;
+  border-radius: 3px;
   cursor: pointer;
 }
 /* 将样式统一设置在一个类中 */

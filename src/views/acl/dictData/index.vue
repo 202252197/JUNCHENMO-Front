@@ -56,6 +56,18 @@
           <el-table-column prop="dictTypeId" label="ID" align="center" />
           <el-table-column prop="name" label="配置项" align="center" />
           <el-table-column prop="value" label="配置值" align="center"/>
+          <el-table-column prop="extra" width="240" label="额外参数" align="center" show-overflow-tooltip>
+            <template #default="scope">
+              <el-tooltip
+                class="box-item"
+                effect="dark"
+                :content="scope.row.extra"
+                placement="top"
+              >
+                {{ scope.row.extra }}
+              </el-tooltip>
+            </template>
+          </el-table-column>
           <el-table-column prop="description" label="配置描述" align="center"/>
           <el-table-column prop="sort" label="排序" align="center"/>
           <el-table-column prop="status" label="状态" align="center">
@@ -121,10 +133,17 @@
           <el-input v-model="commonform.sort" autocomplete="off" placeholder="请输入排序" />
         </el-form-item>
         <!-- 额外参数列表 -->
-        <template v-for="item in selectDictType">
-          <el-form-item :label="item.parameter" prop="sort">
-            <el-input v-model="extraJson[item.dictTypeExtraId]" autocomplete="off" :placeholder="'请输入'+item.parameter" />
-          </el-form-item>
+        <template v-for="item in selectDictTypeExtra">
+          <template v-if="item.type==0||item.type==1||item.type==2">
+            <el-form-item :label="item.parameter" prop="sort">
+              <el-input v-model="extra[item.parameter]" autocomplete="off" :placeholder="'请输入'+item.parameter" />
+            </el-form-item>
+          </template>
+          <template v-if="item.type==3">
+            <el-form-item :label="item.parameter" prop="sort">
+              <el-input v-model="extra[item.parameter]" autocomplete="off" :placeholder="'请输入'+item.parameter" />
+            </el-form-item>
+          </template>
         </template>
         
       </el-form>
@@ -142,9 +161,9 @@
   
   <script setup lang="ts">
   import type { FormInstance} from 'element-plus'
-  import { resetobj } from '@/utils/common'
-  import useDictDataStore from '@/store/modules/dictData'
   import useDictTypeStore from '@/store/modules/dictType'
+  import useDictDataStore from '@/store/modules/dictData'
+  const { proxy } = getCurrentInstance();
   const dictTypeStore = useDictTypeStore()
   const dictDataStore = useDictDataStore()
 
@@ -155,7 +174,6 @@
   //表单Dom
   const searchFormRef = ref<FormInstance>()
 
-  
   //搜索表单填写的内容
   const searchform = reactive({
     name: undefined,
@@ -166,19 +184,36 @@
   
   //新增表单填写的内容
   const commonform = reactive({
+    dictTypeId:undefined,
     name: undefined,
     description: undefined,
     value: undefined,
     sort: undefined,
+    extra: undefined
   })
   //字典和额外参数全部列表
   let dictTypeWithExtra = reactive<Array<any>>([]);
-  //选择的字典的额外参数
-  let selectDictType = ref<[]>([]);
-  
+  //选择的字典的以及额外参数
+  let selectDictTypeExtra = ref<[]>([]);
   //存储额外参数的对象
-  let extraJson= ref<{}>({});
+  let extra= ref<{}>({});
 
+  
+  const addItem = (formEl: FormInstance | undefined) => {
+    commonform.extra=JSON.stringify(extra.value)
+    dictDataStore
+      .addDictData(commonform)
+      .then((resp) => {
+        addfromOpenStatus.value = false
+        searchList(searchform)
+        ElMessage.success({ message: "添加成功" })
+      })
+      .catch((error) => {
+        ElMessage.error({ message: error })
+      })
+    console.log(commonform)
+  }
+  
   //表格数据
   const dataList = reactive({
     list: [],
@@ -186,7 +221,6 @@
     page: 1,
     size: 10,
   })
-  
   
   //根据搜索条件进行搜索
   const searchList = (searchData: any) => {
@@ -202,7 +236,20 @@
   }
   //进入页面初始化的数据
   searchList(searchform)
-  
+  function  ceshi(){
+    console.log("获取数据中")
+    const names = ["tag"]
+    dictDataStore
+      .dictDataInfoList(names)
+      .then((resp) => {
+        console.log(resp)
+        ElMessage.success({ message: "获取成功" })
+      })
+      .catch((error) => {
+        ElMessage.error({ message: error })
+      })
+  }
+  ceshi()
   //页码变更处理方法
   const handleCurrentChange = (currentPage: number) => {
     dataList.page = currentPage
@@ -213,20 +260,35 @@
     dataList.size = pageSize
     searchList(searchform)
   }
+
+  // 删除字典值触发的事件
+const deleteItem = (item: any) => {
+  dictDataStore
+    .deleteDictData(item.dictDataId)
+    .then(() => {
+      searchList(searchform)
+      ElMessage.success({ message: '删除成功' })
+    })
+    .catch((error) => {
+      ElMessage.error({ message: error })
+    })
+}
   
   //更改选择的选择项触发的事件
   const changeSelectDictType = (item:any) => {
-   extraJson.value = {}
-   selectDictType.value=item.typeExtraSchemas;
-    for (let i = 0; i < selectDictType.value.length; i++) {
-        const item = selectDictType.value[i];
-        extraJson.value[item.dictTypeExtraId] = undefined;
+   commonform.dictTypeId=item.dictTypeId
+   let jsonArray = JSON.parse(item.extraSchema)
+   selectDictTypeExtra.value=jsonArray
+   extra.value = {}
+   for (let i = 0; i < jsonArray.length; i++) {
+        const item = jsonArray[i]
+        extra.value[item.parameter] = undefined
     }
   }
   
   //点击添加按钮触发的事件
   const addButtenClick = async() => {
-    resetobj(commonform)
+    proxy.$resetObj(commonform)
     await dictTypeStore
       .dictTypeAllList()
       .then((resp) => {
@@ -236,46 +298,6 @@
     })
     addfromOpenStatus.value = true
   }
-  const addItem = (formEl: FormInstance | undefined) => {
-    console.log(extraJson.value)
-    if (!formEl) return
-    // 验证参数
-    formEl.validate((valid) => {
-      if (valid) {
-        commonform.extraSchemas = extraSchemas
-        // 验证额外参数
-        if (extraSchemas) {
-          for (let i = 0; i < extraSchemas.length; i++) {
-            const extraSchema = extraSchemas[i];
-            // 为空
-            if (!extraSchema.parameter) {
-              ElMessage.warning({ message: '额外参数' + (i + 1) + '不能为空' })
-              return false;
-            }
-            // 不合法
-            if (!new RegExp(/^[a-zA-Z0-9_]{2,32}$/).test(extraSchema.parameter as string)) {
-              ElMessage.warning({ message: '额外参数' + (i + 1) + '配置项需要为 2-32 位的数字,字母或下滑线' })
-              return false;
-            }
-          }
-        }
-        dictTypeStore
-          .addDictType(commonform)
-          .then(() => {
-            addfromOpenStatus.value = false
-            searchList(searchform)
-            ElMessage.success({ message: '添加成功' })
-          })
-          .catch((error) => {
-            ElMessage.error({ message: error })
-          })
-      } else {
-        //弹出数据校验失败的message
-        ElMessage.error({ message: '请将信息填写完整' })
-      }
-    })
-  }
-  
   
   //重置搜索表单
   const resetSearchForm = (ruleFormRef: any) => {
