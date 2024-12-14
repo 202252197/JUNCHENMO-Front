@@ -1,4 +1,4 @@
-export interface user {
+export interface User {
   userId?: number
   username: string
   password?: string
@@ -50,7 +50,7 @@ export interface userInfoReponseData {
   code: number
   permissions: []
   roles: []
-  user: user
+  user: User
 }
 
 //user-list-rep

@@ -25,12 +25,11 @@ html {
   }
 
   .el-tag.el-tag--info {
-    --el-tag-bg-color: #000000;
+    --el-tag-bg-color: #5072e6;
     --el-tag-text-color: #ffffff;
   }
   .el-tag.el-tag--info:hover {
-    background-color: #666; 
-    cursor: pointer;
+    --el-tag-bg-color:#728ce3; 
   }
   /* 单选框选中的背景颜色 */
   .el-radio-button__original-radio:checked+.el-radio-button__inner{
@@ -57,14 +56,14 @@ html {
   .el-check-tag.is-checked.el-check-tag--primary {
     // filter: drop-shadow(-1px 2px 0px #1dbea1) !important;
     filter: drop-shadow(-1px 1px 3px $base-theme-sunny-color) !important;
-    background-color: white;
+    background-color: $base-sunny-color;
     color: black;
   }
   /* tag 标签的选中颜色 */
   .el-check-tag.is-checked.el-check-tag--primary:hover {
     // filter: drop-shadow(-1px 2px 0px #1dbea1) !important;
     filter: drop-shadow(-1px 1px 3px $base-theme-sunny-color) !important;
-    background-color: white;
+    background-color: $base-sunny-color;
     color: white;
   }
   /* 禁止选择文字 */
@@ -78,10 +77,14 @@ html {
 
   .el-card__header{
     background: $base-sunny-color  !important;
+    filter:drop-shadow(0px 3px 2px $base-theme-sunny-color) !important;
   }
   .el-card{
-    border-radius: 8px;
     filter: drop-shadow(-4px 0px 0px $base-theme-sunny-color) !important;
+  }
+  .el-card__footer{
+    background: $base-sunny-color  !important;
+    filter:drop-shadow(0px -3px 2px $base-theme-sunny-color) !important;
   }
 
   .el-sub-menu .el-sub-menu__icon-arrow{
@@ -90,7 +93,7 @@ html {
   /* menu子菜单区域 */
   .el-menu--popup {
     /* 菜单偏上一点 */
-    background-image: linear-gradient(0deg, #ffffff 0%, #4e4e4e 100%);
+    background-image: linear-gradient(0deg, #ffffff 0%, #728ce3 100%);
     padding: 10px 0px !important;
     .el-menu-item {
       color: #333333 !important;
@@ -145,13 +148,17 @@ html.dark {
     background: $base-moon-color  !important;
     filter:drop-shadow(0px 3px 2px $base-theme-moon-color) !important;
   }
-  
+
   /* 设置深色主题的卡片样式 */
   .el-card{
     --el-card-border-color: #121212;
     --el-card-bg-color: #121212;
-    --el-card-border-radius: 8px;
     filter: drop-shadow(-4px 0px 0px $base-theme-moon-color) !important;
+  }
+
+  .el-card__footer{
+    background: $base-moon-color  !important;
+    filter:drop-shadow(0px -3px 2px $base-theme-moon-color) !important;
   }
 
   .el-menu-item.is-active span{
@@ -176,10 +183,9 @@ html.dark {
     --el-tag-bg-color: red;
     --el-tag-text-color: #ffffff;
   }
-.el-tag.el-tag--info:hover {
-  background-color: #9a0909; 
-  cursor: pointer;
-}
+  .el-tag.el-tag--info:hover {
+    --el-tag-bg-color:#9a0909; 
+  }
   /* tag 标签的主颜色 */
   .el-check-tag--primary {
     background-color: $base-theme-moon-color;
@@ -194,7 +200,6 @@ html.dark {
   .el-menu--popup {
     /* 菜单偏上一点 */
     border-radius: 6px !important;
-    // background-image: linear-gradient(0deg, #371b3f 0%, #0a0b0b 100%);
     background-image: linear-gradient(0deg, #693232 0%, #0a0b0b 100%);
     padding: 10px 0px !important;
 
@@ -235,9 +240,12 @@ html.dark {
  
 }
 
+.searchForm .el-form-item {
+  margin-bottom: 0px !important;
+}
 /* 菜单区域样式 */
 .el-menu-item {
-  height: 38px!important;
+  height: 38px !important;
 }
 .el-sub-menu__title {
   border-radius: 8px!important;
@@ -281,8 +289,8 @@ html.dark {
 /* 设置卡片的样式 */
 .el-card {
   opacity: 0.85; /* 设置透明度为 85% */
-  --el-card-padding: 15px !important;; 
-  --el-card-border-radius: 8px;
+  --el-card-padding: 15px !important; 
+  --el-card-border-radius: 15px !important;
 }
 /* 设置对话框的标题和内容区域的样式 */
 .el-card__header {
@@ -305,4 +313,28 @@ html.dark {
   border-top: 0;
 }
 
+/* 设置分页器的样式 */
+.pagination-style {
+  display: flex; 
+  justify-content: center
+}
 
+
+/* 设置弹出窗的样式 */
+.modal-style {
+  display: flex; 
+  justify-content: center
+}
+.card-table-style{
+  margin-top: 20px;
+}
+/* 设置卡片头部的样式 */
+.card-header-style{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.el-tag.el-tag--primary{
+  --el-tag-text-color:aliceblue !important;
+}

@@ -4,7 +4,7 @@ import router from '@/router'
 import { error404 } from '@/router/routes'
 import { isNotHttp } from '@/utils/common'
 //导入请求
-import { getRouters,reqAddMenu,reqMenuList,reqDelMenu,reqUpInfoMenu,reqLastSortMenu,reqHomeMenuIcon,reqRoleMenuList,reqSelectRoleMenus } from '@/api/menu'
+import { getRouters,reqAddMenu,reqMenuList,reqDelMenu,reqUpInfoMenu,reqLastSortMenu,reqHomeMenuIcon,reqRoleMenuList,reqSelectRoleMenus,reqUpStatusMenu} from '@/api/menu'
 //导入layout组件
 import Layout from '@/layout/index.vue'
 //引入路由（常量路由）
@@ -17,6 +17,26 @@ const useMenuStore = defineStore('Menu', {
       routes: [] as any, //路由树
       sidebarRouters: [] as any, //左侧菜单树
       cacheRouterNames: [], //缓存的路由名称需要和组件名一致
+      dataList: [],  //表格数据
+      expandStatus: false, //表格展开状态
+      refreshTable: true, //重新渲染表格状态
+      searchform: {
+        name: '',
+        status: '',
+      },
+      commonform:{
+        menuId:'',
+        parentId: '0',
+        name: '',
+        type: 0,
+        icon: '',
+        component: '',
+        link: '',
+        sort:'',
+        permission:'',
+        visible:true,
+        keepAlive:false,
+      }
     }
   },
   actions: {
@@ -98,6 +118,15 @@ const useMenuStore = defineStore('Menu', {
     //修改用户信息
     async upInfoMenu(data: any) {
       const result: any = await reqUpInfoMenu(data)
+      if (result.code == 200) {
+        return result
+      } else {
+        return Promise.reject(result.msg)
+      }
+    },
+    //修改菜单的状态以及所有子菜单的状态
+    async upStatusMenu(data: any) {
+      const result: any = await reqUpStatusMenu(data)
       if (result.code == 200) {
         return result
       } else {

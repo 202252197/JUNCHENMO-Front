@@ -2,7 +2,7 @@
 import { defineStore } from 'pinia'
 //导入请求
 import {
-   reqDictDataList,reqAddDictData,reqDelDictData,reqDictDataInfoList
+   reqDictDataList,reqAddDictData,reqDelDictData,reqDictDataInfoList,reqDictDataInfo
 } from '@/api/dictData'
 
 //创建角色小仓库
@@ -40,6 +40,14 @@ const useDictDataStore = defineStore('dictData', {
     },
     async dictDataInfoList(names:any) {
       const result: any = await reqDictDataInfoList(names)
+      if (result.code == 200) {
+        return result
+      } else {
+        return Promise.reject(result.msg)
+      }
+    },
+    async dictDataInfo(name:string) {
+      const result: any = await reqDictDataInfo(name)
       if (result.code == 200) {
         return result
       } else {

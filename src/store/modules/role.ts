@@ -16,7 +16,20 @@ import {
 //创建角色小仓库
 const useRoleStore = defineStore('role', {
   state: () => {
-    return {}
+    return {
+      //搜索表单
+      searchform :{
+        name: '',
+        code: '',
+        status: '',
+      },
+      //通用增、改表单
+      commonform:{
+        roleId: '',
+        name: '',
+        code: '',
+      }
+    }
   },
   actions: {
     //获取用户的角色列表

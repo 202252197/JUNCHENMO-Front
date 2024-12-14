@@ -14,7 +14,7 @@ export const API = {
   MENU_ADD_URL : `${API_ENUM.SERVER_MODE_NAME.SYSTEM_MENU}/`,
   //删除菜单
   MENU_DELETE_URL : `${API_ENUM.SERVER_MODE_NAME.SYSTEM_MENU}/`,
-  //修改用户信息
+  //修改菜单信息
   MENU_UP_INFO_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_MENU}/`,
   //获取子菜单的最后sort+100
   MENU_LAST_SORT_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_MENU}/getChildLastSort`,
@@ -24,6 +24,8 @@ export const API = {
   ROLE_MENUS_LIST_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_MENU}/queryRoleMenus`,
   //选择授权角色的菜单
   MENU_SELECT_USER_ROLES: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_MENU}/authRoleMenu/selectAll`,
+  //修改菜单的状态以及所有子菜单的状态
+  MENU_UP_STATUS_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_MENU}/changeStatusWithChildStatus`,
 }
 
 
@@ -111,3 +113,11 @@ export const reqSelectRoleMenus = (roleId: any, menusId: any) =>
     url: API.MENU_SELECT_USER_ROLES,
     data: { roleId: roleId, menusId: menusId },
   })
+
+//修改菜单的状态以及所有子菜单的状态
+export const reqUpStatusMenu = (data: any) =>
+  request<any>({
+    method: 'put',
+    url: API.MENU_UP_STATUS_URL,
+    data,
+})

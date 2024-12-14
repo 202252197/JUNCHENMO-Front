@@ -12,6 +12,8 @@ export const API = {
   DICT_DATA_DELETE_URL : `${API_ENUM.SERVER_MODE_NAME.SYSTEM_DICT_DATA}/`,
   //获取字典数据项详情数据列表
   DICT_DATA_INFO_LIST_URL : `${API_ENUM.SERVER_MODE_NAME.SYSTEM_DICT_DATA}/getInfoByNames`,
+  //获取字典数据项详情数据
+  DICT_DATA_INFO_URL : `${API_ENUM.SERVER_MODE_NAME.SYSTEM_DICT_DATA}/getInfoByName`,
 }
 
 //获取字典值列表
@@ -53,4 +55,11 @@ export const reqDictDataInfoList = (names:any) =>
     method: 'post',
     url: API.DICT_DATA_INFO_LIST_URL,
     data:names
+})
+
+//获取字典项值的数据值和扩展参数
+export const reqDictDataInfo = (name:string) =>
+  request<any>({
+    method: 'get',
+    url: API.DICT_DATA_INFO_URL + '/' + name,
 })

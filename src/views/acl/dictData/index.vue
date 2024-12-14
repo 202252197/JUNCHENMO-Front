@@ -236,20 +236,6 @@
   }
   //进入页面初始化的数据
   searchList(searchform)
-  function  ceshi(){
-    console.log("获取数据中")
-    const names = ["tag"]
-    dictDataStore
-      .dictDataInfoList(names)
-      .then((resp) => {
-        console.log(resp)
-        ElMessage.success({ message: "获取成功" })
-      })
-      .catch((error) => {
-        ElMessage.error({ message: error })
-      })
-  }
-  ceshi()
   //页码变更处理方法
   const handleCurrentChange = (currentPage: number) => {
     dataList.page = currentPage

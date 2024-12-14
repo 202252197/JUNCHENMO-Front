@@ -37,6 +37,7 @@ export function resetObj(obj: any){
     }
   }
 }
+
 // utils.js
 export function copyText(text:any) {
   return navigator.clipboard.writeText(text).then(() => {
