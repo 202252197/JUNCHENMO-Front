@@ -16,8 +16,9 @@
           </el-form-item>
 
           <div style="margin-left: auto">
-            <el-button  :color="LayoutSettingStore.theme?'#5072e6':'red'" @click="menuAddFromModal?.open(undefined)">新增</el-button>
-            <el-button  :color="LayoutSettingStore.theme?'#5072e6':'red'" @click="searchList(menuStore.searchform)">
+            <el-button :color="LayoutSettingStore.theme ? '#5072e6' : 'red'"
+              @click="menuAddFromModal?.open(undefined)">新增</el-button>
+            <el-button :color="LayoutSettingStore.theme ? '#5072e6' : 'red'" @click="searchList(menuStore.searchform)">
               搜索
             </el-button>
             <el-button type="info" @click="resetSearchForm(searchFormRef)">
@@ -27,7 +28,7 @@
               <template v-if="menuStore.expandStatus">收起</template>
               <template v-else>展开</template>
             </el-button>
-            <el-button type="warning" @click="refreshCacheMenu()">
+            <el-button @click="refreshCacheMenu()" :color="LayoutSettingStore.theme ? '#1e56a0' : '#f73859'">
               刷新缓存
             </el-button>
           </div>
@@ -64,12 +65,16 @@
                 <template v-if="scope.row.status === 0">
                   <el-tag checked size="small" :color="LayoutSettingStore.theme ? '#5072e6' : 'red'"
                     class="menu-status-tag">
-                    启用
+                    <el-tooltip class="box-item" effect="dark" content="点击切换状态" placement="top">
+                      启用
+                    </el-tooltip>
                   </el-tag>
                 </template>
                 <template v-if="scope.row.status === 1">
                   <el-tag checked size="small" color="#393e46" class="menu-status-tag">
-                    停用
+                    <el-tooltip class="box-item" effect="dark" content="点击切换状态" placement="top">
+                      停用
+                    </el-tooltip>
                   </el-tag>
                 </template>
               </template>
@@ -88,12 +93,16 @@
                 <template v-if="scope.row.visible">
                   <el-tag checked size="small" :color="LayoutSettingStore.theme ? '#5072e6' : 'red'"
                     class="menu-status-tag menu-status-tag-margin">
-                    显示
+                    <el-tooltip class="box-item" effect="dark" content="点击切换状态" placement="top">
+                      显示
+                    </el-tooltip>
                   </el-tag>
                 </template>
-                <template else>
+                <template v-if="!scope.row.visible">
                   <el-tag checked size="small" color="#393e46" class="menu-status-tag menu-status-tag-margin">
-                    隐藏
+                    <el-tooltip class="box-item" effect="dark" content="点击切换状态" placement="top">
+                      隐藏
+                    </el-tooltip>
                   </el-tag>
                 </template>
               </template>
@@ -106,8 +115,16 @@
             </el-popconfirm>
           </template>
         </el-table-column>
-        <el-table-column prop="permission" label="权限标识" align="center" />
-        <el-table-column prop="component" label="组件名称" align="center" />
+        <el-table-column prop="permission" label="权限标识" align="center" >
+          <template #default="scope">
+            <span @click="instance?.proxy?.$copyText(scope.row.permission)" class="copy-span">{{ scope.row.permission}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="component" label="组件名称" align="center" >
+          <template #default="scope">
+            <span @click="instance?.proxy?.$copyText(scope.row.component)" class="copy-span">{{ scope.row.component}}</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="link" label="链接路径" align="center" />
         <el-table-column prop="remark" label="操作" align="center">
           <template #default="scope">
@@ -127,6 +144,7 @@
     </el-card>
 
 
+    <!--弹出框组件列表-->
     <MenuAddFromModal ref="menuAddFromModal" @refreshData="refreshData"></MenuAddFromModal>
     <MenuUpdateFromModal ref="menuUpdateFromModal" @refreshData="refreshData"></MenuUpdateFromModal>
   </div>
@@ -140,7 +158,7 @@ export default {
 <script lang="ts" setup>
 import type { FormInstance } from 'element-plus'
 import type { FromModal } from '@/utils/commonType'
-
+import type { ComponentInternalInstance } from 'vue'
 //弹出窗
 import MenuAddFromModal from './components/menu-add-from-modal.vue'
 import MenuUpdateFromModal from './components/menu-update-from-modal.vue'
@@ -148,12 +166,12 @@ import MenuUpdateFromModal from './components/menu-update-from-modal.vue'
 import useMenuStore from '@/store/modules/menu'
 import useLayoutSettingStore from '@/store/modules/layout/layoutSetting'
 
+//获取当前组件实例
+const instance: ComponentInternalInstance | null = getCurrentInstance();
 const menuStore = useMenuStore()
 const LayoutSettingStore = useLayoutSettingStore()
 
 onMounted(() => {
-  //此时子组件已经挂载完成，可以安全地访问子组件实例
-  console.log('挂载完成')
   //进入页面初始化的数据
   searchList(menuStore.searchform)
 })
@@ -163,7 +181,6 @@ const searchFormRef = ref<FormInstance>()
 //user弹出窗对象
 const menuAddFromModal = ref<FromModal>()
 const menuUpdateFromModal = ref<FromModal>()
-
 
 
 //根据搜索条件进行搜索
@@ -198,8 +215,6 @@ const iconColor = computed(() => LayoutSettingStore.theme ? 'black' : 'white');
 //点击标签更改状态中的启用/禁用
 const tagUpdateStatusButtonClick = (item: any) => {
   item.status = item.status == 0 ? 1 : 0
-  console.log("测试")
-  console.log(item)
   menuStore
     .upStatusMenu(item)
     .then(() => {

@@ -39,13 +39,14 @@ export const reqAddDictData = (data: any) =>
 
 /**
  * 删除字典值的接口
- * @param {string} dictDataId - 字典值id
+ * @param {string} dictTypeIds - 字典值ids
  * @returns {Promise} - 返回一个Promise对象
  */
-export const reqDelDictData = (dictDataId: any) =>
+export const reqDelDictData = (dictTypeIds: any) =>
   request<any>({
     method: 'delete',
-    url: API.DICT_DATA_DELETE_URL + '/' + dictDataId,
+    url: API.DICT_DATA_DELETE_URL,
+    data: dictTypeIds
 })
 
 

@@ -41,7 +41,7 @@ export function resetObj(obj: any){
 // utils.js
 export function copyText(text:any) {
   return navigator.clipboard.writeText(text).then(() => {
-    alert("已复制内容：" + text);
+    ElMessage.success({ message: text +' 已复制' })
   }).catch((err) => {
     console.error("复制失败：", err);
   });

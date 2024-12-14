@@ -113,7 +113,7 @@
       </el-table>
 
       <template #footer>
-        <div style="display: flex; justify-content: center">
+        <div class="pagination-style">
           <!--分页-->
           <el-pagination
             :page-sizes="[10, 20, 30, 40]"
@@ -156,8 +156,6 @@ const LayoutSettingStore = useLayoutSettingStore()
 
 
 onMounted(() => {
-  //此时子组件已经挂载完成，可以安全地访问子组件实例
-  console.log('挂载完成')
   //进入页面初始化的数据
   searchList(roleStore.searchform)
 })
@@ -214,7 +212,6 @@ const deleteItem = (item: any) => {
       ElMessage.error({ message: error })
     })
 }
-
 
 //停用用户触发的事件
 const disableItem = (item: any) => {

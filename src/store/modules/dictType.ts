@@ -8,7 +8,23 @@ import {
 //创建角色小仓库
 const useDictTypeStore = defineStore('dictType', {
   state: () => {
-    return {}
+    return {
+      dictData:[],//字典数据数组
+      extraSchemas: [], //额外参数[{"parament":"name","type":"string"}]
+      multipleSelection:[], //选的数据列表
+      searchform:{
+        name: undefined,
+        description: undefined,
+        status: undefined,
+      },
+      commonform:{
+        dictTypeId: undefined,
+        name: undefined,
+        type: undefined,
+        description: undefined,
+        extraSchema: undefined,
+      }
+    }
   },
   actions: {
     //获取字典项列表
@@ -57,7 +73,9 @@ const useDictTypeStore = defineStore('dictType', {
       }
     },
   },
-  getters: {},
+  getters: {
+   
+  },
 })
 
 //对外暴露获取小仓库的方法

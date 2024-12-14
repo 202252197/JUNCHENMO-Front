@@ -24,12 +24,24 @@ html {
     --el-scrollbar-bg-color: $base-sunny-color;
   }
 
-  .el-tag.el-tag--info {
+  .el-tag.el-tag--primary {
     --el-tag-bg-color: #5072e6;
     --el-tag-text-color: #ffffff;
   }
-  .el-tag.el-tag--info:hover {
+  .el-tag.el-tag--primary:hover {
     --el-tag-bg-color:#728ce3; 
+  }
+  /* 多选框选择的背景颜色 */
+  .el-checkbox__input.is-checked .el-checkbox__inner {
+    background-color: $base-theme-sunny-color;
+    border-color: #5072e6; 
+  }
+  .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+    background-color: $base-theme-sunny-color;
+    border-color: #5072e6; 
+  }
+  .el-checkbox__inner:hover{
+    border-color: #5072e6;
   }
   /* 单选框选中的背景颜色 */
   .el-radio-button__original-radio:checked+.el-radio-button__inner{
@@ -167,11 +179,22 @@ html.dark {
     margin: 10px;
   }
 
+  /* 多选框选择的背景颜色 */
+  .el-checkbox__input.is-checked .el-checkbox__inner {
+    background-color: $base-theme-moon-color;
+    border-color: #9a0909; 
+  }
+  .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+    background-color: $base-theme-moon-color;
+    border-color: #9a0909; 
+  }
+  .el-checkbox__inner:hover{
+    border-color: #9a0909;
+  }
   /* 单选框选中的背景颜色 */
   .el-radio-button__original-radio:checked+.el-radio-button__inner{
     background-color: $base-theme-moon-color;
   }
-  
   /*分页选中的背景颜色*/
   .el-pagination.is-background .btn-next.is-active, .el-pagination.is-background .btn-prev.is-active, .el-pagination.is-background .el-pager li.is-active{
     background-color: $base-theme-moon-color;
@@ -179,11 +202,11 @@ html.dark {
   .el-check-tag{
     color: white;
   }
-  .el-tag.el-tag--info {
+  .el-tag.el-tag--primary {
     --el-tag-bg-color: red;
     --el-tag-text-color: #ffffff;
   }
-  .el-tag.el-tag--info:hover {
+  .el-tag.el-tag--primary:hover {
     --el-tag-bg-color:#9a0909; 
   }
   /* tag 标签的主颜色 */
@@ -337,4 +360,10 @@ html.dark {
 
 .el-tag.el-tag--primary{
   --el-tag-text-color:aliceblue !important;
+}
+
+.copy-span:hover{
+  text-decoration: underline;
+  color:$base-theme-sunny-color;
+  cursor: pointer;
 }

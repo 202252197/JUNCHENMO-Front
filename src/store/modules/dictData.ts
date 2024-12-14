@@ -8,7 +8,26 @@ import {
 //创建角色小仓库
 const useDictDataStore = defineStore('dictData', {
   state: () => {
-    return {}
+    return {
+      dictTypeWithExtra:[],  //字典和额外参数全部列表
+      selectDictTypeExtra:[],  //选择的字典的以及额外参数
+      extra:{},  //存储额外参数的对象
+      multipleSelection:[], //选的数据列表
+      searchform:{
+        name: undefined,
+        description: undefined,
+        value: undefined,
+        extra: undefined
+      },
+      commonform:{
+        dictTypeId:undefined,
+        name: undefined,
+        description: undefined,
+        value: undefined,
+        sort: undefined,
+        extra: undefined
+      }
+    }
   },
   actions: {
     //获取字典数据列表

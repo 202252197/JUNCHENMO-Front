@@ -8,7 +8,7 @@
       </template>
       <grant-table ref="grantTableRef"></grant-table>
       <template #footer>
-        <div style="display: flex; justify-content: center">
+        <div  class="modal-style">
           <el-button @click="fromOpenStatus = false">取消</el-button>
           <el-button type="primary" @click="selectAuthRoleMenus()">
             确认

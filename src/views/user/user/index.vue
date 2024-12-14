@@ -55,7 +55,11 @@
       </template>
       <el-table :data="dataList.list" table-layout="auto">
         <el-table-column prop="userId" label="ID" align="center" />
-        <el-table-column prop="username" label="用户名" align="center" />
+        <el-table-column prop="username" label="用户名" align="center" >
+          <template #default="scope">
+            <span @click="instance?.proxy?.$copyText(scope.row.username)" class="copy-span">{{ scope.row.username}}</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="nickname" label="昵称" align="center" />
         <el-table-column prop="mobile" label="手机号" align="center" />
         <el-table-column prop="email" label="邮箱" align="center" />
@@ -122,7 +126,7 @@
 <script setup lang="ts">
 import type { FormInstance } from 'element-plus'
 import type { FromModal } from '@/utils/commonType'
-
+import type { ComponentInternalInstance } from 'vue'
 //弹出窗
 import UserAddFromModal from './components/user-add-from-modal.vue'
 import UserUpdateFromModal from './components/user-update-from-modal.vue'
@@ -134,19 +138,19 @@ import useLayoutSettingStore from '@/store/modules/layout/layoutSetting'
 //权限工具类
 import { isAdminById } from '@/utils/permission'
 
+//获取当前组件实例
+const instance: ComponentInternalInstance | null = getCurrentInstance();
 const userStore = useUserStore()
 const LayoutSettingStore = useLayoutSettingStore()
 
 onMounted(() => {
-  //此时子组件已经挂载完成，可以安全地访问子组件实例
-  console.log('挂载完成')
   //进入页面初始化的数据
   searchList(userStore.searchform)
 })
 
 //表单对象
 const searchFormRef = ref<FormInstance>()
-//user弹出窗对象
+//弹出窗对象
 const userAddFromModal = ref<FromModal>()
 const userUpdateFromModal = ref<FromModal>()
 const userRestPasswordFromModal = ref<FromModal>()
