@@ -15,13 +15,19 @@ body {
   /* 设置字体 */
   font-family: "MyCustomFont";
 }
-
+*{
+  font-weight: 600 !important;
+}
 
 html {
 
   /* 设置默认主题的滚动条背景颜色 */
   .el-scrollbar {
     --el-scrollbar-bg-color: $base-sunny-color;
+  }
+
+  .el-checkbox__input.is-checked+.el-checkbox__label{
+    color: $base-theme-sunny-color;
   }
 
   .el-tag.el-tag--primary {
@@ -155,7 +161,9 @@ html.dark {
   .el-scrollbar {
     --el-scrollbar-bg-color: $base-moon-color;
   }
-
+  .el-checkbox__input.is-checked+.el-checkbox__label{
+    color: $base-theme-moon-color;
+  }
   .el-card__header{
     background: $base-moon-color  !important;
     filter:drop-shadow(0px 3px 2px $base-theme-moon-color) !important;

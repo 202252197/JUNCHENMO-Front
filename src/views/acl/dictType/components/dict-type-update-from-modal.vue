@@ -57,7 +57,7 @@
         <template #footer>
             <div  class="modal-style">
                 <el-button @click="fromOpenStatus = false">取消</el-button>
-                <el-button type="primary" @click="updateInfoItem(formRef)">
+                <el-button type="primary" text bg @click="updateInfoItem(formRef)">
                     确认
                 </el-button>
             </div>
@@ -113,11 +113,6 @@ const updateInfoItem = (formEl: FormInstance | undefined) => {
             ElMessage.warning({ message: '额外参数' + (i + 1) + '不能为空' })
             return false;
           }
-          // 不合法
-          if (!new RegExp(/^[a-zA-Z0-9_]{2,32}$/).test(extraSchema.parameter as string)) {
-            ElMessage.warning({ message: '额外参数' + (i + 1) + '配置项需要为 2-32 位的数字,字母或下滑线' })
-            return false;
-          }
         }
       }
       dictTypeStore
@@ -169,9 +164,6 @@ defineExpose({ open });
 </script>
 
 <style scoped>
-* {
-    font-weight: 900;
-}
 .tag-container {
   display: flex;
   justify-content: space-between;

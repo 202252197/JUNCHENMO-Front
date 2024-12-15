@@ -25,23 +25,30 @@
       </el-form-item>
       <!-- 额外参数列表 -->
       <template v-for="item in dictDataStore.selectDictTypeExtra">
-   
         <template v-if="item.type == 0 || item.type == 1 || item.type == 2">
-          <el-form-item :label="item.parameter" prop="sort">
-            <el-input v-model="dictDataStore.extra[item.parameter]" autocomplete="off" :placeholder="'请输入' + item.parameter" />
+          <el-form-item :label="item.parameter">
+            <el-input v-model="dictDataStore.extra[item.parameter]" autocomplete="off"
+              :placeholder="'请输入' + item.parameter" />
           </el-form-item>
         </template>
         <template v-if="item.type == 3">
-          <el-form-item :label="item.parameter" prop="sort">
-            <el-input v-model="dictDataStore.extra[item.parameter]" autocomplete="off" :placeholder="'请输入' + item.parameter" />
+          <el-form-item :label="item.parameter">
+            <el-switch v-model="dictDataStore.extra[item.parameter]" />
+          </el-form-item>
+        </template>
+        <template v-if="item.type == 4">
+          <el-form-item :label="item.parameter">
+            <el-input v-model="dictDataStore.extra[item.parameter]" autocomplete="off"
+              placeholder="请输入颜色" style="width: 91%;"/>
+            <el-color-picker v-model="dictDataStore.extra[item.parameter]"   />
           </el-form-item>
         </template>
       </template>
     </el-form>
     <template #footer>
-      <div style="display: flex; justify-content: center">
+      <div class="modal-style">
         <el-button @click="fromOpenStatus = false">取消</el-button>
-        <el-button type="primary" @click="addItem(formRef)">
+        <el-button type="primary" text bg @click="addItem(formRef)">
           确认
         </el-button>
       </div>
@@ -54,12 +61,11 @@ import type { FormInstance } from 'element-plus'
 import type { ComponentInternalInstance } from 'vue'
 import useLayoutSettingStore from '@/store/modules/layout/layoutSetting'
 import useDictDataStore from '@/store/modules/dictData'
-import useDictTypeStore from '@/store/modules/dictType'
 import { formRules } from '../types/form.rules'
 //仓库
 const LayoutSettingStore = useLayoutSettingStore()
 const dictDataStore = useDictDataStore()
-const dictTypeStore = useDictTypeStore()
+
 //获取当前组件实例
 const instance: ComponentInternalInstance | null = getCurrentInstance();
 //表单对象引用
@@ -72,13 +78,7 @@ const emit = defineEmits(['refreshData']);
 // 打开modal框
 const open = async () => {
   instance?.proxy?.$resetObj(dictDataStore.commonform)
-  await dictTypeStore
-    .dictTypeAllList()
-    .then((resp) => {
-      dictDataStore.dictTypeWithExtra = resp.data
-    }).catch((error) => {
-      ElMessage.error({ message: error })
-    })
+  dictDataStore.selectDictTypeExtra.length = 0
   fromOpenStatus.value = true
 };
 
@@ -105,7 +105,11 @@ const changeSelectDictData = (item: any) => {
   dictDataStore.extra = {}
   for (let i = 0; i < jsonArray.length; i++) {
     const item = jsonArray[i]
-    dictDataStore.extra[item.parameter] = undefined
+    if (item.type == 0 || item.type == 1 || item.type == 2 || item.type == 4) {
+      dictDataStore.extra[item.parameter] = undefined
+    } else if (item.type == 3) {
+      dictDataStore.extra[item.parameter] = false
+    } 
   }
 }
 
@@ -114,10 +118,6 @@ defineExpose({ open });
 </script>
 
 <style scoped>
-* {
-  font-weight: 900;
-}
-
 .tag-container {
   display: flex;
   justify-content: space-between;

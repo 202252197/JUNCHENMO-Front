@@ -52,7 +52,8 @@
         </div>
       </template>
 
-      <el-table :data="dataList.list" table-layout="auto">
+      <el-table :data="dataList.list" table-layout="auto" @selection-change="handleSelectionChange">
+        <el-table-column type="selection"  width="55" />
         <el-table-column prop="roleId" label="ID" align="center" />
         <el-table-column prop="name" label="角色名称" align="center" />
         <el-table-column prop="code" label="角色编码" align="center" />
@@ -198,6 +199,11 @@ const handleCurrentChange = (currentPage: number) => {
 const handleSizeChange = (pageSize: number) => {
   dataList.size = pageSize
   searchList(roleStore.searchform)
+}
+
+//选中数据触发的事件
+const handleSelectionChange = (val: []) => {
+  useRoleStore.multipleSelection = val
 }
 
 //删除角色触发的事件

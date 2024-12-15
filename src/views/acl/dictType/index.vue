@@ -277,7 +277,4 @@ export default {
 }
 </script>
 <style scoped>
-* {
-  font-weight: 900;
-}
 </style>

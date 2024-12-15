@@ -40,7 +40,7 @@
           <el-button @click="fromOpenStatus = false">
             取消
           </el-button>
-          <el-button type="primary" @click="selectAuthUserRoles()">
+          <el-button type="primary" text bg @click="selectAuthUserRoles()">
             确认
           </el-button>
         </div>
@@ -79,8 +79,8 @@ const open = async (item: any) => {
   userStore.commonform.username = item.username
   userStore.commonform.nickname = item.nickname
   try {
-    // 2. 获取所有角色
-    const rolesAll = await roleStore.roleNotDisabledAllList()
+    // 2. 获取所有启用的角色选项
+    const rolesAll = await roleStore.roleOptionSelect()
     // 3. 获取用户已有的角色
     const userRoles = await roleStore.getUserRoleList(item.userId)
     // 4. 更新角色列表
@@ -112,7 +112,4 @@ defineExpose({ open });
 </script>
 
 <style scoped>
-* {
-  font-weight: 900;
-}
 </style>

@@ -3,11 +3,10 @@ import { defineStore } from 'pinia'
 //导入请求
 import {
   reqRoleList,
-  reqRoleNotDisabledAllList,
+  reqRoleOptionSelect,
   reqUpInfoRole,
   reqUpStatusRole,
   reqAddRole,
-  reqRoleAllList,
   reqSelectUserRoles,
   reqUserRoleList,
   reqDelRole,
@@ -17,6 +16,7 @@ import {
 const useRoleStore = defineStore('role', {
   state: () => {
     return {
+      multipleSelection:[], //选的数据列表
       //搜索表单
       searchform :{
         name: '',
@@ -41,18 +41,9 @@ const useRoleStore = defineStore('role', {
         return Promise.reject(result.msg)
       }
     },
-    //获取全部角色列表
-    async roleAllList() {
-      const result: any = await reqRoleAllList()
-      if (result.code == 200) {
-        return result
-      } else {
-        return Promise.reject(result.msg)
-      }
-    },
-    //获取没有停用的全部角色列表
-    async roleNotDisabledAllList() {
-      const result: any = await reqRoleNotDisabledAllList()
+    //获取所有启用的角色
+    async roleOptionSelect() {
+      const result: any = await reqRoleOptionSelect()
       if (result.code == 200) {
         return result
       } else {

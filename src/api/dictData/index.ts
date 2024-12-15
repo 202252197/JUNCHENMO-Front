@@ -6,10 +6,12 @@ import API_ENUM from '@/enum/api-enum'
 export const API = {
   //获取数据字典值列表
   DICT_DATA_LIST_URL : `${API_ENUM.SERVER_MODE_NAME.SYSTEM_DICT_DATA}/list`,
-  //添加数据字典
+  //添加数据字典值
   DICT_DATA_ADD_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_DICT_DATA}`,
   //删除数据字典值
   DICT_DATA_DELETE_URL : `${API_ENUM.SERVER_MODE_NAME.SYSTEM_DICT_DATA}/`,
+  //修改数据字典值信息
+  DICT_DATA_UP_INFO_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_DICT_DATA}/`,
   //获取字典数据项详情数据列表
   DICT_DATA_INFO_LIST_URL : `${API_ENUM.SERVER_MODE_NAME.SYSTEM_DICT_DATA}/getInfoByNames`,
   //获取字典数据项详情数据
@@ -63,4 +65,12 @@ export const reqDictDataInfo = (name:string) =>
   request<any>({
     method: 'get',
     url: API.DICT_DATA_INFO_URL + '/' + name,
+})
+
+//修改菜单的基本信息
+export const reqUpInfoDictData = (data: any) =>
+  request<any>({
+    method: 'put',
+    url: API.DICT_DATA_UP_INFO_URL,
+    data,
 })

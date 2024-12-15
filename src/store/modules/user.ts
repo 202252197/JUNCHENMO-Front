@@ -156,6 +156,10 @@ const useUserStore = defineStore('User', {
     getUserNameTextFirst(): string {
       return this.user.username?.charAt(0) as string
     },
+    //获取主题颜色
+    getThemeColor:(state)=> {
+      return (themeStatus:boolean) => themeStatus? '#5072e6' :'red';
+    },
   },
 })
 

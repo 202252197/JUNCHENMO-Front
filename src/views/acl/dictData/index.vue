@@ -16,7 +16,7 @@
           <el-form-item v-show="more" label="配置参数" prop="extra">
             <el-input v-model="dictDataStore.searchform.extra" />
           </el-form-item>
-          <div style="margin-left: auto">
+          <div style="margin-left: auto" class="ceshi">
             <el-button type="info" @click="resetSearchForm(searchFormRef)">
               重置
             </el-button>
@@ -84,7 +84,7 @@
         </el-table-column>
         <el-table-column align="center" label="操作" fixed="right">
           <template #default="scope">
-            <el-button size="small" type="primary" @click="updateInfoButtonClick(scope.row)" text>
+            <el-button size="small" type="primary" @click="dictDataUpdateFromModal?.open(scope.row)" text>
               修改
             </el-button>
             <el-button size="small" type="danger" @click="deleteItem(scope.row)" text>
@@ -106,6 +106,7 @@
 
   <!--弹出框组件列表-->
   <DictDataAddFromModal  ref="dictDataAddFromModal" @refreshData="refreshData"></DictDataAddFromModal>
+  <DictDataUpdateFromModal  ref="dictDataUpdateFromModal" @refreshData="refreshData"></DictDataUpdateFromModal>
   </div>
 </template>
 
@@ -115,22 +116,28 @@ import type { FromModal } from '@/utils/commonType'
 
 //弹出窗
 import DictDataAddFromModal from './components/dict-data-add-from-modal.vue'
+import DictDataUpdateFromModal from './components/dict-data-update-from-modal.vue'
 //仓库
 import useDictDataStore from '@/store/modules/dictData'
+import useDictTypeStore from '@/store/modules/dictType'
 import useLayoutSettingStore from '@/store/modules/layout/layoutSetting'
 
 const dictDataStore = useDictDataStore()
+const dictTypeStore = useDictTypeStore()
 const LayoutSettingStore = useLayoutSettingStore()
 
 onMounted(() => {
   //进入页面初始化的数据
   searchList(dictDataStore.searchform)
+  //加载字典类型选项的数据
+  loadDictTypeSelect()
 });
 
 //表单对象
 const searchFormRef = ref<FormInstance>()
 //弹出窗对象
 const dictDataAddFromModal = ref<FromModal>()
+const dictDataUpdateFromModal = ref<FromModal>()
 //更多按钮状态
 const more = ref(false)
 
@@ -200,6 +207,16 @@ const deleteItems = () => {
     })
 }
 
+//加载字典类型选项的数据
+const loadDictTypeSelect=()=>{
+  dictTypeStore
+    .dictTypeAllList()
+    .then((resp) => {
+      dictDataStore.dictTypeWithExtra = resp.data
+    }).catch((error) => {
+      ElMessage.error({ message: error })
+    })
+}
 
 //提供给子组件刷新数据的方法
 const refreshData = () => {
@@ -220,7 +237,10 @@ export default {
 </script>
 <style scoped>
 .searchForm .el-form-item {
-  margin-bottom: v-bind(more ? '18px' : '5px');
+  margin-bottom: v-bind(more ? '18px' : '0px') !important;
+}
+.ceshi{
+  height: 30px;
 }
 * {
   font-weight: 900;

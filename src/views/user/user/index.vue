@@ -241,8 +241,4 @@ export default {
 .searchForm .el-form-item {
   margin-bottom: v-bind(more ? '18px' : '0px') !important;
 }
-
-* {
-  font-weight: 900;
-}
 </style>

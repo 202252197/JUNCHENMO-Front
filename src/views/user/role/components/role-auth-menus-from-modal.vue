@@ -10,7 +10,7 @@
       <template #footer>
         <div  class="modal-style">
           <el-button @click="fromOpenStatus = false">取消</el-button>
-          <el-button type="primary" @click="selectAuthRoleMenus()">
+          <el-button type="primary" text bg @click="selectAuthRoleMenus()">
             确认
           </el-button>
         </div>
@@ -66,8 +66,5 @@
   </script>
   
   <style scoped>
-  * {
-    font-weight: 900;
-  }
   </style>
   

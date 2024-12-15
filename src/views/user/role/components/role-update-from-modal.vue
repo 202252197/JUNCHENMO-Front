@@ -19,7 +19,7 @@
       <template #footer>
         <div  class="modal-style">
           <el-button @click="fromOpenStatus = false">取消</el-button>
-          <el-button type="primary" @click="updateInfoItem(formRef)">
+          <el-button type="primary" text bg @click="updateInfoItem(formRef)">
             确认
           </el-button>
         </div>
@@ -80,7 +80,4 @@ defineExpose({ open });
 </script>
 
 <style scoped>
-* {
-  font-weight: 900;
-}
 </style>
