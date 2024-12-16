@@ -22,6 +22,7 @@ import {
   reqUpStatusUser,
   reqUpPasswordUser,
   reqUpInfoUser,
+  reqAuthRole
 } from '@/api/user'
 
 //创建用户小仓库
@@ -40,13 +41,13 @@ const useUserStore = defineStore('User', {
         mobile: '',
         email: '',
       },
-      searchform:{
+      searchform: {
         username: '',
         nickname: '',
         status: '',
         mobile: '',
         email: '',
-      }
+      },
     }
   },
   actions: {
@@ -150,6 +151,16 @@ const useUserStore = defineStore('User', {
         return Promise.reject(result.msg)
       }
     },
+    //分配选择的角色
+    async authRoleUser(userId: any, rolesId: any) {
+      const rIds = rolesId.join(",");
+      const result: any = await reqAuthRole({ userId: userId, roleIds: rIds })
+      if (result.code == 200) {
+        return 'ok'
+      } else {
+        return Promise.reject(result.msg)
+      }
+    },
   },
   getters: {
     //获取名称的第一个字符
@@ -157,8 +168,8 @@ const useUserStore = defineStore('User', {
       return this.user.username?.charAt(0) as string
     },
     //获取主题颜色
-    getThemeColor:(state)=> {
-      return (themeStatus:boolean) => themeStatus? '#5072e6' :'red';
+    getThemeColor: (state) => {
+      return (themeStatus: boolean) => (themeStatus ? '#5072e6' : 'red')
     },
   },
 })

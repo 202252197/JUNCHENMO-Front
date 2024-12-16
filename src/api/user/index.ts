@@ -31,6 +31,8 @@ export const API = {
   USER_UP_STATUS_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_USER}/changeStatus`,
   //修改用户密码
   USER_UP_PASSWORD_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_USER}/changePassword`,
+  //用户授权角色
+  USER_AUTH_ROLE_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_USER}/authRole`,
 }
 
 /**
@@ -136,4 +138,16 @@ export const reqUpPasswordUser = (data: any) =>
     method: 'put',
     url: API.USER_UP_PASSWORD_URL,
     data,
+  })
+
+
+/**
+ * 分配用户选择的角色
+ * @param {any} data - 用户id和角色id集合
+ */
+export const reqAuthRole = (data:any) =>
+  request<any>({
+    method: 'put',
+    url: API.USER_AUTH_ROLE_URL,
+    params: data,
   })

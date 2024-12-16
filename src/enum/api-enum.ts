@@ -38,6 +38,10 @@ enum SERVER_MODE_NAME {
    * 系统字典值相关接口
    */
   SYSTEM_DICT_DATA = '/system/dict-data',
+   /**
+   * 系统日志相关接口
+   */
+  OPERACTION_LOG_DATA = '/system/operlog',
 }
 
 export default {

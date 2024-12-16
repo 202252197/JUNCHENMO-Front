@@ -7,9 +7,9 @@ import {
   reqUpInfoRole,
   reqUpStatusRole,
   reqAddRole,
-  reqSelectUserRoles,
   reqUserRoleList,
   reqDelRole,
+  reqAuthMenu
 } from '@/api/role'
 
 //创建角色小仓库
@@ -95,9 +95,10 @@ const useRoleStore = defineStore('role', {
         return Promise.reject(result.msg)
       }
     },
-    //分配选择的角色
-    async selectUserRoles(userId: any, rolesId: any) {
-      const result: any = await reqSelectUserRoles(userId, rolesId)
+     //分配选择的菜单
+    async authRoleUser(roleId: any, menusId: any) {
+      const mIds = menusId.join(",");
+      const result: any = await reqAuthMenu({ roleId: roleId, menusId: mIds })
       if (result.code == 200) {
         return 'ok'
       } else {

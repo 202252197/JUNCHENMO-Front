@@ -357,6 +357,9 @@ html.dark {
   justify-content: center
 }
 .card-table-style{
+  .el-card__body{
+    padding:10px !important;
+  }
   margin-top: 20px;
 }
 /* 设置卡片头部的样式 */

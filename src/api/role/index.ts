@@ -20,8 +20,8 @@ export const API = {
   ROLE_OPTION_SELECT_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_ROLE}/optionSelect`,
   //修改角色状态
   ROLE_UP_STATUS_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_ROLE}/changeStatus`,
-  //选择授权用户的角色
-  ROLE_SELECT_USER_ROLES: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_ROLE}/authUserRole`,
+  //角色授权权限
+  ROLE_AUTH_MENU_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_ROLE}/authMenu`,
 }
 
 /**
@@ -37,13 +37,15 @@ export const reqAddRole = (data: any) =>
 
 /**
  * 删除角色
- * @param {string} userId - 角色id
+ * @param {string} roleIds - 角色ids
  */
-export const reqDelRole = (userId: any) =>
+export const reqDelRole = (roleIds: any) =>
   request<any>({
     method: 'delete',
-    url: API.ROLE_DEL_URL + '/' + userId,
-  })
+    url: API.ROLE_DEL_URL,
+    data: roleIds
+})
+
 
 /**
  * 修改角色
@@ -99,14 +101,14 @@ export const reqUpStatusRole = (data: any) =>
     data,
   })
 
+
 /**
- * 分配用户选择的角色
- * @param {string} userId - 用户id
- * @param {Array<string>} rolesId - 角色id的数组
+ * 分配角色选择的菜单
+ * @param {any} data - 角色id和菜单id集合
  */
-export const reqSelectUserRoles = (userId: any, rolesId: any) =>
+export const reqAuthMenu = (data:any) =>
   request<any>({
     method: 'put',
-    url: API.ROLE_SELECT_USER_ROLES,
-    data: { userId:userId,rolesId:rolesId },
+    url: API.ROLE_AUTH_MENU_URL,
+    params: data,
   })

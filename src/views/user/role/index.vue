@@ -47,6 +47,12 @@
                 </template>
                 新增
               </el-button>
+              <el-button :color="LayoutSettingStore.theme?'#5072e6':'red'" @click="deleteItems()">
+                <template #icon>
+                  <svg-icon name="垃圾桶"  color="white"/>
+                </template>
+                删除
+              </el-button>
             </el-button-group>
           </div>
         </div>
@@ -203,13 +209,27 @@ const handleSizeChange = (pageSize: number) => {
 
 //选中数据触发的事件
 const handleSelectionChange = (val: []) => {
-  useRoleStore.multipleSelection = val
+  roleStore.multipleSelection = val
 }
 
 //删除角色触发的事件
 const deleteItem = (item: any) => {
   roleStore
-    .deleteRole(item.roleId)
+    .deleteRole([item.roleId])
+    .then(() => {
+      searchList(roleStore.searchform)
+      ElMessage.success({ message: '删除成功' })
+    })
+    .catch((error) => {
+      ElMessage.error({ message: error })
+    })
+}
+
+//删除多个字典类型触发的事件
+const deleteItems = () => {
+  const roleIds = roleStore.multipleSelection.map((item: any) => item.roleId);
+  roleStore
+    .deleteRole(roleIds)
     .then(() => {
       searchList(roleStore.searchform)
       ElMessage.success({ message: '删除成功' })

@@ -4,7 +4,7 @@ import router from '@/router'
 import { error404 } from '@/router/routes'
 import { isNotHttp } from '@/utils/common'
 //导入请求
-import { getRouters,reqAddMenu,reqMenuList,reqDelMenu,reqUpInfoMenu,reqLastSortMenu,reqHomeMenuIcon,reqRoleMenuList,reqSelectRoleMenus,reqUpStatusMenu} from '@/api/menu'
+import { getRouters,reqAddMenu,reqMenuList,reqDelMenu,reqUpInfoMenu,reqLastSortMenu,reqHomeMenuIcon,reqRoleMenuList,reqUpStatusMenu} from '@/api/menu'
 //导入layout组件
 import Layout from '@/layout/index.vue'
 //引入路由（常量路由）

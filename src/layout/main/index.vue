@@ -28,6 +28,7 @@ watch(
   () => {
     flag.value = false
     nextTick(() => {
+      console.log("刷新成功")
       flag.value = true
     })
   },

@@ -210,7 +210,7 @@ const deleteItems = () => {
 //加载字典类型选项的数据
 const loadDictTypeSelect=()=>{
   dictTypeStore
-    .dictTypeAllList()
+    .dictTypeOptionSelect()
     .then((resp) => {
       dictDataStore.dictTypeWithExtra = resp.data
     }).catch((error) => {

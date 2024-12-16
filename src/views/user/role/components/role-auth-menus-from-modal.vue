@@ -48,8 +48,9 @@
   //点击授权菜单按钮触发的事件
   const selectAuthRoleMenus = () => {
     if(grantTableRef?.value){
-        menuStore
-        .selectRoleMenus(roleStore.commonform.roleId, grantTableRef?.value.getValue())
+      const menusId = grantTableRef.value.getValue();
+      roleStore
+        .authRoleUser(roleStore.commonform.roleId, menusId)
         .then(() => {
             ElMessage.success({ message: '分配成功' })
         })

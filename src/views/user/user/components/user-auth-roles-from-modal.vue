@@ -95,15 +95,19 @@ const open = async (item: any) => {
 
 //点击授权角色按钮触发的事件
 const selectAuthUserRoles = () => {
-  roleStore
-    .selectUserRoles(userStore.commonform.userId, userRoleList.value)
+  if(userRoleList.value.length<=0){
+    ElMessage.success({ message: '分配的角色不能为空' });
+    return;
+  }
+  userStore
+    .authRoleUser(userStore.commonform.userId, userRoleList.value)
     .then(() => {
       ElMessage.success({ message: '分配成功' })
     })
     .catch((error) => {
       ElMessage.error({ message: error })
-    })
-    fromOpenStatus.value = false
+    });
+    fromOpenStatus.value = false;
 }
 
 

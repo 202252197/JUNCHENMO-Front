@@ -9,7 +9,7 @@ export const API = {
   //获取数据字典项列表
   DICT_TYPE_LIST_URL : `${API_ENUM.SERVER_MODE_NAME.SYSTEM_DICT_TYPE}/list`,
   //获取全部的数据字典序以及扩展参数
-  DICT_TYPE_LIST_ALL_URL : `${API_ENUM.SERVER_MODE_NAME.SYSTEM_DICT_TYPE}/listAll`,
+  DICT_TYPE_OPTION_SELECT_URL : `${API_ENUM.SERVER_MODE_NAME.SYSTEM_DICT_TYPE}/optionSelect`,
   //添加数据字典
   DICT_TYPE_ADD_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_DICT_TYPE}/`,
   //删除数据字典项
@@ -26,13 +26,14 @@ export const reqDictTypeList = (data: any, pageNum: number, pageSize: number) =>
       data
 })
 
-//获取全部字典项列表以及额外参数
-export const reqDictTypeListAll = () =>
+/**
+ * 获取所有启用的字典项列表以及额外参数
+ */
+export const reqDictTypeOptionSelect = () =>
   request<any>({
     method: 'get',
-    url: API.DICT_TYPE_LIST_ALL_URL
+    url: API.DICT_TYPE_OPTION_SELECT_URL
 })
-
 
 /**
  * 添加字典项的接口
