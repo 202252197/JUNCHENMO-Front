@@ -1,9 +1,9 @@
 export interface role {
-  roleId: number
-  name: string
-  code: string
-  nickname: string
-  status: string
+  roleId?: number
+  name?: string
+  code?: string
+  nickname?: string
+  status?: number
 }
 
 //role-list-rep

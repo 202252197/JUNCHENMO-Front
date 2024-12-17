@@ -8,10 +8,15 @@ const useSettinggStore = defineStore('SettinggStore', {
       refsh: false, //刷新按钮点击状态
       settingDrawer: false, //抽屉展开或收起状态
       theme: true, //主题是否是暗黑模式还是白天模式
+      size: 20, //数据默认条数设置
     }
   },
   actions: {},
-  getters: {},
+  getters: {
+    getTheme: (state) => {
+      return state.theme?"#5072e6":"red"
+    }
+  },
 })
 
 //对外暴露获取小仓库的方法

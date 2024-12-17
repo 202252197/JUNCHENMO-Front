@@ -1,8 +1,7 @@
 import { createApp } from 'vue'
-
+import router from '@/router'
 import App from '@/App.vue'
 import pinia from '@/store'
-import router from '@/router'
 import { copyText,resetObj } from './utils/common.js';
 //配置ElementUIDark样式
 import 'element-plus/theme-chalk/dark/css-vars.css'

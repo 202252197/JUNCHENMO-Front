@@ -112,20 +112,20 @@ const iconColor = computed(() => LayoutSettingStore.theme? 'black' : 'white');
 const $router = useRouter()
 const route = useRoute()
 
-const defalutTag: any = ref([
-  {
-    title: '首页',
-    closable: false,
-    path: '/home',
-    checked: true,
-    icon: 'home',
-  },
-])
-//**遍历添加默认的首页Tab */
-defalutTag.value.forEach((element: any) => {
-  TabsStore.addTab(element, $router)
-})
-
+// const defalutTag: any = ref([
+//   {
+//     title: '首页',
+//     closable: false,
+//     path: '/home',
+//     checked: true,
+//     icon: 'home',
+//   },
+// ])
+// //**遍历添加默认的首页Tab */
+// defalutTag.value.forEach((element: any) => {
+//   TabsStore.addTab(element,)
+// })
+TabsStore.initTabs($router,route)
 //每次滚动左右移动10px
 const scrollbarRef = ref()
   

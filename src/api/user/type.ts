@@ -1,4 +1,5 @@
-export interface User {
+//用户对象
+export type User = {
   userId?: number
   username: string
   password?: string
@@ -6,9 +7,9 @@ export interface User {
   remark?: string
   email?: string
   mobile?: string
-  sex?: number
-  avatar: string
-  status?: number
+  sex?: string
+  avatar?: string
+  status?: string
   loginIp?: string
   loginDate?: string
   creator?: string
@@ -20,7 +21,7 @@ export interface User {
 }
 
 //登录表单数据
-export interface loginFormData {
+export type loginFormData ={
   username: string
   password: string
   code: string
@@ -28,24 +29,24 @@ export interface loginFormData {
 }
 
 //登录返回数据
-export interface loginResponseData {
+export type loginResponseData = {
   code: number
   data?: loginData
   msg: string
 }
-export interface loginData {
+export type loginData = {
   access_token: string
   expires_in: number
 }
 
 //登出返回数据
-export interface logoutResponseData {
+export type logoutResponseData = {
   code: number
   msg?: string
 }
 
 //用户信息返回数据
-export interface userInfoReponseData {
+export type userInfoReponseData = {
   msg: string
   code: number
   permissions: []
@@ -54,7 +55,7 @@ export interface userInfoReponseData {
 }
 
 //user-list-rep
-export interface userListRep {
+export type userListRep = {
   total?: string
   rows?: user[]
   code: number

@@ -59,6 +59,7 @@ const emit = defineEmits(['refreshData']);
 
 // 打开
 const open = (item: any) => {
+  console.log(item)
   instance?.proxy?.$resetObj(userStore.commonform)
   Object.keys(userStore.commonform).forEach((key) => {
     userStore.commonform[key] = item[key];

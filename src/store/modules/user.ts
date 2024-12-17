@@ -33,21 +33,15 @@ const useUserStore = defineStore('User', {
       user: <User>{},
       permissions: [],
       roles: [],
-      commonform: {
-        userId: '',
+      commonform: <User>{
+        userId: 0,
         username: '',
         nickname: '',
         password: '',
         mobile: '',
         email: '',
       },
-      searchform: {
-        username: '',
-        nickname: '',
-        status: '',
-        mobile: '',
-        email: '',
-      },
+      searchform: <User>{},
     }
   },
   actions: {

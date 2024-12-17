@@ -26,7 +26,7 @@
             <el-button type="info" @click="resetSearchForm(searchFormRef)">
               重置
             </el-button>
-            <el-button :color="LayoutSettingStore.theme?'#5072e6':'red'"  @click="searchList(userStore.searchform)">
+            <el-button :color="LayoutSettingStore.getTheme"  @click="searchList(userStore.searchform)">
               搜索
             </el-button>
             <el-button text @click="more = true" v-show="!more">更多</el-button>
@@ -43,7 +43,7 @@
           </div>
           <div class="card-end">
             <el-button-group class="ml-4">
-              <el-button :color="LayoutSettingStore.theme?'#5072e6':'red'"  @click="userAddFromModal?.open()">
+              <el-button :color="LayoutSettingStore.getTheme"  @click="userAddFromModal?.open()">
                 <template #icon>
                   <svg-icon name="加号"  color="white"/>
                 </template>
@@ -66,7 +66,7 @@
         <el-table-column prop="status" label="状态" align="center">
           <template #default="scope">
             <template v-if="scope.row.status === 0">
-              <el-tag checked size="small" :color="LayoutSettingStore.theme ? '#5072e6' : 'red'">
+              <el-tag checked size="small" :color="LayoutSettingStore.getTheme">
                 启用
               </el-tag>
             </template>
@@ -108,7 +108,7 @@
       <template #footer>
         <div class="pagination-style">
           <!--分页-->
-          <el-pagination :page-sizes="[10, 20, 30, 40]" small="small" background="true"
+          <el-pagination :page-sizes="[10, 20, 30, 40]" small="small" background="true" :default-page-size="LayoutSettingStore.size"
             layout="total, sizes, prev, pager, next, jumper" :total="dataList.total" @size-change="handleSizeChange"
             @current-change="handleCurrentChange" />
         </div>
@@ -127,6 +127,8 @@
 import type { FormInstance } from 'element-plus'
 import type { FromModal } from '@/utils/commonType'
 import type { ComponentInternalInstance } from 'vue'
+//导入类型
+import type { User } from '@/api/user/type'
 //弹出窗
 import UserAddFromModal from './components/user-add-from-modal.vue'
 import UserUpdateFromModal from './components/user-update-from-modal.vue'
@@ -144,6 +146,10 @@ const userStore = useUserStore()
 const LayoutSettingStore = useLayoutSettingStore()
 
 onMounted(() => {
+  //清空搜索条件
+  userStore.searchform = <User>{}
+  //手动触发更新页数的逻辑
+  handleSizeChange(LayoutSettingStore.size)
   //进入页面初始化的数据
   searchList(userStore.searchform)
 })
@@ -163,7 +169,7 @@ const dataList = reactive({
   list: [],
   total: 0,
   page: 1,
-  size: 10,
+  size: 10
 })
 
 //根据搜索条件进行搜索
@@ -199,7 +205,7 @@ const deleteItem = (item: any) => {
       ElMessage.success({ message: '删除成功' })
     })
     .catch((error) => {
-      ElMessage.error({ message: error })
+      ElMessage.error({ message: "失败信息: "+error })
     })
 }
 //停用用户触发的事件
@@ -214,7 +220,7 @@ const disableItem = (item: any) => {
         ElMessage.success({ message: '停用成功' })
       })
       .catch((error) => {
-        ElMessage.error({ message: error })
+        ElMessage.error({ message:  "失败信息: "+error })
       })
   }
 }

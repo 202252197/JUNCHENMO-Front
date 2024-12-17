@@ -20,7 +20,7 @@
             <el-button type="info" @click="resetSearchForm(searchFormRef)">
               重置
             </el-button>
-            <el-button  :color="LayoutSettingStore.theme?'#5072e6':'red'" @click="searchList(dictDataStore.searchform)">
+            <el-button  :color="LayoutSettingStore.getTheme" @click="searchList(dictDataStore.searchform)">
               搜索
             </el-button>
             <el-button text @click="more = true" v-show="!more">更多</el-button>
@@ -37,13 +37,13 @@
           </div>
           <div class="card-end">
             <el-button-group class="ml-4">
-              <el-button :color="LayoutSettingStore.theme?'#5072e6':'red'" @click="dictDataAddFromModal?.open()">
+              <el-button :color="LayoutSettingStore.getTheme" @click="dictDataAddFromModal?.open()">
                 <template #icon>
                   <svg-icon name="加号"  color="white"/>
                 </template>
                 新增
               </el-button>
-              <el-button :color="LayoutSettingStore.theme?'#5072e6':'red'" @click="deleteItems()">
+              <el-button :color="LayoutSettingStore.getTheme" @click="deleteItems()">
                 <template #icon>
                   <svg-icon name="垃圾桶"  color="white"/>
                 </template>
@@ -71,7 +71,7 @@
         <el-table-column prop="status" label="状态" align="center">
           <template #default="scope">
             <template v-if="scope.row.status === 0">
-              <el-tag checked size="small" :color="LayoutSettingStore.theme ? '#5072e6' : 'red'">
+              <el-tag checked size="small" :color="LayoutSettingStore.getTheme">
                 启用
               </el-tag>
             </template>
@@ -97,7 +97,7 @@
       <template #footer>
         <div class="pagination-style">
           <!--分页-->
-          <el-pagination :page-sizes="[10, 20, 30, 40]" small="small" background="true"
+          <el-pagination :page-sizes="[10, 20, 30, 40]" small="small" background="true"  :default-page-size="LayoutSettingStore.size"
             layout="total, sizes, prev, pager, next, jumper" :total="dataList.total" @size-change="handleSizeChange"
             @current-change="handleCurrentChange" />
         </div>
@@ -127,6 +127,8 @@ const dictTypeStore = useDictTypeStore()
 const LayoutSettingStore = useLayoutSettingStore()
 
 onMounted(() => {
+  //手动触发更新页数的逻辑
+  handleSizeChange(LayoutSettingStore.size)
   //进入页面初始化的数据
   searchList(dictDataStore.searchform)
   //加载字典类型选项的数据

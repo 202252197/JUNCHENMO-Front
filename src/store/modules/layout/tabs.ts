@@ -6,10 +6,27 @@ import type { Tag } from '../types/tabsType'
 const useTabsStore = defineStore('Tabs', {
   state: () => {
     return {
-      tabs: [] as any,
+      tabs: [{
+        title: '首页',
+        closable: false,
+        path: '/home',
+        checked: true,
+        icon: 'home',
+      }] as any,
     }
   },
   actions: {
+    //初始化Tabs刷新进去的Tab
+    initTabs($router: any,route :any) {
+      //如果大于一个tab
+      if(this.tabs.length>1){
+        //进入当前路由
+        $router.push(route.path)
+      }else{
+        //进入首页
+        $router.push(this.tabs[0].path)
+      }
+    },
     //添加Tag
     addTab(tag: Tag, $router: any) {
       //全部变为未选择灰色
@@ -81,6 +98,11 @@ const useTabsStore = defineStore('Tabs', {
     },
   },
   getters: {},
+  // 配置 persist
+  persist: {
+    key: 'tabs_store', // 自定义一个合适的缓存键名
+    storage: sessionStorage,
+  }
 })
 
 //对外暴露获取小仓库的方法

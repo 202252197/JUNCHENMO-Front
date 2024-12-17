@@ -14,6 +14,19 @@
 body {
   /* 设置字体 */
   font-family: "MyCustomFont";
+  //色弱
+  // filter: invert(95%)
+  //模糊
+  // filter: blur(3px);
+  //对比度
+  // filter: contrast(85%);
+  //透明度
+  // filter: opacity(70%);
+  //灰度
+  // filter: grayscale(100%);
+  // 色相想转
+  // filter: hue-rotate(180deg);
+  filter: saturate(180%);
 }
 *{
   font-weight: 600 !important;
@@ -377,4 +390,16 @@ html.dark {
   text-decoration: underline;
   color:$base-theme-sunny-color;
   cursor: pointer;
+}
+
+
+
+
+.height-light-span{
+  margin: 0px 2px;
+  color:$base-theme-sunny-color;
+}
+
+.height-light-span-error{
+  color:red;
 }

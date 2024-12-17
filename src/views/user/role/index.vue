@@ -26,7 +26,7 @@
             <el-button type="info" @click="resetSearchForm(searchFormRef)">
               重置
             </el-button>
-            <el-button :color="LayoutSettingStore.theme?'#5072e6':'red'" @click="searchList(roleStore.searchform)">
+            <el-button :color="LayoutSettingStore.getTheme" @click="searchList(roleStore.searchform)">
               搜索
             </el-button>
           </div>
@@ -41,13 +41,13 @@
           </div>
           <div class="card-end">
             <el-button-group class="ml-4">
-              <el-button :color="LayoutSettingStore.theme?'#5072e6':'red'"  @click="roleAddFromModal?.open()">
+              <el-button :color="LayoutSettingStore.getTheme"  @click="roleAddFromModal?.open()">
                 <template #icon>
                   <svg-icon name="加号"  color="white"/>
                 </template>
                 新增
               </el-button>
-              <el-button :color="LayoutSettingStore.theme?'#5072e6':'red'" @click="deleteItems()">
+              <el-button :color="LayoutSettingStore.getTheme" @click="deleteItems()">
                 <template #icon>
                   <svg-icon name="垃圾桶"  color="white"/>
                 </template>
@@ -66,7 +66,7 @@
         <el-table-column prop="status" label="角色状态" align="center">
           <template #default="scope">
             <template v-if="scope.row.status === 0">
-              <el-tag checked size="small" :color="LayoutSettingStore.theme ? '#5072e6' : 'red'">
+              <el-tag checked size="small" :color="LayoutSettingStore.getTheme">
                 启用
               </el-tag>
             </template>
@@ -124,6 +124,7 @@
           <!--分页-->
           <el-pagination
             :page-sizes="[10, 20, 30, 40]"
+            :default-page-size="LayoutSettingStore.size"
             small="small"
             background="true"
             layout="total, sizes, prev, pager, next, jumper"
@@ -134,8 +135,6 @@
         </div>
       </template>
     </el-card>
-    
-
 
     <!--弹出框组件列表-->
     <RoleAddFromModal ref="roleAddFromModal" @refreshData="refreshData"></RoleAddFromModal>
@@ -163,6 +162,8 @@ const LayoutSettingStore = useLayoutSettingStore()
 
 
 onMounted(() => {
+  //手动触发更新页数的逻辑
+  handleSizeChange(LayoutSettingStore.size)
   //进入页面初始化的数据
   searchList(roleStore.searchform)
 })
@@ -180,7 +181,7 @@ const dataList = reactive({
   list: [],
   total: 0,
   page: 1,
-  size: 10,
+  size: 10
 })
 
 //根据搜索条件进行搜索

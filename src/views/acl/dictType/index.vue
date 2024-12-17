@@ -20,7 +20,7 @@
             <el-button type="info" @click="resetSearchForm(searchFormRef)">
               重置
             </el-button>
-            <el-button  :color="LayoutSettingStore.theme?'#5072e6':'red'" @click="searchList(dictTypeStore.searchform)">
+            <el-button  :color="LayoutSettingStore.getTheme" @click="searchList(dictTypeStore.searchform)">
               搜索
             </el-button>
           </div>
@@ -35,19 +35,19 @@
           </div>
           <div class="card-end">
             <el-button-group class="ml-4">
-              <el-button :color="LayoutSettingStore.theme?'#5072e6':'red'" @click="dictTypeAddFromModal?.open()">
+              <el-button :color="LayoutSettingStore.getTheme" @click="dictTypeAddFromModal?.open()">
                 <template #icon>
                   <svg-icon name="加号"  color="white"/>
                 </template>
                 新增
               </el-button>
-              <el-button :color="LayoutSettingStore.theme?'#5072e6':'red'" @click="addButtenClick()">
+              <el-button :color="LayoutSettingStore.getTheme" @click="addButtenClick()">
                 <template #icon>
                   <svg-icon name="刷新"  color="white"/>
                 </template>
                 刷新缓存
               </el-button>
-              <el-button :color="LayoutSettingStore.theme?'#5072e6':'red'" @click="deleteItems()">
+              <el-button :color="LayoutSettingStore.getTheme" @click="deleteItems()">
                 <template #icon>
                   <svg-icon name="垃圾桶"  color="white"/>
                 </template>
@@ -65,15 +65,26 @@
         <el-table-column prop="description" label="描述" align="center" />
         <el-table-column prop="type" label="类型" align="center">
           <template #default="scope">
-            <el-tag size="small" style="color:white" :color="LayoutSettingStore.theme ? '#5072e6' : 'red'">
+            <el-tag size="small" style="color:white" :color="LayoutSettingStore.getTheme">
               {{ getStatusByType(scope.row.type) }}
             </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="extraSchema" label="额外配置" align="center" width="250">
+          <template #default="scope">
+            <template v-if="scope.row.extraSchema!==''">
+              <template v-for="item in extraStrToJson(scope.row.extraSchema)">
+                <el-tag checked size="small" :color="getColorByType(item.type)" style="margin-right: 2px;">
+                  {{ item.parameter }}
+              </el-tag>
+              </template>
+            </template>
           </template>
         </el-table-column>
         <el-table-column prop="status" label="状态" align="center">
           <template #default="scope">
             <template v-if="scope.row.status === 0">
-              <el-tag checked size="small" :color="LayoutSettingStore.theme ? '#5072e6' : 'red'">
+              <el-tag checked size="small" :color="LayoutSettingStore.getTheme">
                 启用
               </el-tag>
             </template>
@@ -102,7 +113,7 @@
       <template #footer>
         <div class="pagination-style">
           <!--分页-->
-          <el-pagination :page-sizes="[10, 20, 30, 40]" small="small" background="true"
+          <el-pagination :page-sizes="[10, 20, 30, 40]" small="small" background="true"  :default-page-size="LayoutSettingStore.size"
             layout="total, sizes, prev, pager, next, jumper" :total="dataList.total" @size-change="handleSizeChange"
             @current-change="handleCurrentChange" />
         </div>
@@ -135,6 +146,8 @@ const dictTypeStore = useDictTypeStore()
 const LayoutSettingStore = useLayoutSettingStore()
 
 onMounted(() => {
+  //手动触发更新页数的逻辑
+  handleSizeChange(LayoutSettingStore.size)
   //进入页面初始化的数据
   searchList(dictTypeStore.searchform)
   //初始化字典数据
@@ -163,6 +176,7 @@ const searchList = (searchData: any) => {
   dictTypeStore
     .dictTypeList(searchData, dataList.page, dataList.size)
     .then((resp) => {
+      console.log(resp.rows)
       dataList.list = resp.rows
       dataList.total = resp.total
     })
@@ -241,6 +255,12 @@ const loadDictData = () => {
     })
 }
 
+const extraStrToJson = (item: any) => {
+  console.log(item)
+  if(undefined===item||item==='')return
+  return JSON.parse(item)
+}
+
 //根据状态值转化为状态标签
 const getStatusByType = (type: any) => {
   switch (type) {
@@ -256,6 +276,23 @@ const getStatusByType = (type: any) => {
       return '颜色';
     default:
       return '未知状态';
+  }
+}
+
+//根据状态值转化为颜色值
+const getColorByType = (type: any) => {
+  const typeNumber = Number.parseInt(type);
+  switch (typeNumber) {
+    case 0:
+      return '#7a08fa';
+    case 1:
+      return '#4ecca3';
+    case 2:
+      return '#80d6ff';
+    case 3:
+      return '#355c7d';
+    case 4:
+      return '#e03e36';
   }
 }
   

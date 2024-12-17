@@ -6,39 +6,41 @@
         <el-row style="display: flex">
           <el-form-item label="操作用户" prop="operName">
             <el-select v-model="operationLogStore.searchform.operName">
-              <el-option label="启用" value="0" />
-              <el-option label="禁用" value="1" />
+              <template v-for="name in operationLogStore.nameOptionSelect">
+                <el-option :label="name" :value="name" />
+              </template>
             </el-select>
           </el-form-item>
           <el-form-item label="操作模块" prop="title">
-            <el-select v-model="operationLogStore.searchform.title">
-              <el-option label="启用" value="0" />
-              <el-option label="禁用" value="1" />
+            <el-select v-model="operationLogStore.searchform.title" @change="changeTitle">
+              <template v-for="title in operationLogStore.titleOptionSelect">
+                <el-option :label="title" :value="title" />
+              </template>
             </el-select>
           </el-form-item>
-          <el-form-item label="操作类型" prop="businessName">
+          <el-form-item label="业务名称" prop="businessName">
             <el-select v-model="operationLogStore.searchform.businessName">
-              <el-option label="启用" value="0" />
-              <el-option label="禁用" value="1" />
+              <template v-for="businessName in operationLogStore.businessNameOptionSelect">
+                <el-option :label="businessName" :value="businessName" />
+              </template>
             </el-select>
           </el-form-item>
           <el-form-item v-show="more" label="执行结果" prop="status">
             <el-select v-model="operationLogStore.searchform.status">
-              <el-option label="启用" value="0" />
-              <el-option label="禁用" value="1" />
+              <el-option label="成功" value="0" />
+              <el-option label="失败" value="1" />
             </el-select>
           </el-form-item>
-          <el-form-item v-show="more" label="执行时间">
-            <el-date-picker v-model="operationLogStore.searchform.requestTime" type="datetimerange"
+          <el-form-item v-show="more" prop="searchTime" label="执行时间">
+            <el-date-picker v-model="operationLogStore.searchform.searchTime" type="datetimerange" value-format="YYYY-MM-DD HH:mm:ss"
               start-placeholder="开始日期" end-placeholder="结束日期" format="YYYY-MM-DD HH:mm:ss" date-format="YYYY/MM/DD ddd"
               time-format="A hh:mm:ss" />
-
           </el-form-item>
           <div style="margin-left: auto">
             <el-button type="info" @click="resetSearchForm(searchFormRef)">
               重置
             </el-button>
-            <el-button :color="LayoutSettingStore.theme ? '#5072e6' : 'red'"
+            <el-button :color="LayoutSettingStore.getTheme"
               @click="searchList(operationLogStore.searchform)">
               搜索
             </el-button>
@@ -56,13 +58,13 @@
           </div>
           <div class="card-end">
             <el-button-group class="ml-4">
-              <el-button :color="LayoutSettingStore.theme ? '#5072e6' : 'red'" @click="clearAll()">
+              <el-button :color="LayoutSettingStore.getTheme" @click="clearItems()">
                 <template #icon>
-                  <svg-icon name="垃圾桶" color="white" />
+                  <svg-icon name="清空" color="white" />
                 </template>
                 清空
               </el-button>
-              <el-button :color="LayoutSettingStore.theme ? '#5072e6' : 'red'" @click="deleteItems()">
+              <el-button :color="LayoutSettingStore.getTheme" @click="deleteItems()">
                 <template #icon>
                   <svg-icon name="垃圾桶" color="white" />
                 </template>
@@ -76,7 +78,7 @@
       <el-table :data="dataList.list" table-layout="auto" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" />
         <el-table-column prop="operName" label="操作人员" align="center" />
-        <el-table-column label="模块名称" align="center">
+        <el-table-column label="模块/业务" align="center">
           <template #default="scope">
             <span>{{ scope.row.title }} / {{ scope.row.businessName }}</span><br />
           </template>
@@ -84,7 +86,7 @@
         <el-table-column prop="status" label="执行结果" align="center">
           <template #default="scope">
             <template v-if="scope.row.status === 0">
-              <el-tag checked size="small" :color="LayoutSettingStore.theme ? '#5072e6' : 'red'">
+              <el-tag checked size="small" :color="LayoutSettingStore.getTheme">
                 成功
               </el-tag>
             </template>
@@ -95,7 +97,14 @@
             </template>
           </template>
         </el-table-column>
-        <el-table-column prop="info" label="方法描述" align="center" />
+        <el-table-column prop="description" label="操作日志" align="center" >
+          <template #default="scope">
+            <div><span v-html="scope.row.description"></span></div>
+            <template v-if="scope.row.errorMsg!=''">
+              <div class="ellipsis-text"><span v-html="scope.row.errorMsg" ></span></div>
+            </template>
+          </template>
+        </el-table-column>
         <el-table-column prop="requestTime" label="请求时间" align="center" />
         <el-table-column label="留痕地址" align="center">
           <template #default="scope">
@@ -125,7 +134,7 @@
       <template #footer>
         <div class="pagination-style">
           <!--分页-->
-          <el-pagination :page-sizes="[10, 20, 30, 40]" small="small" background="true"
+          <el-pagination :page-sizes="[10, 20, 30, 40]" small="small" background="true"  :default-page-size="LayoutSettingStore.size"
             layout="total, sizes, prev, pager, next, jumper" :total="dataList.total" @size-change="handleSizeChange"
             @current-change="handleCurrentChange" />
         </div>
@@ -149,9 +158,14 @@ const LayoutSettingStore = useLayoutSettingStore()
 const instance: ComponentInternalInstance | null = getCurrentInstance();
 
 onMounted(() => {
+  //手动触发更新页数的逻辑
+  handleSizeChange(LayoutSettingStore.size)
   //进入页面初始化的数据
   searchList(operationLogStore.searchform)
-  console.log("销毁")
+  //加载可选操作人员名称选项
+  loadOperNameSelect()
+  //加载可选操作模块选项
+  loadTitleSelect()
 })
 //表单对象
 const searchFormRef = ref<FormInstance>()
@@ -166,9 +180,10 @@ const dataList = reactive({
 })
 
 
-
 //根据搜索条件进行搜索
 const searchList = (searchData: any) => {
+  searchData.startRequestTime = searchData.searchTime[0]
+  searchData.endRequestTime = searchData.searchTime[1]
   operationLogStore
     .operationLogList(searchData, dataList.page, dataList.size)
     .then((resp) => {
@@ -196,7 +211,7 @@ const handleSelectionChange = (val: []) => {
   operationLogStore.multipleSelection = val
 }
 
-//删除角色触发的事件
+//删除操作日志触发的事件
 const deleteItem = (item: any) => {
   operationLogStore
     .deleteOperationLog([item.operId])
@@ -209,7 +224,7 @@ const deleteItem = (item: any) => {
     })
 }
 
-//删除多个字典类型触发的事件
+//删除多个操作日志触发的事件
 const deleteItems = () => {
   const operIds = operationLogStore.multipleSelection.map((item: any) => item.operId);
   operationLogStore
@@ -223,6 +238,53 @@ const deleteItems = () => {
     })
 }
 
+//清空操作日志数据
+const clearItems = () => {
+  operationLogStore
+    .clearOperationLog()
+    .then(() => {
+      searchList(operationLogStore.searchform)
+      ElMessage.success({ message: '清空成功' })
+    })
+    .catch((error) => {
+      ElMessage.error({ message: error })
+    })
+}
+
+
+const loadOperNameSelect = () => {
+  operationLogStore
+    .getOperNameOptionSelect()
+    .then((resp) => {
+      operationLogStore.nameOptionSelect = resp.data
+    })
+    .catch((error) => {
+      ElMessage.error({ message: error })
+    })
+}
+
+const loadTitleSelect = () => {
+  operationLogStore
+    .getTitleOptionSelect()
+    .then((resp) => {
+      operationLogStore.titleOptionSelect = resp.data
+    })
+    .catch((error) => {
+      ElMessage.error({ message: error })
+    })
+}
+
+const changeTitle =()=>{
+  const title =operationLogStore.searchform.title
+  operationLogStore
+    .getBusinessNameOptionSelect(title)
+    .then((resp) => {
+      operationLogStore.businessNameOptionSelect = resp.data
+    })
+    .catch((error) => {
+      ElMessage.error({ message: error })
+    })
+}
 
 //重置搜索表单
 const resetSearchForm = (ruleFormRef: any) => {
@@ -239,5 +301,13 @@ export default {
 /* 这里可以添加组件内部特有的样式 */
 .searchForm .el-form-item {
   margin-bottom: v-bind(more ? '18px' : '0px') !important;
+}
+
+.ellipsis-text {
+  display: inline-block; /* 确保可以设置宽度等样式，对于行内元素生效 */
+  max-width: 100px; /* 根据需要设置最大宽度，超出此宽度的文本将被省略 */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>
