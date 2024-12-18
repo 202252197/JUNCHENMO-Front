@@ -26,7 +26,7 @@ export const API = {
   //获取用户列表
   USER_LIST_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_USER}/list`,
   //获取用户信息
-  USERINFO_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_USER}/getInfo`,
+  USER_INFO_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_USER}/getInfo`,
   //修改用户状态
   USER_UP_STATUS_URL: `${API_ENUM.SERVER_MODE_NAME.SYSTEM_USER}/changeStatus`,
   //修改用户密码
@@ -115,7 +115,7 @@ export const reqUserList = (data: any, pageNum: number, pageSize: number) =>
 export const reqUserInfo = () =>
   request<userInfoReponseData>({
     method: 'get',
-    url: API.USERINFO_URL,
+    url: API.USER_INFO_URL,
   })
 
 /**

@@ -51,6 +51,14 @@ let userStore = useUserStore()
 //设置头像的大小
 let avatarSize = ref(30)
 
+onMounted(() => {
+  //初始化切换主题
+  if(LayoutSettingStore.theme){
+     changeMoon()
+  }else{
+     changeSunny()
+  }
+})
 // 刷新按钮点击回调
 const updateRefsh = () => {
   LayoutSettingStore.refsh = !LayoutSettingStore.refsh

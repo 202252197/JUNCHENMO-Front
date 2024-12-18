@@ -12,8 +12,10 @@ import setting from '@/setting.ts'
 import pinia from '@/store'
 import useUserStore from '@/store/modules/user'
 import usePermissionStore from '@/store/modules/menu'
+import useUserSettingStore from '@/store/modules/layout/layoutSetting'
 const userStore = useUserStore(pinia)
 const permissionStore = usePermissionStore(pinia)
+const userSettingStore = useUserSettingStore(pinia)
 
 import { GET_TOKEN } from '@/utils/token'
 
@@ -29,15 +31,15 @@ router.beforeEach((to, from, next) => {
     document.title = `${setting.title} - ${to.meta.title}`
     if (to.path === '/login') {
       next('/')
-    } else if (whiteList.indexOf(to.path) !== -1) {
-      next()
     } else {
       if (userStore.roles.length === 0) {
         userStore
           .userInfo()
           .then(() => {
             permissionStore.generateRoutes().then(() => {
-              next({ ...to, replace: true })
+              userSettingStore.userSettingInfo().then(()=>{
+                next({ ...to, replace: true })
+              })
             })
           })
           .catch(() => {

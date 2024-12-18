@@ -15,7 +15,7 @@
     <div>菜单栏</div>
     <div>
       <el-switch
-        v-model="value2"
+        v-model="LayoutSettingStore.menu"
         class="mt-2"
         style="margin-left: 24px"
         inline-prompt
@@ -26,7 +26,7 @@
     <div>顶部菜单栏栏</div>
     <div>
       <el-switch
-        v-model="value2"
+        v-model="LayoutSettingStore.topMenu"
         class="mt-2"
         style="margin-left: 24px"
         inline-prompt
@@ -37,7 +37,7 @@
     <div>底部页脚</div>
     <div>
       <el-switch
-        v-model="value2"
+        v-model="LayoutSettingStore.copyright"
         class="mt-2"
         style="margin-left: 24px"
         inline-prompt
@@ -48,7 +48,7 @@
     <div>多页签</div>
     <div>
       <el-switch
-        v-model="value2"
+        v-model="LayoutSettingStore.tabs"
         class="mt-2"
         style="margin-left: 24px"
         inline-prompt
@@ -70,6 +70,10 @@
 </template>
 
 <script setup lang="ts">
+//获取设置相关的小仓库
+import useLayoutSettingStore from '@/store/modules/layout/layoutSetting'
+//获取layout配置相关的仓库
+const LayoutSettingStore = useLayoutSettingStore()
 let value2 = ref(true)
 </script>
 

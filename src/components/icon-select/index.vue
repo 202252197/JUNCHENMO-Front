@@ -39,7 +39,6 @@
  
 <script setup lang="ts">
 import { ElPopover } from 'element-plus'
-import { watch, ref, onMounted } from 'vue'
 import { menuIcon } from '@/utils/menuIcons'  
  
 const props = defineProps({

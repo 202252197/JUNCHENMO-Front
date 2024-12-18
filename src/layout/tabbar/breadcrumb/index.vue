@@ -1,8 +1,5 @@
 <template>
   <!-- 顶部左侧静态 -->
-  <el-icon class="foldwithExpand" @click="changeIcon">
-    <component :is="LayoutSettingStore.fold ? 'Fold' : 'Expand'"></component>
-  </el-icon>
   <!-- 左侧面包屑 -->
   <el-breadcrumb separator-icon="ArrowRight">
     <!-- 面包屑动态的展示路由名字与标题 -->
@@ -37,9 +34,6 @@ const $router = useRouter()
 const LayoutSettingStore = useLayoutSettingStore()
 
 const TabsStore = useTabsStore()
-const changeIcon = () => {
-  LayoutSettingStore.fold = !LayoutSettingStore.fold
-}
 
 
 const tabClick = (item:any) => {

@@ -8,7 +8,7 @@ $base-menu-width:220px;
 //白天
 $base-sunny-color:#ffffff;
 //内容区的背景颜色
-$base-main-sunny-background: #f2f3f5;
+$base-main-sunny-background: #ffffff;
 //主题色
 // $base-theme-sunny-color:#1dbea1;
 $base-theme-sunny-color:#728ce3;
@@ -32,3 +32,10 @@ $base-menu-logo-height:50px;
 
 //左侧菜单折叠之后的宽度
 $base-menu-min-width:65px;
+
+//卡片的圆角
+$base-card-border-radius:14px;
+//输入框的宽度
+$base-input-width:200px;
+//选择框的宽度
+$base-select-width:230px;

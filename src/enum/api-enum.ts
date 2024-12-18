@@ -42,6 +42,10 @@ enum SERVER_MODE_NAME {
    * 系统日志相关接口
    */
   OPERACTION_LOG_DATA = '/system/operlog',
+  /**
+   * 用户设置相关接口
+   */
+  SYSTEM_USER_SETTING = '/system/sys-user-setting',
 }
 
 export default {
