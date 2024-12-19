@@ -4,36 +4,40 @@
     <Drawer></Drawer>
     <!-- 左侧菜单 -->
     <div class="layout_slider" :class="{
+      xiufu: LayoutSettingStore.fold && !LayoutSettingStore.menu,
       fold: LayoutSettingStore.fold,
       moon: !LayoutSettingStore.theme,
       sunny: LayoutSettingStore.theme,
-      showMenu: !LayoutSettingStore.topMenu&&LayoutSettingStore.menu,
-      hidenMenu: !LayoutSettingStore.topMenu&&!LayoutSettingStore.menu
+      showMenu: LayoutSettingStore.menu,
+      hidenMenu: !LayoutSettingStore.menu,
     }">
       <!-- logo -->
       <Logo class="logo"></Logo>
       <!-- 展示菜单 -->
-      <el-scrollbar class="scrollbar" v-show="!LayoutSettingStore.topMenu&&LayoutSettingStore.menu">
+      <el-scrollbar class="scrollbar" v-show="LayoutSettingStore.menu">
         <!-- 菜单组件 -->
-        <el-menu :collapse="LayoutSettingStore.fold" :default-active="$route.path" router  class="menu-collapse-animation">
+        <el-menu :collapse="LayoutSettingStore.fold" :default-active="$route.path" router
+          class="menu-collapse-animation">
           <Menu :menuList="usePermissionStore.sidebarRouters"></Menu>
         </el-menu>
-             <!-- 顶部左侧静态 -->
-       <el-button :color="LayoutSettingStore.theme?'white':'#121212'" class="foldwithExpand menu-collapse-animation"  v-show="LayoutSettingStore.menu"  :class="{fold: LayoutSettingStore.fold}" @click="changeIcon">
-        <svg-icon   :name="LayoutSettingStore.fold ? '折叠-展开' : '折叠-收起'" :color="LayoutSettingStore.theme?'black':'white'" width="26px" height="16px"/>
-      </el-button>
+        <!-- 顶部左侧静态 -->
+        <el-button :color="LayoutSettingStore.theme ? 'white' : '#121212'"
+          class="foldwithExpand menu-collapse-animation" v-show="LayoutSettingStore.menu"
+          :class="{ fold: LayoutSettingStore.fold }" @click="changeIcon">
+          <svg-icon :name="LayoutSettingStore.fold ? '折叠-展开' : '折叠-收起'"
+            :color="LayoutSettingStore.theme ? 'black' : 'white'" width="26px" height="16px" />
+        </el-button>
       </el-scrollbar>
-  
-    
     </div>
     <!-- 顶部导航 -->
     <div class="layout_tabbar" :class="{
+      xiufu: LayoutSettingStore.fold && !LayoutSettingStore.menu,
       fold: LayoutSettingStore.fold,
       moon: !LayoutSettingStore.theme,
       sunny: LayoutSettingStore.theme,
       hidenTabs: !LayoutSettingStore.tabs,
-      showMenu: !LayoutSettingStore.topMenu&&LayoutSettingStore.menu,
-      hidenMenu: !LayoutSettingStore.topMenu&&!LayoutSettingStore.menu
+      showMenu: LayoutSettingStore.menu,
+      hidenMenu: !LayoutSettingStore.menu,
     }">
       <Tabbar></Tabbar>
     </div>
@@ -42,8 +46,8 @@
       fold: LayoutSettingStore.fold,
       moon: !LayoutSettingStore.theme,
       sunny: LayoutSettingStore.theme,
-      showMenu: !LayoutSettingStore.topMenu&&LayoutSettingStore.menu,
-      hidenMenu: LayoutSettingStore.topMenu||!LayoutSettingStore.menu
+      showMenu: LayoutSettingStore.menu,
+      hidenMenu: !LayoutSettingStore.menu,
     }" v-show="LayoutSettingStore.tabs">
       <Tabs></Tabs>
     </div>
@@ -55,8 +59,8 @@
       sunny: LayoutSettingStore.theme,
       showTabs: LayoutSettingStore.tabs,
       hidenTabs: !LayoutSettingStore.tabs,
-      showMenu: !LayoutSettingStore.topMenu&&LayoutSettingStore.menu,
-      hidenMenu: LayoutSettingStore.topMenu||!LayoutSettingStore.menu
+      showMenu: LayoutSettingStore.menu,
+      hidenMenu: !LayoutSettingStore.menu,
     }">
       <!-- <el-watermark
         :content="setting.watermarkContent"
@@ -96,13 +100,9 @@ const LayoutSettingStore = useLayoutSettingStore()
 const usePermissionStore = PermissionStore()
 const $route = useRoute()
 
-
-
-
 const changeIcon = () => {
   LayoutSettingStore.fold = !LayoutSettingStore.fold
 }
-
 </script>
 <script lang="ts">
 export default {
@@ -110,56 +110,64 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-
 /* 定义el-menu收起动画的类名和样式 */
 .menu-collapse-animation {
-  /* 设置过渡效果，这里针对宽度属性进行过渡，过渡时间为0.3秒，过渡效果为ease（先加速后减速） */
+  /* 设置过渡效果，这里针对宽度属性进行过渡，过渡时间为0.01秒，过渡效果为ease（先加速后减速） */
   transition: width 0.01s ease;
 }
+
 /* 给包含el-menu的父div添加样式和动画效果 */
 .layout_slider {
-  /* 设置过渡效果，针对宽度、高度和透明度属性进行过渡，过渡时间为0.3秒，过渡效果为ease（先加速后减速） */
-  transition: width 0.1s ease, height 0.1s ease, opacity 0.1s ease;
+  /* 设置过渡效果，针对宽度、高度和透明度属性进行过渡，过渡时间为0.1秒，过渡效果为ease（先加速后减速） */
+  transition:
+    width 0.1s ease,
+    height 0.1s ease,
+    opacity 1s ease;
   /* 设置初始透明度为1，表示完全不透明 */
   opacity: 1;
 }
+
 /* 定义当菜单收起时layout_slider的样式 */
 .layout_slider.fold {
   /* 降低透明度，使div看起来逐渐消失，这里设置为0.5，表示半透明 */
   opacity: 0.8;
 }
+
 .layout_container {
   position: relative;
   width: 100%;
   height: 100vh;
+
   .layout_slider {
     position: fixed;
     width: $base-menu-width;
-
-    &.hidenMenu{
+    // 页面折叠
+    &.fold {
+      width: $base-menu-min-width;
+    }
+    &.hidenMenu {
       z-index: 2;
       height: 45px;
+
       &.moon {
-        background: $base-moon-color;
-        filter: drop-shadow(-10px 3px 5px $base-theme-moon-color) !important;
+        background: #171717;
+        filter: drop-shadow(-10px 3px 5px $base-theme-moon-color);
       }
 
       &.sunny {
-        background: $base-sunny-color;
-        filter: drop-shadow(-10px 3px 5px $base-theme-sunny-color) !important;
+        background: #fafafb;
+        filter: drop-shadow(-10px 3px 5px $base-theme-sunny-color);
       }
     }
- 
-    &.showMenu{
+    &.showMenu {
       z-index: 4;
       height: 100vh;
       &.moon {
-        background: $base-moon-color;
+        background: #171717;
         filter: drop-shadow(3px 0px 1px $base-theme-moon-color) !important;
       }
-
       &.sunny {
-        background: $base-sunny-color;
+        background: #fafafb;
         filter: drop-shadow(3px 0px 1px $base-theme-sunny-color) !important;
       }
       .scrollbar {
@@ -175,18 +183,27 @@ export default {
         bottom: 0;
         right: 2px;
         padding: 5px;
+
         &.fold {
-          transform: translateX(-14px); /* 这里假设从0到15px的变化可以通过 translateX 来模拟 */
+          transform: translateX(-14px);
+          /* 这里假设从0到14px的变化可以通过 translateX 来模拟 */
         }
       }
-    
     }
+    &.xiufu {
+      width: $base-menu-width !important;
+      z-index: 1;
 
-    &.fold {
-      width: $base-menu-min-width;
+      &.moon {
+        background: $base-moon-color;
+        filter: drop-shadow(6px 3px 5px $base-theme-moon-color);
+      }
+
+      &.sunny {
+        background: #fafafb;
+        filter: drop-shadow(6px 3px 5px $base-theme-sunny-color);
+      }
     }
-  
-
   }
 
   .layout_tabbar {
@@ -196,49 +213,57 @@ export default {
     position: fixed;
     width: calc(100% - $base-menu-width);
     height: $base-tabbar-height;
-    
-    &.hidenMenu{
+    &.xiufu {
       &.moon {
         background: $base-moon-color;
-        filter: drop-shadow(-12px 3px 5px $base-theme-moon-color) !important;
+        filter: drop-shadow(8px 3px 5px $base-theme-moon-color) !important;
       }
 
       &.sunny {
         background: $base-sunny-color;
-        filter: drop-shadow(-12px 3px 5px $base-theme-sunny-color) !important;
+        filter: drop-shadow(8px 3px 5px $base-theme-sunny-color) !important;
       }
     }
-    &.showMenu{
+    &.hidenMenu {
       &.moon {
-        background: $base-moon-color;
-        &.hidenTabs{
+        background: #171717;
+        filter: drop-shadow(-12px 3px 5px $base-theme-moon-color);
+      }
+
+      &.sunny {
+        background: #fafafb;
+        filter: drop-shadow(-12px 3px 5px $base-theme-sunny-color);
+      }
+    }
+    &.showMenu {
+      &.hidenTabs {
+        &.moon {
+          background:#171717;
           filter: drop-shadow(0px 3px 5px $base-theme-moon-color) !important;
         }
       }
-      &.sunny {
-        background: $base-sunny-color;
-        &.hidenTabs{
-        filter: drop-shadow(0px 3px 5px $base-theme-sunny-color) !important;
+
+      &.hidenTabs {
+        &.sunny {
+          background: #fafafb;
+          filter: drop-shadow(0px 3px 5px $base-theme-sunny-color) !important;
+        }
+      }
+
+      &.fold {
+        width: calc(100% - $base-menu-min-width);
+        left: $base-menu-min-width;
       }
     }
-    &.fold {
-      width: calc(100% - $base-menu-min-width);
-      left: $base-menu-min-width;
-    }
-  
-    }
- 
   }
+
   .layout_tabs {
     z-index: 3;
     top: $base-tabbar-height;
     scrollbar-width: thin;
     position: fixed;
-
     height: $base-tabs-height;
-
-
-    &.showMenu{
+    &.showMenu {
       width: calc(100% - $base-menu-width);
       left: $base-menu-width;
     }
@@ -248,10 +273,11 @@ export default {
       left: $base-menu-min-width;
     }
 
-    &.hidenMenu{
-       left:0;
-       width:100% ;
+    &.hidenMenu {
+      left: 0;
+      width: 100%;
     }
+
     &.moon {
       background: $base-moon-color;
       filter: drop-shadow(0px -3px 0px $base-theme-moon-color) !important;
@@ -268,19 +294,22 @@ export default {
     position: absolute;
     padding: $base-main-context-padding;
     scrollbar-width: thin;
-    &.showTabs{
-      top: calc($base-tabbar-height + $base-tabs-height) ;
+
+    &.showTabs {
+      top: calc($base-tabbar-height + $base-tabs-height);
       height: calc(100vh - $base-tabs-height - $base-tabs-height);
     }
-    &.hidenTabs{
-      top: $base-tabbar-height ;
+
+    &.hidenTabs {
+      top: $base-tabbar-height;
       height: calc(100vh - $base-tabs-height);
     }
- 
-    &.showMenu{
+
+    &.showMenu {
       width: calc(100% - $base-menu-width);
       left: $base-menu-width;
     }
+
     .context {
       width: 100%;
       height: 100vh;
@@ -292,10 +321,11 @@ export default {
       left: $base-menu-min-width;
     }
 
-    &.hidenMenu{
-       left:0;
-       width:100%;
+    &.hidenMenu {
+      left: 0;
+      width: 100%;
     }
+
     &.moon {
       background: $base-main-moon-background;
     }

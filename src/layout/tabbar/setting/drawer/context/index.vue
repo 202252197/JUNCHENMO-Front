@@ -23,17 +23,6 @@
     </div>
   </div>
   <div class="filed-style">
-    <div>顶部菜单栏栏</div>
-    <div>
-      <el-switch
-        v-model="LayoutSettingStore.topMenu"
-        class="mt-2"
-        style="margin-left: 24px"
-        inline-prompt
-      />
-    </div>
-  </div>
-  <div class="filed-style">
     <div>底部页脚</div>
     <div>
       <el-switch

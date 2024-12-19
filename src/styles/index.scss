@@ -31,31 +31,315 @@ body {
 * {
   font-weight: 600 !important;
 }
-
+.el-sub-menu .el-sub-menu__icon-arrow {
+  left: 85% !important;
+}
 html {
-  .el-menu-item.is-active {
-    svg use {
-      fill: $base-theme-sunny-color !important;
+  
+  // 修改
+  .el-menu {
+    background-color: $lvshihao-menu-suuny-bg;
+  }
+  .el-menu.el-menu--vertical {
+    margin: 5px 10px;
+    border-radius: 5px;
+    padding: 10px 0px 5px;
+    background-color: $lvshihao-menu-suuny-bg;
+    //单标签被选择样式
+    .el-menu-item.is-active {
+      background-color: $lvshihao-menu-suuny-item-active-bg;
+      box-shadow: 10px 10px 5px -4px $lvshihao-menu-suuny-item-active-box-shadow;
+      div {
+        margin-right: 10px;
+        width: 25px;
+        height: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        background-color: $lvshihao-menu-suuny-item-active-div-svg-bg;
+        svg {
+          use {
+            fill: $lvshihao-menu-suuny-item-active-div-svg-color;
+          }
+        }
+      }
     }
-     span {
-      color: $base-theme-sunny-color !important;
+    //单标签被选择，但是触摸的样式
+    .el-menu-item.is-active:hover {
+      background-color: $lvshihao-menu-suuny-item-active-hover-bg;
+    }
+    //单标签没有被选择样式
+    .el-menu-item {
+      border-radius: 8px;
+      margin-top: 5px;
+      div {
+        margin-right: 0px;
+        width: 25px;
+        height: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        svg {
+          use {
+            fill: $lvshihao-menu-suuny-item-div-svg-color;
+          }
+        }
+      }
+    }
+    //单标签没有被选择，但是触摸的样式
+    .el-menu-item:hover {
+      background-color: $lvshihao-menu-suuny-item-hover-bg;
+    }
+
+    //多标签子标签被选中的时候，父标签样式
+    .el-sub-menu.is-active {
+      .el-sub-menu__title {
+        background-color: $lvshihao-menu-suuny-item-active-bg;
+        box-shadow: 10px 10px 5px -4px $lvshihao-menu-suuny-item-active-box-shadow;
+        div {
+          margin-right: 10px;
+          width: 25px;
+          height: 25px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 4px;
+          background-color: $lvshihao-menu-suuny-item-active-div-svg-bg;
+          svg {
+            use {
+              fill: $lvshihao-menu-suuny-item-active-div-svg-color;
+            }
+          }
+        }
+      }
+      //多标签子标签被选中的时候，但是触摸的样式
+      .el-sub-menu__title:hover {
+        background-color: $lvshihao-menu-suuny-item-active-hover-bg;
+      }
+      .el-menu.el-menu--inline {
+        //第二层的sub-menu没被选中的样式
+        .el-sub-menu {
+          .el-sub-menu__title {
+            box-shadow: none;
+            background-color: $lvshihao-menu-suuny-bg;
+            div {
+              background-color: transparent;
+              margin-right: 0px;
+              width: 25px;
+              height: 25px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-radius: 4px;
+              svg {
+                use {
+                  fill: $lvshihao-menu-suuny-item-div-svg-color;
+                }
+              }
+            }
+          }
+          //多标签子标签被选中的时候，但是触摸的样式
+          .el-sub-menu__title:hover {
+            background-color: $lvshihao-menu-suuny-item-hover-bg;
+            div {
+              background-color: $lvshihao-menu-suuny-item-hover-bg;
+            }
+          }
+          .el-menu.el-menu--inline {
+            background-color: $lvshihao-menu-suuny-bg !important;
+            .el-menu-item {
+              margin: 5px 0px;
+              background-color: $lvshihao-menu-suuny-bg;
+              box-shadow: none;
+              color: $lvshihao-menu-suuny-item-div-svg-color;
+              svg {
+                use {
+                  fill: $lvshihao-menu-suuny-item-div-svg-color;
+                }
+              }
+            }
+          }
+        }
+        //第二层的sub-men被选中的样式
+        .el-sub-menu.is-active {
+          margin-top:5px;
+          .el-sub-menu__title {
+            background-color: $lvshihao-menu-suuny-bg;
+            box-shadow: 10px 10px 5px -4px $lvshihao-menu-suuny-item-active-box-shadow;
+            div {
+              margin-right: 10px;
+              width: 25px;
+              height: 25px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-radius: 4px;
+              background-color: $lvshihao-menu-suuny-item-active-div-svg-bg;
+              svg {
+                use {
+                  fill: $lvshihao-menu-suuny-item-active-div-svg-color;
+                }
+              }
+            }
+          }
+          .el-menu.el-menu--inline {
+             //第三层的单个标签被选择的样式
+            .el-menu-item.is-active {
+              margin: 5px 0px;
+              background-color: $lvshihao-menu-suuny-bg;
+              box-shadow: none;
+              color: $lvshihao-menu-suuny-item-active-div-svg-bg;
+              svg {
+                use {
+                  fill: $lvshihao-menu-suuny-item-active-div-svg-bg;
+                }
+              }
+            }
+          }
+        }
+        //第二层的单个标签被选择的样式
+        .el-menu-item.is-active {
+          margin: 5px 0px;
+          background-color: $lvshihao-menu-suuny-bg;
+          box-shadow: none;
+          color: $lvshihao-menu-suuny-item-active-div-svg-bg;
+          div{
+            margin-right:0px;
+            background-color: $lvshihao-menu-suuny-bg;
+            svg {
+              use {
+                fill: $lvshihao-menu-suuny-item-active-div-svg-bg;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    //多标签子标签未被选中的时候，父标签样式
+    .el-sub-menu {
+      .el-sub-menu__title {
+        div {
+          margin-right: 0px;
+          width: 25px;
+          height: 25px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 4px;
+          svg {
+            use {
+              fill: $lvshihao-menu-suuny-item-div-svg-color;
+            }
+          }
+        }
+      }
+       //标签子标签未被选中的时候，但是触摸的样式
+      .el-sub-menu__title:hover {
+        background-color: $lvshihao-menu-suuny-item-hover-bg;
+      }
+      .el-menu.el-menu--inline {
+        background-color: $lvshihao-menu-suuny-bg !important;
+        .el-menu-item {
+          margin: 5px 0px;
+          background-color: $lvshihao-menu-suuny-bg;
+          box-shadow: none;
+          color: $lvshihao-menu-suuny-item-div-svg-color;
+          svg {
+            use {
+              fill: $lvshihao-menu-suuny-item-div-svg-color;
+            }
+          }
+        }
+      }
+    }
+   
+  }
+  .el-menu.el-menu--vertical.el-menu--collapse{
+    display: flex;
+    flex-direction: column;
+    padding: 0px 5px;
+    margin: 0px;
+    .el-menu-item{
+      .el-menu-tooltip__trigger.el-tooltip__trigger.el-tooltip__trigger{
+        width: 100%;
+        height: 100%;
+        div{
+          margin-right:0px
+        }
+      }
+    }
+    .el-sub-menu.is-active{
+      .el-sub-menu__title.el-tooltip__trigger.el-tooltip__trigger{
+        padding: 0px;
+        width: 100%;
+        height: 100%;
+        div{
+          margin-right:0px
+        }
+      }
     }
   }
-  //多标签的折叠选择图标样式
-  .el-sub-menu.is-active {
-    .el-sub-menu__title.el-tooltip__trigger svg use {
-      fill: $base-theme-sunny-color !important;
+  .el-popper.is-pure{
+    border-radius: 8px;
+    background: $lvshihao-menu-suuny-bg;
+    .el-menu--vertical.el-menu--popup-container{
+      border-radius: 8px;
+      .el-menu.el-menu--popup.el-menu--popup-right-start{
+        border-radius: 8px;
+        padding: 5px 10px;
+        /* 菜单偏上一点 */
+        .el-menu-item *{
+          vertical-align:text-top;
+        }
+        .el-menu-item:hover{
+          border-radius: 8px;
+           background-color: rgb(242, 242, 248);
+        }
+        //单菜单被点击状态
+        .el-menu-item.is-active{
+          border-radius: 8px;
+          background-color: $lvshihao-menu-suuny-item-active-div-svg-bg;
+          color: $lvshihao-menu-suuny-item-active-div-svg-color;
+          div{
+            svg{
+              use{
+                fill: $lvshihao-menu-suuny-item-active-div-svg-color;
+              }
+            }
+          }
+        }
+        //多级菜单
+        .el-sub-menu{
+          .el-sub-menu__title{
+            margin: 0px;
+          }
+          .el-sub-menu__title:hover{
+            border-radius: 8px;
+             background-color: rgb(242, 242, 248);
+          }
+        }
+         //多级菜单被点击
+        .el-sub-menu.is-active{
+          .el-sub-menu__title.el-tooltip__trigger.el-tooltip__trigger{
+            background-color: $lvshihao-menu-suuny-item-active-div-svg-bg;
+            color: $lvshihao-menu-suuny-item-active-div-svg-color ;
+          }
+          div{
+            svg{
+              use{
+                fill: $lvshihao-menu-suuny-item-active-div-svg-color;
+              }
+            }
+          }
+        }
+      }
     }
   }
-  //多标签的折叠选择图标样式
-  .el-sub-menu.is-active {
-    .el-sub-menu__title svg use {
-      fill: $base-theme-sunny-color !important;
-    }
-    .el-sub-menu__title span {
-      color: $base-theme-sunny-color !important;
-    }
-  }
+ 
+ 
   /* 设置默认主题的滚动条背景颜色 */
   .el-scrollbar {
     --el-scrollbar-bg-color: $base-sunny-color;
@@ -66,7 +350,7 @@ html {
   }
 
   .el-tag.el-tag--primary {
-    --el-tag-bg-color: #5072e6;
+    --el-tag-bg-color: $base-theme-sunny-color;
     --el-tag-text-color: #ffffff;
   }
   .el-tag.el-tag--primary:hover {
@@ -75,14 +359,14 @@ html {
   /* 多选框选择的背景颜色 */
   .el-checkbox__input.is-checked .el-checkbox__inner {
     background-color: $base-theme-sunny-color;
-    border-color: #5072e6;
+    border-color: $base-theme-sunny-color;
   }
   .el-checkbox__input.is-indeterminate .el-checkbox__inner {
     background-color: $base-theme-sunny-color;
-    border-color: #5072e6;
+    border-color: $base-theme-sunny-color;
   }
   .el-checkbox__inner:hover {
-    border-color: #5072e6;
+    border-color: $base-theme-sunny-color;
   }
   /* 单选框选中的背景颜色 */
   .el-radio-button__original-radio:checked + .el-radio-button__inner {
@@ -132,45 +416,16 @@ html {
     }
   }
 
-  .el-sub-menu .el-sub-menu__icon-arrow {
-    left: 80% !important;
-  }
-  /* menu子菜单区域 */
-  .el-menu--popup {
-    /* 菜单偏上一点 */
-    background-image: linear-gradient(0deg, #ffffff 0%, #728ce3 100%);
-    padding: 10px 0px !important;
-    .el-menu-item {
-      color: #333333 !important;
-      background-color: transparent !important;
-      margin: 5px 10px !important;
-      transition-duration: 0s;
-    }
-    .el-menu {
-      margin: 0px !important;
-    }
-    .el-menu-item:hover {
-      background-color: #ffffff !important;
-      filter: drop-shadow(5px 0px 5px $base-theme-sunny-color);
-    }
-  }
-
   .el-dialog {
     filter: drop-shadow(0px 0px 5px $base-theme-sunny-color);
   }
   .el-drawer {
     filter: drop-shadow(5px 0px 30px $base-theme-sunny-color);
   }
-  /* 选中菜单项样式 */
-  .el-menu-item.is-active {
-    color: black !important;
-    background-color: white !important;
-    filter: drop-shadow(5px 0px 5px $base-theme-sunny-color);
-  }
 
   /* 主要按钮样式 */
   .el-button--primary {
-    --el-button-bg-color: #5072e6;
+    --el-button-bg-color: $base-theme-sunny-color;
     --el-button-hover-bg-color: #728ce3;
   }
 
@@ -178,65 +433,339 @@ html {
   .el-button--primary.is-link,
   .el-button--primary.is-plain,
   .el-button--primary.is-text {
-    --el-button-text-color: #5072e6;
+    --el-button-text-color: $base-theme-sunny-color;
   }
 }
 
 html.dark {
-  .el-menu-item {
-    svg use {
-      fill: $base-sunny-color !important;
+  // 修改
+  .el-menu {
+    background-color: $lvshihao-menu-moon-bg;
+  }
+  .el-menu.el-menu--vertical {
+    margin: 5px 10px;
+    border-radius: 5px;
+    padding: 10px 0px 5px;
+    background-color: $lvshihao-menu-moon-bg;
+    //单标签被选择样式
+    .el-menu-item.is-active {
+      background-color: $lvshihao-menu-moon-item-active-bg;
+      box-shadow: 0px 0px 0px 0px $lvshihao-menu-moon-item-active-box-shadow;
+      span{
+        color:$lvshihao-menu-moon-item-active-div-svg-color;
+      }
+      div {
+        margin-right: 10px;
+        width: 25px;
+        height: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        background-color: $lvshihao-menu-moon-item-active-div-svg-bg;
+        svg {
+          use {
+            fill: $lvshihao-menu-moon-item-active-div-svg-color;
+          }
+        }
+      }
     }
-     span {
-      color: $base-sunny-color !important;
+    //单标签被选择，但是触摸的样式
+    .el-menu-item.is-active:hover {
+      background-color: $lvshihao-menu-moon-item-active-hover-bg;
+    }
+    //单标签没有被选择样式
+    .el-menu-item {
+      border-radius: 8px;
+      margin-top: 5px;
+      div {
+        margin-right: 0px;
+        width: 25px;
+        height: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        svg {
+          use {
+            fill: $lvshihao-menu-moon-item-div-svg-color;
+          }
+        }
+      }
+    }
+    //单标签没有被选择，但是触摸的样式
+    .el-menu-item:hover {
+      background-color: $lvshihao-menu-moon-item-hover-bg;
+    }
+
+    //多标签子标签被选中的时候，父标签样式
+    .el-sub-menu.is-active {
+      .el-sub-menu__title {
+        color:$lvshihao-menu-moon-item-active-div-svg-color;
+        background-color: $lvshihao-menu-moon-item-active-bg;
+        box-shadow: 0px 0px 0px 0px $lvshihao-menu-moon-item-active-box-shadow;
+        div {
+          margin-right: 10px;
+          width: 25px;
+          height: 25px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 4px;
+          background-color: $lvshihao-menu-moon-item-active-div-svg-bg;
+          svg {
+            use {
+              fill: $lvshihao-menu-moon-item-active-div-svg-color;
+            }
+          }
+        }
+      }
+      //多标签子标签被选中的时候，但是触摸的样式
+      .el-sub-menu__title:hover {
+        background-color: $lvshihao-menu-moon-item-active-hover-bg;
+      }
+      .el-menu.el-menu--inline {
+        //第二层的sub-menu没被选中的样式
+        .el-sub-menu {
+          .el-sub-menu__title {
+            box-shadow: none;
+            background-color: $lvshihao-menu-moon-bg;
+            div {
+              background-color: transparent;
+              margin-right: 0px;
+              width: 25px;
+              height: 25px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-radius: 4px;
+              svg {
+                use {
+                  fill: $lvshihao-menu-moon-item-div-svg-color;
+                }
+              }
+            }
+          }
+          //多标签子标签被选中的时候，但是触摸的样式
+          .el-sub-menu__title:hover {
+            background-color: $lvshihao-menu-moon-item-hover-bg;
+            div {
+              background-color: $lvshihao-menu-moon-item-hover-bg;
+            }
+          }
+          .el-menu.el-menu--inline {
+            background-color: $lvshihao-menu-moon-bg !important;
+            .el-menu-item {
+              margin: 5px 0px;
+              background-color: $lvshihao-menu-moon-bg;
+              box-shadow: none;
+              color: $lvshihao-menu-moon-item-div-svg-color;
+              svg {
+                use {
+                  fill: $lvshihao-menu-moon-item-div-svg-color;
+                }
+              }
+            }
+          }
+        }
+        //第二层的sub-men被选中的样式
+        .el-sub-menu.is-active {
+          margin-top:5px;
+          .el-sub-menu__title {
+            background-color: $lvshihao-menu-moon-bg;
+            box-shadow: 0px 0px 0px 0px $lvshihao-menu-moon-item-active-box-shadow;
+            div {
+              margin-right: 10px;
+              width: 25px;
+              height: 25px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-radius: 4px;
+              background-color: $lvshihao-menu-moon-item-active-div-svg-bg;
+              svg {
+                use {
+                  fill: $lvshihao-menu-moon-item-active-div-svg-color;
+                }
+              }
+            }
+          }
+          .el-menu.el-menu--inline {
+             //第三层的单个标签被选择的样式
+            .el-menu-item.is-active {
+              margin: 5px 0px;
+              background-color: $lvshihao-menu-moon-bg;
+              box-shadow: none;
+              color: $lvshihao-menu-moon-item-active-div-svg-bg;
+              svg {
+                use {
+                  fill: $lvshihao-menu-moon-item-active-div-svg-bg;
+                }
+              }
+            }
+          }
+        }
+        //第二层的单个标签被选择的样式
+        .el-menu-item.is-active {
+          margin: 5px 0px;
+          background-color: $lvshihao-menu-moon-bg;
+          box-shadow: none;
+          span{
+            color:$lvshihao-menu-moon-item-active-div-svg-color;
+          }
+          div{
+            margin-right:0px;
+            background-color: $lvshihao-menu-moon-bg;
+            svg {
+              use {
+                fill: $lvshihao-menu-moon-item-active-div-svg-color;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    //多标签子标签未被选中的时候，父标签样式
+    .el-sub-menu {
+      .el-sub-menu__title {
+        div {
+          margin-right: 0px;
+          width: 25px;
+          height: 25px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 4px;
+          svg {
+            use {
+              fill: $lvshihao-menu-moon-item-div-svg-color;
+            }
+          }
+        }
+      }
+       //标签子标签未被选中的时候，但是触摸的样式
+      .el-sub-menu__title:hover {
+        background-color: $lvshihao-menu-moon-item-hover-bg;
+      }
+      .el-menu.el-menu--inline {
+        background-color: $lvshihao-menu-moon-bg !important;
+        .el-menu-item {
+          margin: 5px 0px;
+          background-color: $lvshihao-menu-moon-bg;
+          box-shadow: none;
+          color: $lvshihao-menu-moon-item-div-svg-color;
+          svg {
+            use {
+              fill: $lvshihao-menu-moon-item-div-svg-color;
+            }
+          }
+        }
+      }
+    }
+   
+  }
+  .el-menu.el-menu--vertical.el-menu--collapse{
+    display: flex;
+    flex-direction: column;
+    padding: 0px 5px;
+    margin: 0px;
+    .el-menu-item{
+      .el-menu-tooltip__trigger.el-tooltip__trigger.el-tooltip__trigger{
+        width: 100%;
+        height: 100%;
+        div{
+          margin-right:0px
+        }
+      }
+    }
+    .el-sub-menu.is-active{
+      .el-sub-menu__title.el-tooltip__trigger.el-tooltip__trigger{
+        padding: 0px;
+        width: 100%;
+        height: 100%;
+        div{
+          margin-right:0px
+        }
+      }
     }
   }
-  .el-menu-item.is-active {
-    svg use {
-      fill: $base-theme-moon-color !important;
-    }
-     span {
-      color: $base-theme-moon-color !important;
+  .el-popper.is-pure{
+    border-radius: 8px;
+    background: $lvshihao-menu-moon-bg;
+    .el-menu--vertical.el-menu--popup-container{
+      border-radius: 8px;
+      .el-menu.el-menu--popup.el-menu--popup-right-start{
+        border-radius: 8px;
+        padding: 5px 10px;
+        /* 菜单偏上一点 */
+        .el-menu-item *{
+          vertical-align:text-top;
+        }
+        .el-menu-item{
+          div{
+            svg{
+              use{
+                fill: $lvshihao-menu-moon-item-div-svg-color;
+              }
+            }
+          }
+        }
+        .el-menu-item:hover{
+          border-radius: 8px;
+           background-color:$lvshihao-menu-moon-item-hover-bg;
+        }
+        //单菜单被点击状态
+        .el-menu-item.is-active{
+          border-radius: 8px;
+          background-color: $lvshihao-menu-moon-bg;
+          span{
+            color: $lvshihao-menu-moon-item-active-div-svg-color;
+          }
+          div{
+            svg{
+              use{
+                fill: $lvshihao-menu-moon-item-active-div-svg-color;
+              }
+            }
+          }
+        }
+        //多级菜单
+        .el-sub-menu{
+          .el-sub-menu__title{
+            margin: 0px;
+            div{
+              svg{
+                use{
+                  fill: $lvshihao-menu-moon-item-div-svg-color;
+                }
+              }
+            }
+          }
+          .el-sub-menu__title:hover{
+            border-radius: 8px;
+            background-color:$lvshihao-menu-moon-item-hover-bg;
+          }
+        }
+         //多级菜单被点击
+        .el-sub-menu.is-active{
+          .el-sub-menu__title.el-tooltip__trigger.el-tooltip__trigger{
+            background-color: $lvshihao-menu-moon-item-active-div-svg-bg;
+            color: $lvshihao-menu-moon-item-active-div-svg-color ;
+          }
+          div{
+            svg{
+              use{
+                fill: $lvshihao-menu-moon-item-div-svg-color;
+              }
+            }
+          }
+        }
+      }
     }
   }
-  .el-sub-menu {
-    .el-sub-menu__title svg use {
-      fill: $base-sunny-color !important;
-    }
-  }
-  //多标签的折叠选择图标样式
-  .el-sub-menu {
-    .el-sub-menu__title.el-tooltip__trigger svg use {
-      fill: $base-sunny-color !important;
-    }
-  }
-  .el-menu--horizontal>.el-menu-item.is-active{
-    border-bottom:2px solid $base-theme-moon-color;
-  }
-  .el-menu--horizontal>.el-sub-menu.is-active .el-sub-menu__title{
-    border-bottom:2px solid $base-theme-moon-color;
-  }
-  .el-menu--horizontal>.el-sub-menu:hover .el-sub-menu__title{
-    color:$base-theme-moon-color;
-  }
-  //多标签的折叠选择图标样式
-  .el-sub-menu.is-active {
-    .el-sub-menu__title.el-tooltip__trigger svg use {
-      fill: $base-theme-moon-color !important;
-    }
-    .el-sub-menu__title.el-tooltip__trigger span {
-      color: $base-theme-moon-color !important;
-    }
-  }
-  //多标签的折叠选择图标样式
-  .el-sub-menu.is-active {
-    .el-sub-menu__title svg use {
-      fill: $base-theme-moon-color !important;
-    }
-    .el-sub-menu__title span {
-      color: $base-theme-moon-color !important;
-    }
-  }
+
+
   /* 设置深色主题的滚动条背景颜色 */
   .el-scrollbar {
     --el-scrollbar-bg-color: $base-moon-color;
@@ -308,33 +837,6 @@ html.dark {
     background-color: black;
     color: white;
   }
-  /* menu子菜单区域 */
-  .el-menu--popup {
-    /* 菜单偏上一点 */
-    border-radius: 6px !important;
-    background-image: linear-gradient(0deg, #693232 0%, #0a0b0b 100%);
-    padding: 10px 0px !important;
-
-    .el-menu-item {
-      color: white !important;
-      background-color: transparent !important;
-      margin: 5px 10px;
-      border-radius: 4px;
-      transition-duration: 0s;
-    }
-    .el-menu-item:hover {
-      color: #black !important;
-      background-color: black !important;
-      filter: drop-shadow(5px 0px 5px $base-theme-moon-color);
-    }
-  }
-
-  /* 选中菜单项样式 */
-  .el-menu-item.is-active {
-    color: black !important;
-    background-color: black !important;
-    filter: drop-shadow(5px 0px 5px $base-theme-moon-color);
-  }
   .el-dialog {
     filter: drop-shadow(0px 0px 5px $base-theme-moon-color);
   }
@@ -360,37 +862,6 @@ html.dark {
 .searchForm .el-form-item {
   margin-bottom: 0px !important;
 }
-/* 菜单区域样式 */
-.el-menu-item {
-  height: 38px !important;
-}
-.el-sub-menu__title {
-  border-radius: 8px !important;
-  height: 38px !important;
-}
-.el-menu.el-menu--inline {
-  padding: 0px 10px !important;
-}
-.el-menu.el-menu--vertical {
-  margin: 0px 10px;
-}
-.el-menu.el-menu--collapse {
-  margin: 0px 0px;
-  li {
-    div {
-      justify-content: center;
-    }
-    border-radius: 8px !important;
-  }
-}
-.el-sub-menu {
-  border-radius: 8px;
-  // margin-top: 10px;
-}
-.el-menu-item {
-  border-radius: 8px;
-  margin-top: 5px;
-}
 
 /* 按钮区域样式 */
 .el-button {
@@ -408,36 +879,39 @@ html.dark {
   opacity: 0.85; /* 设置透明度为 85% */
   --el-card-padding: 15px !important;
   border-radius: $base-card-border-radius !important;
-}
-/* 设置对话框的标题和内容区域的样式 */
-.el-card__header {
-  border-bottom: 0;
+  .el-card__header {
+    border-bottom: 0;
+  }
+  .el-card__body {
+    .el-input {
+      width: $base-input-width;
+    }
+    .el-select {
+      width: $base-select-width;
+    }
+  }
+  .el-card__footer {
+    border-top: 0;
+  }
 }
 
-/* 设置对话框的内容区域的宽度 */
-/* 设置输入框和下拉框的宽度 */
-.el-card__body {
-  .el-input {
-    width: $base-input-width;
+.card-table-style {
+  .el-card__body {
+    padding: 10px !important;
   }
-  .el-select {
-    width: $base-select-width;
-  }
+  margin-top: 20px;
+}
+/* 设置卡片头部的样式 */
+.card-header-style {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-//横向导航栏
-.el-menu--horizontal{
-  height: 45px;
-  .el-menu-item{
-    margin: 3px 15px;
-  }
-}
-.el-sub-menu__title.el-tooltip__trigger.el-tooltip__trigger{
-  margin: 3px 0px;
-}
-/* 设置对话框的尾部的样式 */
-.el-card__footer {
-  border-top: 0;
+/* el-check-tag标签样式 */
+.el-check-tag {
+  padding: 5px 7px;
+  font-size: 13px;
 }
 
 /* 设置分页器的样式 */
@@ -450,18 +924,6 @@ html.dark {
 .modal-style {
   display: flex;
   justify-content: center;
-}
-.card-table-style {
-  .el-card__body {
-    padding: 10px !important;
-  }
-  margin-top: 20px;
-}
-/* 设置卡片头部的样式 */
-.card-header-style {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .el-tag.el-tag--primary {
@@ -482,3 +944,41 @@ html.dark {
 .height-light-span-error {
   color: red;
 }
+
+/* 菜单区域样式 */
+.el-menu-item {
+  height: 38px !important;
+}
+.el-sub-menu__title {
+  border-radius: 8px !important;
+  height: 38px !important;
+}
+.el-menu.el-menu--inline {
+  padding: 0px 10px !important;
+}
+
+.el-menu.el-menu--collapse {
+  li {
+    div {
+      justify-content: center;
+    }
+  }
+}
+.el-sub-menu__title *{
+  vertical-align: text-top;
+}
+
+
+//横向导航栏
+.el-menu--horizontal {
+  height: 45px;
+  .el-menu-item {
+    margin: 3px 15px;
+  }
+}
+.el-sub-menu__title.el-tooltip__trigger.el-tooltip__trigger {
+  margin: 3px 0px;
+}
+
+
+

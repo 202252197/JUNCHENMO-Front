@@ -2,7 +2,7 @@
   <div class="logo noselect" v-if="setting.logoHidden">
     <img :src="setting.logo" draggable="false" />
     <div
-      v-show="!LayoutSettingStore.fold"
+      v-show="!LayoutSettingStore.fold||!LayoutSettingStore.menu"
       class="selector-disabled"
       style="color: #0C9FA6; font-size: 20px"
     >

@@ -98,7 +98,7 @@
               :disabled="isAdminById(scope.row.userId)" text>
               分配角色
             </el-button>
-            <el-button size="small" type="danger" @click="deleteItem(scope.row)"
+            <el-button size="small" type="primary" @click="deleteItem(scope.row)"
               :disabled="isAdminById(scope.row.userId)" text>
               删除
             </el-button>

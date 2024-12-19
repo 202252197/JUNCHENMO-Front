@@ -17,7 +17,6 @@ const useSettinggStore = defineStore('SettinggStore', {
       tabs: true, //tabs是否展示
       menu: true, //菜单是否展示
       copyright: true, //版权内容是否展示 
-      topMenu: false //顶部菜单栏
     }
   },
   actions: {
@@ -32,7 +31,6 @@ const useSettinggStore = defineStore('SettinggStore', {
         this.size = result.data.size
         this.tabs = result.data.tabs
         this.menu = result.data.menu
-        this.topMenu = result.data.topMenu
         this.copyright = result.data.copyright
       })
    
@@ -55,7 +53,7 @@ const useSettinggStore = defineStore('SettinggStore', {
   },
   getters: {
     getTheme: (state) => {
-      return state.theme?"#5072e6":"red"
+      return state.theme?"#157bff":"red"
     }
   },
 })
