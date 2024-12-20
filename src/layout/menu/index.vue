@@ -25,11 +25,11 @@
             $router,
           )
           ">
-          
-          <template #title>
-            <div>
+           <div>
               <svg-icon :name="item.meta.icon" />
             </div>
+          <template #title>
+           
             <span >{{ item.meta.title }}</span>
           </template>
         </el-menu-item>

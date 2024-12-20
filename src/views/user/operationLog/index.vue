@@ -86,7 +86,7 @@
         <el-table-column prop="status" label="执行结果" align="center">
           <template #default="scope">
             <template v-if="scope.row.status === 0">
-              <el-tag checked size="small" :color="LayoutSettingStore.getTheme">
+              <el-tag checked size="small" >
                 成功
               </el-tag>
             </template>

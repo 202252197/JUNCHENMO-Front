@@ -1,11 +1,13 @@
 <template>
-  <div class="logo noselect" v-if="setting.logoHidden">
-    <img :src="setting.logo" draggable="false" />
-    <div
-      class="selector-disabled"
-      style="color: #0C9FA6; font-size: 20px"
-    >
-      {{ setting.title }}
+  <div class="logo logo-fold noselect" v-show="!LayoutSettingStore.fold">
+    <div >
+      <svg-icon name="logo"  width="20px" height="20px" :color="LayoutSettingStore.theme ? 'black' : 'white'"/>
+      <span >{{ setting.title }}</span>
+    </div>
+  </div>
+  <div class="logo logo-unfold noselect"  v-show="LayoutSettingStore.fold" >
+    <div>
+      <svg-icon name="logo"  width="20px" height="20px" :color="LayoutSettingStore.theme ? 'black' : 'white'"/>
     </div>
   </div>
 </template>
@@ -19,20 +21,27 @@ import setting from '@/setting'
 </script>
 
 <style scoped>
-.logo {
-  padding-left: 30px;
-  width: 200px;
+.logo{
+  font-size: 20px;
   height: 40px;
-  align-items: center;
+}
+.logo-fold {
+  width: 220px;
+  div{
+    display: flex;
+    align-items: center;
+  }
+  gap: 5px;
   display: flex;
-  img {
-    width: 30px;
-    height: 30px;
-  }
-  p {
-    padding-left: 5px;
-    font-size: 15px;
-    font-weight: 800;
-  }
+  justify-content: center;
+  align-items: flex-end;
+}
+.logo-unfold{
+  width: 65px;
+  display: flex;
+  gap: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
 }
 </style>

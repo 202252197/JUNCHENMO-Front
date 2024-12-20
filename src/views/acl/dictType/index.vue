@@ -65,7 +65,7 @@
         <el-table-column prop="description" label="描述" align="center" />
         <el-table-column prop="type" label="类型" align="center">
           <template #default="scope">
-            <el-tag size="small" style="color:white" :color="LayoutSettingStore.getTheme">
+            <el-tag size="small" style="color:white" >
               {{ getStatusByType(scope.row.type) }}
             </el-tag>
           </template>
@@ -84,7 +84,7 @@
         <el-table-column prop="status" label="状态" align="center">
           <template #default="scope">
             <template v-if="scope.row.status === 0">
-              <el-tag checked size="small" :color="LayoutSettingStore.getTheme">
+              <el-tag checked size="small" >
                 启用
               </el-tag>
             </template>

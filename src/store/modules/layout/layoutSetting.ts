@@ -30,7 +30,7 @@ const useSettinggStore = defineStore('SettinggStore', {
         this.theme = result.data.theme
         this.size = result.data.size
         this.tabs = result.data.tabs
-        this.menu = result.data.menu
+        // this.menu = result.data.menu
         this.copyright = result.data.copyright
       })
    

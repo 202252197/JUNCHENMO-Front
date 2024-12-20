@@ -23,12 +23,13 @@
                     @click="TabsStore.routerTab(tag, $router)"
                   >
                     <div style="display: flex; align-items: center">
-                      <div>
+                      <!--隐藏图标-->
+                      <!-- <div>
                         <svg-icon :name="tag.icon" :color="iconColor"/>
-                      </div>
+                      </div> -->
                       <div style="margin-left: 3px">
                         <!-- 新增的分隔符 -->
-                        <span :style="{color:iconColor}">{{ tag.title }}</span>
+                        <span >{{ tag.title }}</span>
                       </div>
                     </div>
                   </el-check-tag>
@@ -55,12 +56,13 @@
                   @click="TabsStore.routerTab(tag, $router)"
                 >
                   <div style="display: flex; align-items: center">
-                    <div>
+                    <!--隐藏图标-->
+                    <!-- <div>
                       <svg-icon :name="tag.icon" :color="iconColor"/>
-                    </div>
+                    </div> -->
                     <div style="margin-left: 3px">
                       <!-- 新增的分隔符 -->
-                      <span :style="iconColor">{{ tag.title }}</span>
+                      <span>{{ tag.title }}</span>
                     </div>
                   </div>
                 </el-check-tag>
@@ -107,24 +109,10 @@ import useLayoutSettingStore from '@/store/modules/layout/layoutSetting'
 import useTabsStore from '@/store/modules/layout/tabs'
 const LayoutSettingStore = useLayoutSettingStore()
 const TabsStore = useTabsStore()
-//图标根据主题模式动态切换颜色
-const iconColor = computed(() => LayoutSettingStore.theme? 'black' : 'white');
+
 const $router = useRouter()
 const route = useRoute()
 
-// const defalutTag: any = ref([
-//   {
-//     title: '首页',
-//     closable: false,
-//     path: '/home',
-//     checked: true,
-//     icon: 'home',
-//   },
-// ])
-// //**遍历添加默认的首页Tab */
-// defalutTag.value.forEach((element: any) => {
-//   TabsStore.addTab(element,)
-// })
 TabsStore.initTabs($router,route)
 //每次滚动左右移动10px
 const scrollbarRef = ref()
@@ -156,16 +144,7 @@ const handleScroll = (e: WheelEvent) => {
   align-items: center;
   display: flex;
 }
-.row-tabs {
-  &.moon {
-    background-color:  $base-moon-color;
-    filter: drop-shadow(5px 3px 5px $base-theme-moon-color)  !important;
-  }
-  &.sunny {
-    background-color: $base-sunny-color;
-    filter: drop-shadow(5px 3px 5px $base-theme-sunny-color)  !important;
-  }
-}
+
 .el-dropdown-jcm {
   height: 100%;
   align-items: center;
@@ -192,9 +171,6 @@ const handleScroll = (e: WheelEvent) => {
   justify-content: center;
   width: auto;
   text-align: center;
-}
-.scrollbar-demo-item:nth-child(1){
-  margin-left: 15px;
 }
 /** 隐藏横向滚动条 */
 .el-scrollbar__bar .is-horizontal {

@@ -71,7 +71,7 @@
         <el-table-column prop="status" label="状态" align="center">
           <template #default="scope">
             <template v-if="scope.row.status === 0">
-              <el-tag checked size="small" :color="LayoutSettingStore.getTheme">
+              <el-tag checked size="small">
                 启用
               </el-tag>
             </template>

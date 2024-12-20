@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
+    "animate.css": "^4.1.1",
     "axios": "^1.6.8",
     "element-plus": "^2.6.2",
     "monaco-editor": "^0.44.0",

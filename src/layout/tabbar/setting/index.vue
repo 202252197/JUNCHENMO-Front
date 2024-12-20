@@ -1,19 +1,29 @@
 <template>
-  <el-button title="刷新" icon="Refresh" @click="updateRefsh"></el-button>
-  <el-button title="全屏" icon="FullScreen" @click="fullScreen"></el-button>
+  <el-button title="刷新"  class="iconBtn"  @click="updateRefsh">
+    <svg-icon  name="刷新"  />
+  </el-button>
+  <el-button title="全屏" class="iconBtn"   @click="fullScreen">
+    <svg-icon  name="全屏"  />
+  </el-button>
   <el-button
     v-show="LayoutSettingStore.theme"
+    class="iconBtn"
     title="白天模式"
-    icon="Sunny"
     @click="changeMoon"
-  ></el-button>
+  >
+  <svg-icon  name="白天"  />
+</el-button>
   <el-button
     v-show="!LayoutSettingStore.theme"
+    class="iconBtn"
     title="夜晚模式"
-    icon="Moon"
     @click="changeSunny"
-  ></el-button>
-  <el-button title="设置" icon="Setting" @click="settingDrawer"></el-button>
+  >
+  <svg-icon  name="夜晚"  />
+</el-button>
+  <el-button  class="iconBtn" title="设置"  @click="settingDrawer">
+    <svg-icon  name="设置"  />
+  </el-button>
   <!-- 下拉菜单 -->
   <el-dropdown trigger="hover" class="test">
     <span class="el-dropdown-link">

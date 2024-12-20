@@ -1,24 +1,25 @@
 <template>
-  <div class="tabbar">
-      <!-- logo -->
-    <Logo class="logo"></Logo>
-    <div class="tabbar_left">
-      <div style="margin-left: 30px;">
-        人生就像下棋一样，每一步都要慎重考虑；
+    <div class="tabbar">
+      <div class="tabbar_left">
+  
+        <div style="margin-left: 30px">
+          人生就像下棋一样，每一步都要慎重考虑；
+        </div>
+      </div>
+      <div class="tabbar_right">
+        <Setting></Setting>
       </div>
     </div>
-    <div class="tabbar_right">
-      <Setting></Setting>
-    </div>
-  </div>
 </template>
 
 <script setup lang="ts">
 //引入菜单组件
 import Setting from './setting/index.vue'
-//引入左侧菜单logo子组件
-import Logo from '../logo/index.vue'
+//获取设置相关的小仓库
+import useLayoutSettingStore from '@/store/modules/layout/layoutSetting'
 //获取layout配置相关的仓库
+const LayoutSettingStore = useLayoutSettingStore()
+
 </script>
 <script lang="ts">
 export default {

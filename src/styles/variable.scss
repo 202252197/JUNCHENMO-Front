@@ -5,20 +5,7 @@ $title-jcm:25px;
 //左侧菜单的宽度
 $base-menu-width:220px;
 
-//白天
-$base-sunny-color:#fafafb;
-//内容区的背景颜色
-$base-main-sunny-background: #fafafb;
-//主题色
-// $base-theme-sunny-color:#1dbea1;
-$base-theme-sunny-color:#157bff;
 
-//黑夜
-$base-moon-color:#121212;
-//内容区的背景颜色
-$base-main-moon-background: #151414;
-//主题色
-$base-theme-moon-color:#c02727;
 
 //内容区的内边距
 $base-main-context-padding:20px;
@@ -33,24 +20,25 @@ $base-menu-logo-height:50px;
 //左侧菜单折叠之后的宽度
 $base-menu-min-width:65px;
 
-//卡片的圆角
-$base-card-border-radius:14px;
+//统一border-radius
+$base-border-radius:5px;
 //输入框的宽度
 $base-input-width:200px;
 //选择框的宽度
 $base-select-width:230px;
 
 
-
-
-$lvshihao-menu-suuny-bg:#fafafb;
-
-$lvshihao-menu-suuny-item-active-bg:#ffffff;
-$lvshihao-menu-suuny-item-active-hover-bg:#ffffff;
-$lvshihao-menu-suuny-item-active-box-shadow:#f2f2f8;
-$lvshihao-menu-suuny-item-active-div-svg-bg:#157bff;
+//主题色
+//导航栏背景色
+$lvshihao-menu-suuny-bg:#ffffff;
+$lvshihao-menu-suuny-item-active-bg:#fafafb;
+$lvshihao-menu-suuny-item-active-hover-bg:#fafafb;
+$lvshihao-menu-suuny-item-active-box-shadow:#f4f4f8;
+//选中的图标背景和文字颜色
+// $lvshihao-menu-suuny-item-active-div-svg-bg:#157bff;
+$lvshihao-menu-suuny-item-active-div-svg-bg:#c88a33;
+//选中的导航栏图片颜色
 $lvshihao-menu-suuny-item-active-div-svg-color:#ffffff;
-
 $lvshihao-menu-suuny-item-div-svg-color:#000000;
 $lvshihao-menu-suuny-item-hover-bg:#f2f2f8;
 
@@ -58,13 +46,11 @@ $lvshihao-menu-suuny-item-hover-bg:#f2f2f8;
 
 
 
-$lvshihao-menu-moon-bg:#171717;
-
-$lvshihao-menu-moon-item-active-bg:#171717;
-$lvshihao-menu-moon-item-active-hover-bg:#171717;
+$lvshihao-menu-moon-bg:#161618;
+$lvshihao-menu-moon-item-active-bg:#161618;
+$lvshihao-menu-moon-item-active-hover-bg:#161618;
 $lvshihao-menu-moon-item-active-box-shadow:#901212;
 $lvshihao-menu-moon-item-active-div-svg-bg:#fafafb;
 $lvshihao-menu-moon-item-active-div-svg-color:#c02727;
-
 $lvshihao-menu-moon-item-div-svg-color:#ffffff;
 $lvshihao-menu-moon-item-hover-bg:#212121;

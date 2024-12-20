@@ -64,6 +64,8 @@ import useLayoutSettingStore from '@/store/modules/layout/layoutSetting'
 //获取layout配置相关的仓库
 const LayoutSettingStore = useLayoutSettingStore()
 let value2 = ref(true)
+
+
 </script>
 
 <script lang="ts">

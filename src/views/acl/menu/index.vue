@@ -16,9 +16,9 @@
           </el-form-item>
 
           <div style="margin-left: auto">
-            <el-button :color="LayoutSettingStore.getTheme"
+            <el-button
               @click="menuAddFromModal?.open(undefined)">新增</el-button>
-            <el-button :color="LayoutSettingStore.getTheme" @click="searchList(menuStore.searchform)">
+            <el-button  @click="searchList(menuStore.searchform)">
               搜索
             </el-button>
             <el-button type="info" @click="resetSearchForm(searchFormRef)">
@@ -28,7 +28,7 @@
               <template v-if="menuStore.expandStatus">收起</template>
               <template v-else>展开</template>
             </el-button>
-            <el-button @click="refreshCacheMenu()" :color="LayoutSettingStore.theme ? '#1e56a0' : '#f73859'">
+            <el-button @click="refreshCacheMenu()" >
               刷新缓存
             </el-button>
           </div>
@@ -49,7 +49,7 @@
         </el-table-column>
         <el-table-column prop="type" label="类型" align="center">
           <template #default="scope">
-            <el-tag size="small" :color="LayoutSettingStore.getTheme">
+            <el-tag size="small" >
               {{ getStatusByType(scope.row.type) }}
             </el-tag>
           </template>
@@ -63,7 +63,7 @@
               @confirm="tagUpdateStatusButtonClick(scope.row)">
               <template #reference>
                 <template v-if="scope.row.status === 0">
-                  <el-tag checked size="small" :color="LayoutSettingStore.getTheme"
+                  <el-tag checked size="small" 
                     class="menu-status-tag">
                     <el-tooltip class="box-item" effect="dark" content="点击切换状态" placement="top">
                       启用
@@ -91,7 +91,7 @@
               @confirm="tagUpdateVisibleButtonClick(scope.row)">
               <template #reference>
                 <template v-if="scope.row.visible">
-                  <el-tag checked size="small" :color="LayoutSettingStore.getTheme"
+                  <el-tag checked size="small" 
                     class="menu-status-tag menu-status-tag-margin">
                     <el-tooltip class="box-item" effect="dark" content="点击切换状态" placement="top">
                       显示
