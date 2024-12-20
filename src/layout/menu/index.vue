@@ -8,7 +8,7 @@
               <svg-icon :name="item.meta.icon" />
             </div>
           <template #title>
-            <span style="margin-left: 5px;">{{ item.meta.title }}</span>
+            <span >{{ item.meta.title }}</span>
           </template>
         </el-menu-item>
       </template>
@@ -25,11 +25,12 @@
             $router,
           )
           ">
+          
           <template #title>
             <div>
               <svg-icon :name="item.meta.icon" />
             </div>
-            <span style="margin-left: 5px;">{{ item.meta.title }}</span>
+            <span >{{ item.meta.title }}</span>
           </template>
         </el-menu-item>
       </template>
@@ -52,7 +53,7 @@
           <svg-icon :name="item.children[0].meta.icon"  />
         </div>
         <template #title>
-          <span style="margin-left: 5px;">{{ item.children[0].meta.title }}</span>
+          <span >{{ item.children[0].meta.title }}</span>
         </template>
       </el-menu-item>
     </template>
@@ -63,7 +64,7 @@
           <div>
             <svg-icon :name="item.meta.icon" />
           </div>
-          <span style="margin-left: 5px;">{{ item.meta.title }}</span>
+          <span >{{ item.meta.title }}</span>
         </template>
         <Menu :menuList="item.children"></Menu>
       </el-sub-menu>

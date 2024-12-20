@@ -2,7 +2,6 @@
   <div class="logo noselect" v-if="setting.logoHidden">
     <img :src="setting.logo" draggable="false" />
     <div
-      v-show="!LayoutSettingStore.fold||!LayoutSettingStore.menu"
       class="selector-disabled"
       style="color: #0C9FA6; font-size: 20px"
     >
@@ -21,11 +20,10 @@ import setting from '@/setting'
 
 <style scoped>
 .logo {
-  padding: 10px;
-  width: 100%;
+  padding-left: 30px;
+  width: 200px;
   height: 40px;
   align-items: center;
-  justify-content: center;
   display: flex;
   img {
     width: 30px;

@@ -4,15 +4,13 @@
     <Drawer></Drawer>
     <!-- 左侧菜单 -->
     <div class="layout_slider" :class="{
-      xiufu: LayoutSettingStore.fold && !LayoutSettingStore.menu,
       fold: LayoutSettingStore.fold,
       moon: !LayoutSettingStore.theme,
       sunny: LayoutSettingStore.theme,
       showMenu: LayoutSettingStore.menu,
       hidenMenu: !LayoutSettingStore.menu,
     }">
-      <!-- logo -->
-      <Logo class="logo"></Logo>
+    
       <!-- 展示菜单 -->
       <el-scrollbar class="scrollbar" v-show="LayoutSettingStore.menu">
         <!-- 菜单组件 -->
@@ -31,7 +29,6 @@
     </div>
     <!-- 顶部导航 -->
     <div class="layout_tabbar" :class="{
-      xiufu: LayoutSettingStore.fold && !LayoutSettingStore.menu,
       fold: LayoutSettingStore.fold,
       moon: !LayoutSettingStore.theme,
       sunny: LayoutSettingStore.theme,
@@ -77,8 +74,6 @@
 <script setup lang="ts">
 //导入右侧抽屉
 import Drawer from './tabbar/setting/drawer/index.vue'
-//引入左侧菜单logo子组件
-import Logo from './logo/index.vue'
 //引入菜单组件
 import Menu from './menu/index.vue'
 //引入内容组件
@@ -141,14 +136,14 @@ export default {
   .layout_slider {
     position: fixed;
     width: $base-menu-width;
+    top: 45px;
     // 页面折叠
     &.fold {
       width: $base-menu-min-width;
     }
     &.hidenMenu {
-      z-index: 2;
       height: 45px;
-
+     
       &.moon {
         background: #171717;
         filter: drop-shadow(-10px 3px 5px $base-theme-moon-color);
@@ -190,40 +185,16 @@ export default {
         }
       }
     }
-    &.xiufu {
-      width: $base-menu-width !important;
-      z-index: 1;
-
-      &.moon {
-        background: $base-moon-color;
-        filter: drop-shadow(6px 3px 5px $base-theme-moon-color);
-      }
-
-      &.sunny {
-        background: #fafafb;
-        filter: drop-shadow(6px 3px 5px $base-theme-sunny-color);
-      }
-    }
+   
   }
 
   .layout_tabbar {
     z-index: 1;
     top: 0px;
-    left: $base-menu-width;
     position: fixed;
-    width: calc(100% - $base-menu-width);
+    width: 100%;
     height: $base-tabbar-height;
-    &.xiufu {
-      &.moon {
-        background: $base-moon-color;
-        filter: drop-shadow(8px 3px 5px $base-theme-moon-color) !important;
-      }
 
-      &.sunny {
-        background: $base-sunny-color;
-        filter: drop-shadow(8px 3px 5px $base-theme-sunny-color) !important;
-      }
-    }
     &.hidenMenu {
       &.moon {
         background: #171717;
@@ -284,7 +255,7 @@ export default {
     }
 
     &.sunny {
-      background: $base-sunny-color;
+      background: #fafafb;
       filter: drop-shadow(0px -3px 0px $base-theme-sunny-color) !important;
     }
   }
