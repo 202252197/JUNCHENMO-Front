@@ -4,8 +4,9 @@ import Copyright from './copyright/index.vue'
 import GrantTable from './grant-table/index.vue'
 import Editor from './editor/index.vue'
 import JsonEditor from './json-editor/modal/index.vue'
+import JcmsButton from './jcm-button/index.vue'
 import type { App, Component } from 'vue'
-const components: { [name: string]: Component } = { SvgIcon,IconSelect,Copyright,GrantTable,Editor,JsonEditor }
+const components: { [name: string]: Component } = { SvgIcon,IconSelect,Copyright,GrantTable,Editor,JsonEditor,JcmsButton}
 //引入element-plus提供全部图标组件
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 export default {

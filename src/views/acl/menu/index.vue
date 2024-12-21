@@ -14,23 +14,29 @@
               <el-option label="禁用" value="1" />
             </el-select>
           </el-form-item>
+ 
+          <div style="margin-left: auto" class="card-search-end">
+            <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="menuAddFromModal?.open(undefined)">
+              <template #icon>
+                <svg-icon name="加号" />
+              </template>
+            </JcmButton>
+            <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="searchList(menuStore.searchform)">
+              <template #icon>
+                <svg-icon name="搜索" />
+              </template>
+            </JcmButton>
+            <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="resetSearchForm(searchFormRef)">
+              <template #icon>
+                <svg-icon name="擦除" />
+              </template>
+            </JcmButton>
 
-          <div style="margin-left: auto">
-            <el-button
-              @click="menuAddFromModal?.open(undefined)">新增</el-button>
-            <el-button  @click="searchList(menuStore.searchform)">
-              搜索
-            </el-button>
-            <el-button type="info" @click="resetSearchForm(searchFormRef)">
-              重置
-            </el-button>
-            <el-button type="info" @click="expandHandle()">
-              <template v-if="menuStore.expandStatus">收起</template>
-              <template v-else>展开</template>
-            </el-button>
-            <el-button @click="refreshCacheMenu()" >
-              刷新缓存
-            </el-button>
+            <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="refreshCacheMenu()">
+              <template #icon>
+                <svg-icon name="刷新" />
+              </template>
+            </JcmButton>
           </div>
         </el-row>
       </el-form>

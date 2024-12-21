@@ -53,7 +53,10 @@ const useSettinggStore = defineStore('SettinggStore', {
   },
   getters: {
     getTheme: (state) => {
-      return state.theme?"#157bff":"red"
+      return state.theme?"white":"black"
+    },
+    getThemeInvert: (state) => {
+      return state.theme?"black":"white"
     }
   },
 })

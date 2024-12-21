@@ -139,9 +139,78 @@ body {
   vertical-align: text-top;
 }
 
+.card-end {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.card-search-end{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
 
-
+//禁用el-table出现的滚动条
+.el-scrollbar__bar.is-vertical{
+  display: none;
+}
 html {
+  //面包屑的样式
+  .el-breadcrumb.breadcurmb .el-breadcrumb__item:first-child .jcm-breadcurmb div:nth-child(2) span:hover {
+    color: $lvshihao-menu-suuny-item-active-div-svg-bg !important;
+  }
+  //图标选择器样式
+  .icon-container{
+    background-color: $lvshihao-menu-suuny-item-active-div-svg-bg;
+    svg{
+      use{
+        fill: $lvshihao-menu-suuny-item-active-div-svg-color;
+      }
+    }
+  }
+
+  //搜索的工具栏样式
+  .card-search-end{
+    .custom-button{
+      svg{
+        use{
+          fill: $lvshihao-menu-suuny-item-active-div-svg-bg;
+        }
+      }
+    }
+  }
+  
+  //表end工具栏的样式
+  .card-end{
+    .custom-button{
+      svg{
+        use{
+          fill: $lvshihao-menu-suuny-item-active-div-svg-bg;
+        }
+      }
+    }
+  }
+  //输入框的样式
+  .el-input{
+    .el-input__wrapper.is-focus{
+      box-shadow: 0 0 0 2px $lvshihao-menu-suuny-item-active-div-svg-bg inset; 
+    }
+  }
+  //多选输入框
+  .el-select{
+    .el-select__wrapper.is-focused{
+      box-shadow: 0 0 0 2px $lvshihao-menu-suuny-item-active-div-svg-bg inset; 
+    }
+  }
+  .el-select-dropdown__item.is-selected{
+    color:$lvshihao-menu-suuny-item-active-div-svg-bg;
+  }
+  //switch的样式
+  .el-switch.is-checked .el-switch__core{
+    background-color: $lvshihao-menu-suuny-item-active-div-svg-bg;
+    border-color: $lvshihao-menu-suuny-item-active-div-svg-bg;
+  }
+
   //标签的文字颜色
   .el-tag.el-tag--primary {
     color: aliceblue !important;
@@ -473,6 +542,9 @@ html {
     background-color:  $lvshihao-menu-suuny-item-active-div-svg-bg;
     border-color:  $lvshihao-menu-suuny-item-active-div-svg-bg;
   }
+  .el-checkbox__input.is-checked+.el-checkbox__label {
+    color: $lvshihao-menu-suuny-item-active-div-svg-bg;
+  }
   .el-checkbox__input.is-indeterminate .el-checkbox__inner {
     background-color:  $lvshihao-menu-suuny-item-active-div-svg-bg;
     border-color: $lvshihao-menu-suuny-item-active-div-svg-bg;
@@ -483,9 +555,12 @@ html {
 
   /* 单选框选中的背景颜色 */
   .el-radio-button__original-radio:checked + .el-radio-button__inner {
+    border: $lvshihao-menu-suuny-item-active-div-svg-bg;
     background-color:  $lvshihao-menu-suuny-item-active-div-svg-bg;
   }
-
+  .el-radio-button__inner:hover{
+    color: $lvshihao-menu-suuny-item-div-svg-color;
+  }
   /*分页选中的背景颜色*/
   .el-pagination.is-background .btn-next.is-active,
   .el-pagination.is-background .btn-prev.is-active,
@@ -533,7 +608,7 @@ html {
   }
   .el-drawer {
     filter: drop-shadow(5px 0px 30px $lvshihao-menu-suuny-item-active-div-svg-bg);
-    opacity: 0.9;
+    opacity: 0.8;
   }
 
   .copy-span:hover {
@@ -555,10 +630,65 @@ html {
 
 
 html.dark {
+  //面包屑的样式
+  .el-breadcrumb.breadcurmb .el-breadcrumb__item:first-child .jcm-breadcurmb div:nth-child(2) span:hover {
+    color: $lvshihao-menu-moon-item-active-div-svg-color !important;
+  }
+
+  //图标选择器样式
+  .icon-container{
+    background-color: $lvshihao-menu-moon-item-active-div-svg-color;
+    svg{
+      use{
+        fill: $lvshihao-menu-suuny-item-active-div-svg-color;
+      }
+    }
+  }
+  //搜索的工具栏样式
+  .card-search-end{
+    .custom-button{
+      svg{
+        use{
+          fill:  $lvshihao-menu-moon-item-active-div-svg-color;
+        }
+      }
+    }
+  }
+  //表end工具栏的样式
+  .card-end{
+    .custom-button{
+      svg{
+        use{
+          fill: $lvshihao-menu-moon-item-active-div-svg-color;
+        }
+      }
+    }
+  }
+  //输入框的样式
+  .el-input{
+    .el-input__wrapper.is-focus{
+      box-shadow: 0 0 0 2px $lvshihao-menu-moon-item-active-div-svg-color inset; 
+    }
+  }
+  //多选输入框
+  .el-select{
+    .el-select__wrapper.is-focused{
+      box-shadow: 0 0 0 2px $lvshihao-menu-moon-item-active-div-svg-color inset; 
+    }
+  }
+  .el-select-dropdown__item.is-selected{
+    color:$lvshihao-menu-moon-item-active-div-svg-color;
+  }
+  //switch的样式
+  .el-switch.is-checked .el-switch__core{
+    background-color: $lvshihao-menu-moon-item-active-div-svg-color;
+    border-color: $lvshihao-menu-moon-item-active-div-svg-color;
+  }
+ 
   //标签的文字颜色
   .el-tag.el-tag--primary {
-    color: $lvshihao-menu-moon-bg !important;
-    background-color: $lvshihao-menu-moon-item-active-div-svg-bg;
+    color: aliceblue !important;
+    background-color: $lvshihao-menu-moon-item-active-div-svg-color;
     border-color: transparent;
   }
   .el-card {
@@ -577,7 +707,7 @@ html.dark {
     //单标签被选择样式
     .el-menu-item.is-active {
       background-color: $lvshihao-menu-moon-item-active-bg;
-      // box-shadow: 10px 10px 5px -4px $lvshihao-menu-moon-item-active-box-shadow;
+      // box-shadow: 10px 10px 5px -4px $lvshihao-menu-moon-item-active-div-svg-color;
       box-shadow: none;
       span{
         color:$lvshihao-menu-moon-item-div-svg-color;
@@ -631,7 +761,7 @@ html.dark {
       margin-top: 5px;
       .el-sub-menu__title {
         background-color: $lvshihao-menu-moon-item-active-bg;
-        // box-shadow: 10px 10px 5px -4px $lvshihao-menu-moon-item-active-box-shadow;
+        // box-shadow: 10px 10px 5px -4px $lvshihao-menu-moon-item-active-div-svg-color;
         box-shadow: none;
         span{
            color:$lvshihao-menu-moon-item-div-svg-color !important;
@@ -652,7 +782,7 @@ html.dark {
           }
         }
         span{
-          color: $lvshihao-menu-moon-item-active-box-shadow;
+          color: $lvshihao-menu-moon-item-active-div-svg-color;
         }
       }
       //多标签子标签被选中的时候，但是触摸的样式
@@ -708,7 +838,7 @@ html.dark {
           margin-top:5px;
           .el-sub-menu__title {
             background-color: $lvshihao-menu-moon-bg;
-            // box-shadow: 10px 10px 5px -4px $lvshihao-menu-moon-item-active-box-shadow;
+            // box-shadow: 10px 10px 5px -4px $lvshihao-menu-moon-item-active-div-svg-color;
             box-shadow: none;
             div {
               margin-right: 10px;
@@ -733,10 +863,10 @@ html.dark {
               margin: 5px 0px;
               background-color: $lvshihao-menu-moon-bg;
               box-shadow: none;
-              color: $lvshihao-menu-moon-item-active-box-shadow;
+              color: $lvshihao-menu-moon-item-active-div-svg-color;
               svg {
                 use {
-                  fill: $lvshihao-menu-moon-item-active-box-shadow;
+                  fill: $lvshihao-menu-moon-item-active-div-svg-color;
                 }
               }
             }
@@ -748,14 +878,14 @@ html.dark {
           background-color: $lvshihao-menu-moon-bg;
           box-shadow: none;
           span{
-            color: $lvshihao-menu-moon-item-active-box-shadow ;
+            color: $lvshihao-menu-moon-item-active-div-svg-color ;
           }
           div{
             margin-right:0px;
             background-color: $lvshihao-menu-moon-bg;
             svg {
               use {
-                fill: $lvshihao-menu-moon-item-active-box-shadow;
+                fill: $lvshihao-menu-moon-item-active-div-svg-color;
               }
             }
           }
@@ -943,34 +1073,49 @@ html.dark {
  
   /* 多选框选择的背景颜色 */
   .el-checkbox__input.is-checked .el-checkbox__inner {
-    background-color:  $lvshihao-menu-moon-item-active-div-svg-bg;
-    border-color:  $lvshihao-menu-moon-item-active-div-svg-bg;
+    background-color:  $lvshihao-menu-moon-item-active-div-svg-color;
+    border-color: $lvshihao-menu-moon-item-active-div-svg-color;
+  }
+  .el-checkbox__input.is-checked+.el-checkbox__label {
+    color:$lvshihao-menu-moon-item-active-div-svg-color;
   }
   .el-checkbox__input.is-indeterminate .el-checkbox__inner {
-    background-color:  $lvshihao-menu-moon-item-active-div-svg-bg;
-    border-color: $lvshihao-menu-moon-item-active-div-svg-bg;
+    background-color:  $lvshihao-menu-moon-item-active-div-svg-color;
+    border-color: $lvshihao-menu-moon-item-active-div-svg-color;
   }
   .el-checkbox__inner:hover {
-    border-color:  $lvshihao-menu-moon-item-active-div-svg-bg;
+    border-color:  $lvshihao-menu-moon-item-active-div-svg-color;
   }
 
   /* 单选框选中的背景颜色 */
   .el-radio-button__original-radio:checked + .el-radio-button__inner {
-    background-color:  $lvshihao-menu-moon-item-active-div-svg-bg;
+    background-color: $lvshihao-menu-moon-item-active-div-svg-color;
+    border: $lvshihao-menu-moon-item-active-div-svg-color;
+  }
+  .el-radio-button__inner:hover{
+    color: $lvshihao-menu-moon-item-div-svg-color;
   }
 
   /*分页选中的背景颜色*/
   .el-pagination.is-background .btn-next.is-active,
   .el-pagination.is-background .btn-prev.is-active,
   .el-pagination.is-background .el-pager li.is-active {
-    background-color: $lvshihao-menu-moon-item-active-div-svg-bg;
+    background-color: $lvshihao-menu-moon-item-active-div-svg-color;
+  }
+
+  /**
+    表格样式
+  **/
+  .el-table{
+    --el-table-tr-bg-color:$lvshihao-menu-moon-bg;
+    --el-table-header-bg-color:$lvshihao-menu-moon-bg;
   }
 
   //tab标签页
   .el-check-tag--primary,
   .el-check-tag.is-checked.el-check-tag--primary,
   .el-check-tag.is-checked.el-check-tag--primary:hover {
-    color:$lvshihao-menu-moon-item-active-div-svg-bg;
+    color:$lvshihao-menu-moon-item-active-div-svg-color;
     background-color: $lvshihao-menu-moon-bg;
   }
   .el-check-tag.el-check-tag--primary,
@@ -981,32 +1126,38 @@ html.dark {
   }
 
   .el-button.is-text{
-    color:$lvshihao-menu-moon-item-active-div-svg-bg;
+    color:$lvshihao-menu-moon-item-active-div-svg-color;
   }
     //图标按钮样式
   .el-button.iconBtn{
-    background-color: $lvshihao-menu-moon-item-active-hover-bg;
-    border-color: $lvshihao-menu-moon-item-active-hover-bg;
+    background-color: #000000;
+    border-color: #000000;
+    span{
+      svg{
+        use{
+          fill: $lvshihao-menu-moon-item-div-svg-color;
+        }
+      }
+    }
   }
  
   //图标按钮样式
   .el-button.iconBtn:hover{
-      background-color: var($lvshihao-menu-moon-item-active-hover-bg);
-      transform: scale(0.85);
+      background-color: var($lvshihao-menu-suuny-item-active-hover-bg);
       transition: all 0.6s ease;
       svg{
         use{
-          fill:$lvshihao-menu-moon-item-active-div-svg-bg;
+          fill:$lvshihao-menu-moon-item-active-div-svg-color;
         }
       }
   }
 
   .el-dialog {
-    filter: drop-shadow(0px 0px 5px $lvshihao-menu-moon-item-active-div-svg-bg);
+    filter: drop-shadow(0px 0px 5px $lvshihao-menu-moon-item-active-div-svg-color);
   }
   .el-drawer {
-    filter: drop-shadow(5px 0px 30px $lvshihao-menu-moon-item-active-div-svg-bg);
-    opacity: 0.9;
+    filter: drop-shadow(5px 0px 30px $lvshihao-menu-moon-item-active-div-svg-color);
+    opacity: 0.8;
   }
 
   .copy-span:hover {

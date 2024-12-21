@@ -16,13 +16,17 @@
               <el-option label="禁用" value="1" />
             </el-select>
           </el-form-item>
-          <div style="margin-left: auto">
-            <el-button type="info" @click="resetSearchForm(searchFormRef)">
-              重置
-            </el-button>
-            <el-button  :color="LayoutSettingStore.getTheme" @click="searchList(dictTypeStore.searchform)">
-              搜索
-            </el-button>
+          <div style="margin-left: auto" class="card-search-end">
+            <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="resetSearchForm(searchFormRef)">
+              <template #icon>
+                <svg-icon name="擦除" />
+              </template>
+            </JcmButton>
+            <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="searchList(dictTypeStore.searchform)">
+              <template #icon>
+                <svg-icon name="搜索" />
+              </template>
+            </JcmButton>
           </div>
         </el-row>
       </el-form>
@@ -34,26 +38,21 @@
             <span>字典配置项</span>
           </div>
           <div class="card-end">
-            <el-button-group class="ml-4">
-              <el-button :color="LayoutSettingStore.getTheme" @click="dictTypeAddFromModal?.open()">
-                <template #icon>
-                  <svg-icon name="加号"  color="white"/>
-                </template>
-                新增
-              </el-button>
-              <el-button :color="LayoutSettingStore.getTheme" @click="addButtenClick()">
-                <template #icon>
-                  <svg-icon name="刷新"  color="white"/>
-                </template>
-                刷新缓存
-              </el-button>
-              <el-button :color="LayoutSettingStore.getTheme" @click="deleteItems()">
-                <template #icon>
-                  <svg-icon name="垃圾桶"  color="white"/>
-                </template>
-                删除
-              </el-button>
-            </el-button-group>
+            <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="dictTypeAddFromModal?.open()">
+              <template #icon>
+                <svg-icon name="加号" />
+              </template>
+            </JcmButton>
+            <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="addButtenClick()">
+              <template #icon>
+                <svg-icon name="刷新" />
+              </template>
+            </JcmButton>
+            <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="deleteItems()">
+              <template #icon>
+                <svg-icon name="垃圾桶" />
+              </template>
+            </JcmButton>
           </div>
         </div>
       </template>

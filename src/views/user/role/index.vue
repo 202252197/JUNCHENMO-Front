@@ -1,14 +1,8 @@
 <template>
   <div>
     <el-card>
-      <el-form
-        :inline="true"
-        :model="roleStore.searchform"
-        class="searchForm"
-        label-position="right"
-        label-width="auto"
-        ref="searchFormRef"
-      >
+      <el-form :inline="true" :model="roleStore.searchform" class="searchForm" label-position="right" label-width="auto"
+        ref="searchFormRef">
         <el-row style="display: flex">
           <el-form-item label="角色名称" prop="name">
             <el-input v-model="roleStore.searchform.name" />
@@ -22,13 +16,17 @@
               <el-option label="禁用" value="1" />
             </el-select>
           </el-form-item>
-          <div style="margin-left: auto">
-            <el-button type="info" @click="resetSearchForm(searchFormRef)">
-              重置
-            </el-button>
-            <el-button :color="LayoutSettingStore.getTheme" @click="searchList(roleStore.searchform)">
-              搜索
-            </el-button>
+          <div style="margin-left: auto" class="card-search-end">
+            <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="resetSearchForm(searchFormRef)">
+              <template #icon>
+                <svg-icon name="擦除" />
+              </template>
+            </JcmButton>
+            <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="searchList(roleStore.searchform)">
+              <template #icon>
+                <svg-icon name="搜索" />
+              </template>
+            </JcmButton>
           </div>
         </el-row>
       </el-form>
@@ -40,33 +38,29 @@
             <span>用户列表</span>
           </div>
           <div class="card-end">
-            <el-button-group class="ml-4">
-              <el-button :color="LayoutSettingStore.getTheme"  @click="roleAddFromModal?.open()">
-                <template #icon>
-                  <svg-icon name="加号"  color="white"/>
-                </template>
-                新增
-              </el-button>
-              <el-button :color="LayoutSettingStore.getTheme" @click="deleteItems()">
-                <template #icon>
-                  <svg-icon name="垃圾桶"  color="white"/>
-                </template>
-                删除
-              </el-button>
-            </el-button-group>
+            <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="roleAddFromModal?.open()">
+              <template #icon>
+                <svg-icon name="加号" />
+              </template>
+            </JcmButton>
+            <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="deleteItems()">
+              <template #icon>
+                <svg-icon name="垃圾桶" />
+              </template>
+            </JcmButton>
           </div>
         </div>
       </template>
 
       <el-table :data="dataList.list" table-layout="auto" @selection-change="handleSelectionChange">
-        <el-table-column type="selection"  width="55" />
+        <el-table-column type="selection" width="55" />
         <el-table-column prop="roleId" label="ID" align="center" />
         <el-table-column prop="name" label="角色名称" align="center" />
         <el-table-column prop="code" label="角色编码" align="center" />
         <el-table-column prop="status" label="角色状态" align="center">
           <template #default="scope">
             <template v-if="scope.row.status === 0">
-              <el-tag checked size="small" >
+              <el-tag checked size="small">
                 启用
               </el-tag>
             </template>
@@ -79,42 +73,27 @@
         </el-table-column>
         <el-table-column align="center" label="操作" fixed="right">
           <template #default="scope">
-            <el-button
-              size="small"
-              type="primary"
-              @click="disableItem(scope.row)"
-              :disabled="isAdminById(scope.row.roleId)"
-              text
-            >
-            停用
+            <template v-if="!isAdminById(scope.row.roleId)">
+              <el-button size="small" type="primary" @click="disableItem(scope.row)" text>
+                停用
+              </el-button>
+            </template>
+            <el-button size="small" type="primary" @click="roleUpdateFromModal?.open(scope.row)" text>
+              修改
             </el-button>
-            <el-button
-              size="small"
-              type="primary"
-              @click="roleUpdateFromModal?.open(scope.row)"
-              text
-            >
-             修改
-            </el-button>
-            <el-button
-              size="small"
-              type="primary"
-              @click="roleAuthMenusFromModal?.open(scope.row)"
-              :disabled="isAdminById(scope.row.roleId)"
-              text
-            >
-            分配菜单
-            </el-button>
-            <el-button
-              size="small"
-              type="danger"
-              @click="deleteItem(scope.row)"
-              :disabled="isAdminById(scope.row.roleId)"
-              text
-            >
-             
-            删除
-            </el-button>
+            <template v-if="!isAdminById(scope.row.roleId)">
+              <el-button size="small" type="primary" @click="roleAuthMenusFromModal?.open(scope.row)" text>
+                分配菜单
+              </el-button>
+            </template>
+
+            <template v-if="!isAdminById(scope.row.roleId)">
+              <el-button size="small" type="danger" @click="deleteItem(scope.row)" text>
+
+                删除
+              </el-button>
+            </template>
+
           </template>
         </el-table-column>
       </el-table>
@@ -122,16 +101,9 @@
       <template #footer>
         <div class="pagination-style">
           <!--分页-->
-          <el-pagination
-            :page-sizes="[10, 20, 30, 40]"
-            :default-page-size="LayoutSettingStore.size"
-            small="small"
-            background="true"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="dataList.total"
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-          />
+          <el-pagination :page-sizes="[10, 20, 30, 40]" :default-page-size="LayoutSettingStore.size" small="small"
+            background="true" layout="total, sizes, prev, pager, next, jumper" :total="dataList.total"
+            @size-change="handleSizeChange" @current-change="handleCurrentChange" />
         </div>
       </template>
     </el-card>
@@ -242,9 +214,9 @@ const deleteItems = () => {
 
 //停用用户触发的事件
 const disableItem = (item: any) => {
-  if(item.status==1){
+  if (item.status == 1) {
     ElMessage.warning({ message: '角色已经是停用状态' })
-  }else{
+  } else {
     roleStore
       .upStatusRole(item)
       .then((resp) => {
@@ -274,7 +246,7 @@ export default {
 }
 </script>
 <style scoped>
-*{
+* {
   font-weight: 900;
 }
 </style>

@@ -1,5 +1,8 @@
 <template>
-  <div class="layout_container">
+  <div class="layout_container" :class="{
+      suuny: LayoutSettingStore.theme,
+      moon: !LayoutSettingStore.theme,
+    }" >
     <!-- 偏好设置 -->
     <Drawer></Drawer>
     <!-- 左侧菜单 -->
@@ -113,7 +116,14 @@ export default {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color:#fafafb;
+  //白天
+  &.suuny {
+    background-color: #fafafb;
+  }
+  //黑夜
+  &.moon{
+    background-color: #000000;
+  }
   .layout_slider {
     //白天
     &.suuny {

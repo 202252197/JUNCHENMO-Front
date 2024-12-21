@@ -11,9 +11,9 @@
         :to="item.path"
         @click="tabClick(item)"
       >
-      <div style="display: flex; align-items: center;">
-        <div><svg-icon :name="item.meta.icon" :color="LayoutSettingStore.theme ? 'black' : 'white'"/></div>
-        <div><span style="margin: 0px 5px">{{ item.meta.title }}</span></div>
+      <div style="display: flex; align-items: center;" class="jcm-breadcurmb">
+        <div><svg-icon :name="item.meta.icon" :color="LayoutSettingStore.getThemeInvert"/></div>
+        <div><span style="margin: 0px 5px;" :style="{color: LayoutSettingStore.getThemeInvert}" >{{ item.meta.title }}</span></div>
       </div>
       </el-breadcrumb-item>
     </transition-group>

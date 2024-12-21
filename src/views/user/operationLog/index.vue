@@ -36,16 +36,27 @@
               start-placeholder="开始日期" end-placeholder="结束日期" format="YYYY-MM-DD HH:mm:ss" date-format="YYYY/MM/DD ddd"
               time-format="A hh:mm:ss" />
           </el-form-item>
-          <div style="margin-left: auto">
-            <el-button type="info" @click="resetSearchForm(searchFormRef)">
-              重置
-            </el-button>
-            <el-button :color="LayoutSettingStore.getTheme"
-              @click="searchList(operationLogStore.searchform)">
-              搜索
-            </el-button>
-            <el-button text @click="more = true" v-show="!more">更多</el-button>
-            <el-button text @click="more = false" v-show="more">收起</el-button>
+          <div style="margin-left: auto" class="card-search-end">
+            <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="resetSearchForm(searchFormRef)">
+              <template #icon>
+                <svg-icon name="擦除" />
+              </template>
+            </JcmButton>
+            <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="searchList(operationLogStore.searchform)">
+              <template #icon>
+                <svg-icon name="搜索" />
+              </template>
+            </JcmButton>
+            <JcmButton :buttonBgColor="LayoutSettingStore.getTheme"  @click="more = true" v-show="!more">
+              <template #icon>
+                <svg-icon name="展开" />
+              </template>
+            </JcmButton>
+            <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="more = false" v-show="more">
+              <template #icon>
+                <svg-icon name="收起" />
+              </template>
+            </JcmButton>
           </div>
         </el-row>
       </el-form>
@@ -57,20 +68,16 @@
             <span>操作日志列表</span>
           </div>
           <div class="card-end">
-            <el-button-group class="ml-4">
-              <el-button :color="LayoutSettingStore.getTheme" @click="clearItems()">
-                <template #icon>
-                  <svg-icon name="清空" color="white" />
-                </template>
-                清空
-              </el-button>
-              <el-button :color="LayoutSettingStore.getTheme" @click="deleteItems()">
-                <template #icon>
-                  <svg-icon name="垃圾桶" color="white" />
-                </template>
-                删除
-              </el-button>
-            </el-button-group>
+            <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="clearItems()">
+              <template #icon>
+                <svg-icon name="清空" />
+              </template>
+            </JcmButton>
+            <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="deleteItems()">
+              <template #icon>
+                <svg-icon name="垃圾桶" />
+              </template>
+            </JcmButton>
           </div>
         </div>
       </template>

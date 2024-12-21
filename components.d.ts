@@ -56,6 +56,7 @@ declare module 'vue' {
     ElWatermark: typeof import('element-plus/es')['ElWatermark']
     GrantTable: typeof import('./src/components/grant-table/index.vue')['default']
     IconSelect: typeof import('./src/components/icon-select/index.vue')['default']
+    JcmButton: typeof import('./src/components/jcm-button/index.vue')['default']
     JsonEditor: typeof import('./src/components/json-editor/index.vue')['default']
     Modal: typeof import('./src/components/json-editor/modal/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

@@ -22,15 +22,27 @@
           <el-form-item v-show="more" label="邮箱" prop="email">
             <el-input v-model="userStore.searchform.email" />
           </el-form-item>
-          <div style="margin-left: auto">
-            <el-button type="info" @click="resetSearchForm(searchFormRef)">
-              重置
-            </el-button>
-            <el-button :color="LayoutSettingStore.getTheme"  @click="searchList(userStore.searchform)">
-              搜索
-            </el-button>
-            <el-button text @click="more = true" v-show="!more">更多</el-button>
-            <el-button text @click="more = false" v-show="more">收起</el-button>
+          <div style="margin-left: auto" class="card-search-end">
+            <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="resetSearchForm(searchFormRef)">
+              <template #icon>
+                <svg-icon name="擦除" />
+              </template>
+            </JcmButton>
+            <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="searchList(userStore.searchform)">
+              <template #icon>
+                <svg-icon name="搜索" />
+              </template>
+            </JcmButton>
+            <JcmButton :buttonBgColor="LayoutSettingStore.getTheme"  @click="more = true" v-show="!more">
+              <template #icon>
+                <svg-icon name="展开" />
+              </template>
+            </JcmButton>
+            <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="more = false" v-show="more">
+              <template #icon>
+                <svg-icon name="收起" />
+              </template>
+            </JcmButton>
           </div>
         </el-row>
       </el-form>
@@ -42,22 +54,20 @@
             <span>用户列表</span>
           </div>
           <div class="card-end">
-            <el-button-group class="ml-4">
-              <el-button :color="LayoutSettingStore.getTheme"  @click="userAddFromModal?.open()">
-                <template #icon>
-                  <svg-icon name="加号"  color="white"/>
-                </template>
-                新增
-              </el-button>
-            </el-button-group>
+            <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="userAddFromModal?.open()">
+              <template #icon>
+                <svg-icon name="加号" />
+              </template>
+            </JcmButton>
           </div>
         </div>
       </template>
       <el-table :data="dataList.list" table-layout="auto">
         <el-table-column prop="userId" label="ID" align="center" />
-        <el-table-column prop="username" label="用户名" align="center" >
+        <el-table-column prop="username" label="用户名" align="center">
           <template #default="scope">
-            <span @click="instance?.proxy?.$copyText(scope.row.username)" class="copy-span">{{ scope.row.username}}</span>
+            <span @click="instance?.proxy?.$copyText(scope.row.username)" class="copy-span">{{
+              scope.row.username }}</span>
           </template>
         </el-table-column>
         <el-table-column prop="nickname" label="昵称" align="center" />
@@ -66,7 +76,7 @@
         <el-table-column prop="status" label="状态" align="center">
           <template #default="scope">
             <template v-if="scope.row.status === 0">
-              <el-tag checked size="small" >
+              <el-tag checked size="small">
                 启用
               </el-tag>
             </template>
@@ -80,37 +90,41 @@
         <el-table-column prop="loginDate" label="最后登录时间" align="center" />
         <el-table-column align="center" label="操作">
           <template #default="scope">
-            <el-button size="small" type="primary" @click="disableItem(scope.row)"
-              :disabled="isAdminById(scope.row.userId)" text>
-              停用
-            </el-button>
+            <template v-if="!isAdminById(scope.row.userId)">
+              <el-button size="small" type="primary" @click="disableItem(scope.row)" text>
+                停用
+              </el-button>
+            </template>
             <el-button size="small" type="primary" @click="userUpdateFromModal?.open(scope.row)" text>
               修改
             </el-button>
             <el-button size="small" type="primary" @click="handleDelete(scope.$index, scope.row)" text>
               详情
             </el-button>
-            <el-button size="small" type="primary" @click="userRestPasswordFromModal?.open(scope.row)"
-              :disabled="isAdminById(scope.row.userId)" text>
-              重置密码
-            </el-button>
-            <el-button size="small" type="primary" @click="userAuthRolesFromModal?.open(scope.row)"
-              :disabled="isAdminById(scope.row.userId)" text>
-              分配角色
-            </el-button>
-            <el-button size="small" type="primary" @click="deleteItem(scope.row)"
-              :disabled="isAdminById(scope.row.userId)" text>
-              删除
-            </el-button>
+            <template v-if="!isAdminById(scope.row.userId)">
+              <el-button size="small" type="primary" @click="userRestPasswordFromModal?.open(scope.row)" text>
+                重置密码
+              </el-button>
+            </template>
+            <template v-if="!isAdminById(scope.row.userId)">
+              <el-button size="small" type="primary" @click="userAuthRolesFromModal?.open(scope.row)" text>
+                分配角色
+              </el-button>
+            </template>
+            <template v-if="!isAdminById(scope.row.userId)">
+              <el-button size="small" type="primary" @click="deleteItem(scope.row)" text>
+                删除
+              </el-button>
+            </template>
           </template>
         </el-table-column>
       </el-table>
       <template #footer>
         <div class="pagination-style">
           <!--分页-->
-          <el-pagination :page-sizes="[10, 20, 30, 40]" small="small" background="true" :default-page-size="LayoutSettingStore.size"
-            layout="total, sizes, prev, pager, next, jumper" :total="dataList.total" @size-change="handleSizeChange"
-            @current-change="handleCurrentChange" />
+          <el-pagination :page-sizes="[10, 20, 30, 40]" small="small" background="true"
+            :default-page-size="LayoutSettingStore.size" layout="total, sizes, prev, pager, next, jumper"
+            :total="dataList.total" @size-change="handleSizeChange" @current-change="handleCurrentChange" />
         </div>
       </template>
     </el-card>
@@ -205,7 +219,7 @@ const deleteItem = (item: any) => {
       ElMessage.success({ message: '删除成功' })
     })
     .catch((error) => {
-      ElMessage.error({ message: "失败信息: "+error })
+      ElMessage.error({ message: "失败信息: " + error })
     })
 }
 //停用用户触发的事件
@@ -220,7 +234,7 @@ const disableItem = (item: any) => {
         ElMessage.success({ message: '停用成功' })
       })
       .catch((error) => {
-        ElMessage.error({ message:  "失败信息: "+error })
+        ElMessage.error({ message: "失败信息: " + error })
       })
   }
 }
@@ -247,4 +261,6 @@ export default {
 .searchForm .el-form-item {
   margin-bottom: v-bind(more ? '18px' : '0px') !important;
 }
+
+
 </style>
