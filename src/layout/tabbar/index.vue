@@ -1,8 +1,7 @@
 <template>
     <div class="tabbar">
       <div class="tabbar_left">
-  
-        <div style="margin-left: 30px">
+        <div style="margin-left: 30px"  class="animate__animated animate__backInRight">
           人生就像下棋一样，每一步都要慎重考虑；
         </div>
       </div>

@@ -14,7 +14,6 @@
               :key="tag"
             >
               <template v-if="tag.closable === true">
-                <el-dropdown>
                   <el-check-tag
                     :closable="tag.closable"
                     :disable-transitions="false"
@@ -27,25 +26,14 @@
                       <!-- <div>
                         <svg-icon :name="tag.icon" :color="iconColor"/>
                       </div> -->
-                      <div style="margin-left: 3px">
+                      <div  class="jcm-tabs-titleWithIcon">
                         <!-- 新增的分隔符 -->
                         <span >{{ tag.title }}</span>
+                        <svg-icon  class="jcm-tabs-icon" name="叉" :width="12" :height="12"  @click="TabsStore.removeTab(tag, $router)"/>
                       </div>
                     </div>
                   </el-check-tag>
-                  <template #dropdown>
-                    <el-dropdown-menu>
-                      <el-dropdown-item
-                        @click="TabsStore.removeTab(tag, $router)"
-                      >
-                        <el-icon>
-                          <CircleCloseFilled />
-                        </el-icon>
-                        关闭标签
-                      </el-dropdown-item>
-                    </el-dropdown-menu>
-                  </template>
-                </el-dropdown>
+              
               </template>
               <template v-else>
                 <el-check-tag
@@ -60,9 +48,9 @@
                     <!-- <div>
                       <svg-icon :name="tag.icon" :color="iconColor"/>
                     </div> -->
-                    <div style="margin-left: 3px">
+                    <div class="jcm-tabs-titleWithIcon">
                       <!-- 新增的分隔符 -->
-                      <span>{{ tag.title }}</span>
+                      <span >{{ tag.title }}</span>
                     </div>
                   </div>
                 </el-check-tag>
@@ -74,10 +62,7 @@
     </el-col>
     <el-col :span="1">
       <el-dropdown class="el-dropdown-jcm">
-        <el-button
-          class="tabs-dropdown-button-jcm"
-          icon="MoreFilled"
-        ></el-button>
+         <svg-icon class="tabs-dropdown-icon-jcm" name="下选"  width="20px" height="20px" :color="LayoutSettingStore.getThemeInvert"/>
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item
@@ -136,6 +121,22 @@ const handleScroll = (e: WheelEvent) => {
 </script>
 
 <style scoped lang="scss">
+.row-tabs{
+  margin-left: 7px;
+}
+.jcm-tabs-titleWithIcon{
+  margin-left: 3px;
+  display: flex;
+  align-items: center;
+  .jcm-tabs-icon{
+    border-radius: 50%;
+    margin-left: 3px;
+    padding: 1px;
+  }
+  .jcm-tabs-icon:hover{
+   background-color: #e7e7f5;
+  }
+}
 .tabs-jcm {
   -ms-overflow-style: none; /* 隐藏 IE 和 Edge 的滚动条 */
   scrollbar-width: none; /* 隐藏 Firefox 的滚动条 */
@@ -157,10 +158,8 @@ const handleScroll = (e: WheelEvent) => {
   display: flex;
   align-items: center;
 }
-.tabs-dropdown-button-jcm {
-  background-color: v-bind(
-    'LayoutSettingStore.theme ? "$base-sunny-color" : "$base-moon-color"'
-  );
+.tabs-dropdown-icon-jcm {
+  cursor: pointer;
   border: 0px;
 }
 

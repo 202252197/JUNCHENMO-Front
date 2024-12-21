@@ -58,6 +58,7 @@ declare module 'vue' {
     IconSelect: typeof import('./src/components/icon-select/index.vue')['default']
     JcmButton: typeof import('./src/components/jcm-button/index.vue')['default']
     JsonEditor: typeof import('./src/components/json-editor/index.vue')['default']
+    Loading: typeof import('./src/components/loading/index.vue')['default']
     Modal: typeof import('./src/components/json-editor/modal/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

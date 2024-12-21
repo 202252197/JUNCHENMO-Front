@@ -59,7 +59,7 @@ export const constantRoutes = [
 export const error404 = {
   path: '/:pathMatch(.*)*',
   redirect: '/404',
-  name: 'Any', //路由命名
+  name: '404', //路由命名
   meta: {
     hidden: false, //代表路由标题在菜单中是否隐藏 true:隐藏 false:不隐藏
   },

@@ -20,6 +20,7 @@ const useMenuStore = defineStore('Menu', {
       dataList: [],  //表格数据
       expandStatus: false, //表格展开状态
       refreshTable: true, //重新渲染表格状态
+      tableLoading: true, //表格数据加载loading
       searchform: {
         name: '',
         status: '',
@@ -187,6 +188,10 @@ function filterAsyncRouter(asyncRouterMap: any) {
         route.component = Layout
       } else {
         route.component = dynamicImportComponent(route.component)
+        //如果没有这个组件就获取404组件
+        if(route.component===undefined){
+          route.component = dynamicImportComponent("/404/index")
+        }
       }
     }
     if (route.children && route.children.length) {

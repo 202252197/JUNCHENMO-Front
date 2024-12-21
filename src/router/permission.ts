@@ -8,7 +8,6 @@ nprogress.configure({ showSpinner: false })
 import '@/styles/nprogress/nprogress.scss'
 
 import setting from '@/setting.ts'
-
 import pinia from '@/store'
 import useUserStore from '@/store/modules/user'
 import usePermissionStore from '@/store/modules/menu'
@@ -25,20 +24,25 @@ const whiteList = ['/login', '/register']
 // 全局守卫；项目当中任意路由切换都会触发的钩子
 // 全局前置守卫
 router.beforeEach((to, from, next) => {
+  console.log(to.path)
   nprogress.start()
   const token = GET_TOKEN()
+  //存在token
   if (token) {
     document.title = `${setting.title} - ${to.meta.title}`
+
+    //访问登录，就给他转到主页
     if (to.path === '/login') {
       next('/')
     } else {
+      //判断是否已经获取权限信息
       if (userStore.roles.length === 0) {
         userStore
           .userInfo()
           .then(() => {
             permissionStore.generateRoutes().then(() => {
               userSettingStore.userSettingInfo().then(()=>{
-                next({ ...to, replace: true })
+                  next({ ...to, replace: true })
               })
             })
           })

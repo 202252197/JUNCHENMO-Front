@@ -557,6 +557,7 @@ html {
   .el-radio-button__original-radio:checked + .el-radio-button__inner {
     border: $lvshihao-menu-suuny-item-active-div-svg-bg;
     background-color:  $lvshihao-menu-suuny-item-active-div-svg-bg;
+    box-shadow:none;
   }
   .el-radio-button__inner:hover{
     color: $lvshihao-menu-suuny-item-div-svg-color;
@@ -574,6 +575,17 @@ html {
   .el-check-tag.is-checked.el-check-tag--primary:hover {
     color:$lvshihao-menu-suuny-item-active-div-svg-bg;
     background-color: $lvshihao-menu-suuny-bg;
+  }
+  .el-check-tag.is-checked.el-check-tag--primary {
+    div{
+      .jcm-tabs-titleWithIcon{
+        svg{
+          use{
+            fill:$lvshihao-menu-suuny-item-active-div-svg-bg;
+          }
+        }
+      }
+    }
   }
   .el-check-tag.el-check-tag--primary,
   .el-check-tag.el-check-tag--primary:hover {
@@ -627,7 +639,6 @@ html {
   }
 
 }
-
 
 html.dark {
   //面包屑的样式
@@ -1089,6 +1100,7 @@ html.dark {
 
   /* 单选框选中的背景颜色 */
   .el-radio-button__original-radio:checked + .el-radio-button__inner {
+    box-shadow:none;
     background-color: $lvshihao-menu-moon-item-active-div-svg-color;
     border: $lvshihao-menu-moon-item-active-div-svg-color;
   }
@@ -1118,12 +1130,35 @@ html.dark {
     color:$lvshihao-menu-moon-item-active-div-svg-color;
     background-color: $lvshihao-menu-moon-bg;
   }
+  .el-check-tag.is-checked.el-check-tag--primary {
+    div{
+      .jcm-tabs-titleWithIcon{
+        svg{
+          use{
+            fill:$lvshihao-menu-moon-item-active-div-svg-color;
+          }
+        }
+      }
+    }
+  }
   .el-check-tag.el-check-tag--primary,
   .el-check-tag.el-check-tag--primary:hover {
     color:$lvshihao-menu-moon-item-div-svg-color;
     background-color: $lvshihao-menu-moon-bg;
     box-shadow: --el-box-shadow-dark;
   }
+  .el-check-tag.el-check-tag--primary{
+    div{
+      .jcm-tabs-titleWithIcon{
+        svg{
+          use{
+            fill:$lvshihao-menu-moon-item-active-div-svg-bg;
+          }
+        }
+      }
+    }
+  }
+
 
   .el-button.is-text{
     color:$lvshihao-menu-moon-item-active-div-svg-color;

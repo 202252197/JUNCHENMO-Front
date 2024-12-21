@@ -1,153 +1,170 @@
 <template>
   <div>
-    <!--权限列表条件卡片-->
-    <el-card>
-      <el-form :inline="true" :model="menuStore.searchform" class="searchForm" label-position="right" label-width="auto"
-        ref="searchFormRef">
-        <el-row>
-          <el-form-item label="菜单名称" prop="name">
-            <el-input v-model="menuStore.searchform.name" />
-          </el-form-item>
-          <el-form-item label="菜单状态" prop="status">
-            <el-select v-model="menuStore.searchform.status">
-              <el-option label="启用" value="0" />
-              <el-option label="禁用" value="1" />
-            </el-select>
-          </el-form-item>
- 
-          <div style="margin-left: auto" class="card-search-end">
-            <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="menuAddFromModal?.open(undefined)">
-              <template #icon>
-                <svg-icon name="加号" />
-              </template>
-            </JcmButton>
-            <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="searchList(menuStore.searchform)">
-              <template #icon>
-                <svg-icon name="搜索" />
-              </template>
-            </JcmButton>
-            <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="resetSearchForm(searchFormRef)">
-              <template #icon>
-                <svg-icon name="擦除" />
-              </template>
-            </JcmButton>
+    <div v-show="menuStore.tableLoading">
+      <Loading />
+    </div>
 
-            <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="refreshCacheMenu()">
-              <template #icon>
-                <svg-icon name="刷新" />
-              </template>
-            </JcmButton>
-          </div>
-        </el-row>
-      </el-form>
-    </el-card>
 
-    <!-- 权限列表卡片 -->
-    <el-card class="card-table-style">
-      <el-table :data="menuStore.dataList" table-layout="auto" row-key="menuId"
-        :default-expand-all="menuStore.expandStatus" :default-sort="{ prop: 'sort', order: 'ascending' }"
-        v-if="menuStore.refreshTable">
-        <el-table-column prop="name" label="菜单名称" />
-        <el-table-column prop="icon" label="图标" align="center">
-          <template #default="scope">
-            <svg-icon :name="scope.row.icon" :color="iconColor" />
-          </template>
-        </el-table-column>
-        <el-table-column prop="type" label="类型" align="center">
-          <template #default="scope">
-            <el-tag size="small" >
-              {{ getStatusByType(scope.row.type) }}
-            </el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="sort" label="排序" align="center" />
-        <el-table-column prop="status" label="状态" align="center">
-          <template #default="scope">
-            <!--状态-->
-            <el-popconfirm width="200" icon-color="#626AEF"
-              :title="scope.row.status === 0 ? '确定要将当前节点以及所有子节点改为禁用状态?' : '确定要将当前节点以及所有子节点改为正常状态?'"
-              @confirm="tagUpdateStatusButtonClick(scope.row)">
-              <template #reference>
-                <template v-if="scope.row.status === 0">
-                  <el-tag checked size="small" 
-                    class="menu-status-tag">
-                    <el-tooltip class="box-item" effect="dark" content="点击切换状态" placement="top">
-                      启用
-                    </el-tooltip>
-                  </el-tag>
+    <div v-show="!menuStore.tableLoading">
+      <!--权限列表条件卡片-->
+      <el-card>
+        <el-form :inline="true" :model="menuStore.searchform" class="searchForm" label-position="right" label-width="auto"
+          ref="searchFormRef">
+          <el-row>
+            <el-form-item label="菜单名称" prop="name">
+              <el-input v-model="menuStore.searchform.name" />
+            </el-form-item>
+            <el-form-item label="菜单状态" prop="status">
+              <el-select v-model="menuStore.searchform.status">
+                <el-option label="启用" value="0" />
+                <el-option label="禁用" value="1" />
+              </el-select>
+            </el-form-item>
+  
+            <div style="margin-left: auto" class="card-search-end">
+              <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="menuAddFromModal?.open(undefined)">
+                <template #icon>
+                  <svg-icon name="加号" />
                 </template>
-                <template v-if="scope.row.status === 1">
-                  <el-tag checked size="small" color="#393e46" class="menu-status-tag">
-                    <el-tooltip class="box-item" effect="dark" content="点击切换状态" placement="top">
-                      停用
-                    </el-tooltip>
-                  </el-tag>
+              </JcmButton>
+              <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="searchList(menuStore.searchform)">
+                <template #icon>
+                  <svg-icon name="搜索" />
                 </template>
-              </template>
-              <template #actions>
-                <el-button size="small">取消</el-button>
-                <el-button type="danger" size="small">
-                  确定
-                </el-button>
-              </template>
-            </el-popconfirm>
-            <!--显示隐藏-->
-            <el-popconfirm width="200" icon-color="#626AEF"
-              :title="scope.row.visible === 0 ? '确定要将当前节点以及所有子节点改为隐藏?' : '确定要将当前节点以及所有子节点改为显示?'"
-              @confirm="tagUpdateVisibleButtonClick(scope.row)">
-              <template #reference>
-                <template v-if="scope.row.visible">
-                  <el-tag checked size="small" 
-                    class="menu-status-tag menu-status-tag-margin">
-                    <el-tooltip class="box-item" effect="dark" content="点击切换状态" placement="top">
-                      显示
-                    </el-tooltip>
-                  </el-tag>
+              </JcmButton>
+              <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="resetSearchForm(searchFormRef)">
+                <template #icon>
+                  <svg-icon name="擦除" />
                 </template>
-                <template v-if="!scope.row.visible">
-                  <el-tag checked size="small" color="#393e46" class="menu-status-tag menu-status-tag-margin">
-                    <el-tooltip class="box-item" effect="dark" content="点击切换状态" placement="top">
-                      隐藏
-                    </el-tooltip>
-                  </el-tag>
+              </JcmButton>
+              <JcmButton :buttonBgColor="LayoutSettingStore.getTheme"  @click="expandHandle" v-show="menuStore.expandStatus">
+                <template #icon>
+                  <svg-icon name="收起" />
                 </template>
-              </template>
-              <template #actions>
-                <el-button size="small">取消</el-button>
-                <el-button type="danger" size="small">
-                  确定
-                </el-button>
-              </template>
-            </el-popconfirm>
-          </template>
-        </el-table-column>
-        <el-table-column prop="permission" label="权限标识" align="center" >
-          <template #default="scope">
-            <span @click="instance?.proxy?.$copyText(scope.row.permission)" class="copy-span">{{ scope.row.permission}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="component" label="组件名称" align="center" >
-          <template #default="scope">
-            <span @click="instance?.proxy?.$copyText(scope.row.component)" class="copy-span">{{ scope.row.component}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="link" label="链接路径" align="center" />
-        <el-table-column prop="remark" label="操作" align="center">
-          <template #default="scope">
-            <el-button size="small" type="primary" @click="menuAddFromModal?.open(scope.row)" text
-              v-show="scope.row.type != 2">
-              新增
-            </el-button>
-            <el-button size="small" type="primary" @click="menuUpdateFromModal?.open(scope.row)" text>
-              修改
-            </el-button>
-            <el-button size="small" type="danger" @click="deleteItemClick(scope.row)" text>
-              删除
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-card>
+              </JcmButton>
+              <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="expandHandle" v-show="!menuStore.expandStatus">
+                <template #icon>
+                  <svg-icon name="展开" />
+                </template>
+              </JcmButton>
+              <JcmButton :buttonBgColor="LayoutSettingStore.getTheme" @click="refreshCacheMenu()">
+                <template #icon>
+                  <svg-icon name="刷新" />
+                </template>
+              </JcmButton>
+            </div>
+          </el-row>
+        </el-form>
+      </el-card>
+
+      <!-- 权限列表卡片 -->
+      <el-card class="card-table-style">
+        <el-table :data="menuStore.dataList" table-layout="auto" row-key="menuId"
+          :default-expand-all="menuStore.expandStatus" :default-sort="{ prop: 'sort', order: 'ascending' }"
+          v-if="menuStore.refreshTable">
+          <el-table-column prop="name" label="菜单名称" />
+          <el-table-column prop="icon" label="图标" align="center">
+            <template #default="scope">
+              <svg-icon :name="scope.row.icon" :color="iconColor" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="type" label="类型" align="center">
+            <template #default="scope">
+              <el-tag size="small" >
+                {{ getStatusByType(scope.row.type) }}
+              </el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column prop="sort" label="排序" align="center" />
+          <el-table-column prop="status" label="状态" align="center">
+            <template #default="scope">
+              <!--状态-->
+              <el-popconfirm width="200" icon-color="#626AEF"
+                :title="scope.row.status === 0 ? '确定要将当前节点以及所有子节点改为禁用状态?' : '确定要将当前节点以及所有子节点改为正常状态?'"
+                @confirm="tagUpdateStatusButtonClick(scope.row)">
+                <template #reference>
+                  <template v-if="scope.row.status === 0">
+                    <el-tag checked size="small" 
+                      class="menu-status-tag">
+                      <el-tooltip class="box-item" effect="dark" content="点击切换状态" placement="top">
+                        启用
+                      </el-tooltip>
+                    </el-tag>
+                  </template>
+                  <template v-if="scope.row.status === 1">
+                    <el-tag checked size="small" color="#393e46" class="menu-status-tag">
+                      <el-tooltip class="box-item" effect="dark" content="点击切换状态" placement="top">
+                        停用
+                      </el-tooltip>
+                    </el-tag>
+                  </template>
+                </template>
+                <template #actions>
+                  <el-button size="small">取消</el-button>
+                  <el-button type="danger" size="small">
+                    确定
+                  </el-button>
+                </template>
+              </el-popconfirm>
+              <!--显示隐藏-->
+              <el-popconfirm width="200" icon-color="#626AEF"
+                :title="scope.row.visible === 0 ? '确定要将当前节点以及所有子节点改为隐藏?' : '确定要将当前节点以及所有子节点改为显示?'"
+                @confirm="tagUpdateVisibleButtonClick(scope.row)">
+                <template #reference>
+                  <template v-if="scope.row.visible">
+                    <el-tag checked size="small" 
+                      class="menu-status-tag menu-status-tag-margin">
+                      <el-tooltip class="box-item" effect="dark" content="点击切换状态" placement="top">
+                        显示
+                      </el-tooltip>
+                    </el-tag>
+                  </template>
+                  <template v-if="!scope.row.visible">
+                    <el-tag checked size="small" color="#393e46" class="menu-status-tag menu-status-tag-margin">
+                      <el-tooltip class="box-item" effect="dark" content="点击切换状态" placement="top">
+                        隐藏
+                      </el-tooltip>
+                    </el-tag>
+                  </template>
+                </template>
+                <template #actions>
+                  <el-button size="small">取消</el-button>
+                  <el-button type="danger" size="small">
+                    确定
+                  </el-button>
+                </template>
+              </el-popconfirm>
+            </template>
+          </el-table-column>
+          <el-table-column prop="permission" label="权限标识" align="center" >
+            <template #default="scope">
+              <span @click="instance?.proxy?.$copyText(scope.row.permission)" class="copy-span">{{ scope.row.permission}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="component" label="组件名称" align="center" >
+            <template #default="scope">
+              <span @click="instance?.proxy?.$copyText(scope.row.component)" class="copy-span">{{ scope.row.component}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="link" label="链接路径" align="center" />
+          <el-table-column prop="remark" label="操作" align="center">
+            <template #default="scope">
+              <el-button size="small" type="primary" @click="menuAddFromModal?.open(scope.row)" text
+                v-show="scope.row.type != 2">
+                新增
+              </el-button>
+              <el-button size="small" type="primary" @click="menuUpdateFromModal?.open(scope.row)" text>
+                修改
+              </el-button>
+              <el-button size="small" type="danger" @click="deleteItemClick(scope.row)" text>
+                删除
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-card>
+    </div>
+
 
 
     <!--弹出框组件列表-->
@@ -178,8 +195,10 @@ const menuStore = useMenuStore()
 const LayoutSettingStore = useLayoutSettingStore()
 
 onMounted(() => {
+  menuStore.tableLoading=true
   //进入页面初始化的数据
   searchList(menuStore.searchform)
+  menuStore.tableLoading=false
 })
 
 //表单对象
@@ -191,6 +210,7 @@ const menuUpdateFromModal = ref<FromModal>()
 
 //根据搜索条件进行搜索
 const searchList = (searchData: any) => {
+  menuStore.tableLoading=true
   menuStore.expandStatus = true
   menuStore
     .menuList(searchData)
@@ -200,6 +220,7 @@ const searchList = (searchData: any) => {
     .catch((error) => {
       ElMessage.error({ message: error })
     })
+    menuStore.tableLoading=false
 }
 
 //删除菜单触发的事件
